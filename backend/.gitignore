@@ -1,0 +1,4 @@
+node_modules
+/src/db/config/config.json
+/src/db/.env
+.env

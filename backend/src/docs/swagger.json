@@ -1,0 +1,177 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Project Rural",
+    "description": "Rotas do projeto ProductRural",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Criar um novo usuário",
+        "description": "Adiciona um novo usuário à base de dados",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string",
+                    "description": "Nome do usuário"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "description": "ultimo nome do usuário"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email do usuário"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "senha do usuário"
+                  },
+                  "userTypeId": {
+                    "type": "integer",
+                    "description": "Tipo de usuário"
+                  }
+                },
+                "required": [
+                  "firstName",
+                  "Lastname",
+                  "email",
+                  "password",
+                  "userTypeId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem indicando que o usuário foi criado com sucesso"
+                    },
+                    "id": {
+                      "type": "integer",
+                      "description": "ID do usuário criado"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitação inválida"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Retorna uma lista de usuários",
+        "description": "Obtém todos os usuários cadastrados na base de dados",
+        "responses": {
+          "200": {
+            "description": "Lista de usuários",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "ID do usuário"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Nome do usuário"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "Email do usuário"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Login",
+        "description": "Login para acessar a aplicação",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email do usuário"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "senha do usuário"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido."
+          },
+          "400": {
+            "description": "Email e senha são obrigatórios."
+          },
+          "401": {
+            "description": "Senha incorreta."
+          }
+        }
+      }
+    }
+  }
+}
