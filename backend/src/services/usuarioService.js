@@ -15,11 +15,8 @@ class UsuarioService {
             return res.status(400).json({ error: 'Tipo de usuário inválido.' });
         }
 
-        const userEmail = await User.findOne({
-            where: { email: email }
-        });
-
-        if (userEmail) {
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
             return res.status(400).json({ error: 'Este email já está sendo utilizado.' });
         }
 
@@ -40,8 +37,7 @@ class UsuarioService {
                 userTypeId,
                 password: hashedPassword
             });
-
-            return res.status(201).json({ 'Usuário criado!': newUser });
+            return res.status(201).json({ message: 'Usuário criado!', user: newUser });
 
         } catch (error) {
             console.error(error);
@@ -52,7 +48,7 @@ class UsuarioService {
     async readUsers(res) {
         try {
             const listUsers = await User.findAll();
-            return res.status(200).json(listUsers);
+            return res.status(201).json({ message: 'Usuário criado!', user: newUser });
         } catch (error) {
             console.error(error);
             return res.status(403).json({ error: 'Erro ao listar usuários.' });
