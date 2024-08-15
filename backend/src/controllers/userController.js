@@ -1,5 +1,3 @@
-// controllers/usuarioController.js
-
 const UsuarioService = require('../services/usuarioService');
 const usuarioService = new UsuarioService();
 
