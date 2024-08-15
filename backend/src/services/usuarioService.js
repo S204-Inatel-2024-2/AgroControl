@@ -1,6 +1,7 @@
-const User = require('../models/userModel');
-const UserType = require('../models/userTypeModel');
+const { User } = require('../db/models');
+const {UserType} = require('../db/models');
 const bcrypt = require('bcrypt');
+
 
 class UsuarioService {
     async createUser(dto, res) {
