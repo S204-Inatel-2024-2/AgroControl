@@ -1,5 +1,6 @@
 const { User } = require('../db/models');
 const bcrypt = require('bcrypt');
+const {generateToken, verifyToken} = require('./auth');
 
 class LoginService {
     async login(req, res) {
@@ -24,8 +25,10 @@ class LoginService {
             const isMatch = await bcrypt.compare(password, user.password);
 
             if (isMatch) {
+                const token = generateToken(user);
+                
                 // Senha correta, autenticação bem-sucedida
-                return res.status(200).json({ message: 'Login bem-sucedido.' });
+                return res.status(200).json({ token,message: 'Login bem-sucedido.' });
             } else {
                 // Senha incorreta
                 return res.status(401).json({ error: 'Senha incorreta.' });
