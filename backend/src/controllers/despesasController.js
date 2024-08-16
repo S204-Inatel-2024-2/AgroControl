@@ -1,5 +1,5 @@
 "use strict";
-const { DespesasFuncionarios } = require("../services/despesasService");
+const { DespesasFuncionarios } = require("../models/despesasModel");
 
 const createDespesa = async (req, res) => {
   try {
