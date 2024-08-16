@@ -20,13 +20,17 @@ module.exports = (sequelize) => {
 
   DespesaFuncionario.init(
     {
-      diaAtividade: {
+      dataAtividade: {
         type: DataTypes.DATE,
         allowNull: false,
       },
       valorGasto: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
       serviceId: {
         type: DataTypes.INTEGER,

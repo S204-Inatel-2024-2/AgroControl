@@ -1,34 +1,22 @@
-// controllers/despesasController.js
-const { DespesasFuncionarios, Services, Users } = require('../models/despesasModel');
+"use strict";
+const { DespesasFuncionarios } = require("../services/despesasService");
 
 const createDespesa = async (req, res) => {
   try {
-    const { diaAtividade, valorGasto, serviceId, usersId } = req.body;
-
-    // Validando se o serviço e o usuário existem
-    const service = await Services.findByPk(serviceId);
-    const user = await Users.findByPk(usersId);
-
-    if (!service) {
-      return res.status(400).json({ error: 'Serviço não encontrado' });
-    }
-
-    if (!user) {
-      return res.status(400).json({ error: 'Usuário não encontrado' });
-    }
-
-    // Criando uma nova despesa
-    const novaDespesa = await DespesasFuncionarios.create({
-      diaAtividade,
+    const { dataAtividade, valorGasto, status, serviceId, usersId } = req.body;
+    const despesa = await DespesasFuncionarios.create({
+      dataAtividade,
       valorGasto,
+      status,
       serviceId,
-      usersId,
+      usersId
     });
-
-    return res.status(201).json(novaDespesa);
+    res.status(201).json(despesa);
   } catch (error) {
-    return res.status(500).json({ error: 'Erro ao criar despesa' });
+    res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = { createDespesa };
+module.exports = {
+  createDespesa,
+};

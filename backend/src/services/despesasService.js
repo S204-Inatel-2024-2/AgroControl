@@ -1,4 +1,3 @@
-// src/models/DespesasFuncionarios.js
 "use strict";
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../db/conecctionBD'); 
@@ -22,9 +21,13 @@ DespesasFuncionarios.init({
     autoIncrement: true,
     primaryKey: true,
   },
-  diaAtividade: {
+  dataAtividade: {
     type: DataTypes.DATE,
     allowNull: false,
+  },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   valorGasto: {
     type: DataTypes.DECIMAL(10, 2),
