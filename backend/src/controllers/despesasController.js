@@ -1,10 +1,10 @@
 "use strict";
-const { DespesasFuncionarios } = require("../models/despesasModel");
+const { DespesaFuncionario } = require("../db/models/despesasfuncionarios");
 
 const createDespesa = async (req, res) => {
   try {
     const { dataAtividade, valorGasto, status, serviceId, usersId } = req.body;
-    const despesa = await DespesasFuncionarios.create({
+    const despesa = await DespesaFuncionario.create({
       dataAtividade,
       valorGasto,
       status,
