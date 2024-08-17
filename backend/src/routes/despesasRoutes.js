@@ -1,7 +1,8 @@
 const express = require('express');
-const router = express.Router();
 const despesasController = require('../controllers/despesasController');
+const router = express.Router();
+constDespesasController = require('../controllers/despesasController');
 
-router.post('/', despesasController.createDespesa);
+router.post('/despesas', despesasController.createDespesa);
 
 module.exports = router;

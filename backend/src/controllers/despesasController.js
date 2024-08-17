@@ -1,22 +1,14 @@
-"use strict";
-const { DespesaFuncionario } = require("../db/models/despesasfuncionarios");
+const DespesasService = require('../services/despesasService');
+const despesasService = new DespesasService();
+class despesasController {
 
-const createDespesa = async (req, res) => {
-  try {
-    const { dataAtividade, valorGasto, status, serviceId, usersId } = req.body;
-    const despesa = await DespesaFuncionario.create({
-      dataAtividade,
-      valorGasto,
-      status,
-      serviceId,
-      usersId
-    });
-    res.status(201).json(despesa);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  static async createDespesa(req, res) {
+      try {
+          await despesasService.createDespesa(req, res);
+      } catch (error) {
+          res.status(400).send({ message: error.message });
+      }
   }
-};
+}
 
-module.exports = {
-  createDespesa,
-};
+module.exports = despesasController;
