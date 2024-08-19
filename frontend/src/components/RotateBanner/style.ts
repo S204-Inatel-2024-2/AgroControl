@@ -12,7 +12,7 @@ export const ImageSlider = styled.img`
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transition: opacity 800ms;
+    transition: opacity 800ms ease-in-out;
 
     &.selected {
         opacity:1;

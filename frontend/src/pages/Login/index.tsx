@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Styled from './styled';
 import { useNavigate } from 'react-router';
 //import RotateBanner from '../../components/RotateBanner';
 import { login } from '../../service';
 import RotateBanner from '../../components/RotateBanner';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import logo from '../../images/Logo.png';
 
 type FormValues = {
+
   email: string;
   password: string;
 };
 
 export function LoginPage(): JSX.Element {
   const { register, handleSubmit, formState } = useForm<FormValues>();
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = (data: FormValues) => {
@@ -36,12 +40,17 @@ export function LoginPage(): JSX.Element {
     <>
       <Styled.Container>
         <Styled.DivInputs>
-          <Styled.Title>Login</Styled.Title>
+          <Styled.ImageSlider
+            key={logo}
+            src={logo}
+            alt={`Imagem ${logo}`}
+          />
+          <Styled.Title>Agrocontrol</Styled.Title>
           <Styled.Form onSubmit={handleSubmit(onSubmit)}>
             <Styled.Label>
-              Email:
               <Styled.Input
                 type="email"
+                placeholder='Entre com o e-mail'
                 {...register('email', { required: true })}
                 disabled={formState.isSubmitting}
               />
@@ -49,22 +58,25 @@ export function LoginPage(): JSX.Element {
             </Styled.Label>
 
             <Styled.Label>
-              Senha:
               <Styled.Input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder='Entre com a senha'
                 // minLength={8}
                 {...register('password', { required: true })}
                 disabled={formState.isSubmitting}
               />
+              <Styled.EyeIcon onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </Styled.EyeIcon>
               {formState.errors.password && <Styled.Error>Senha é obrigatória</Styled.Error>}
             </Styled.Label>
 
-            <Styled.Text1 onClick={() => navigate('/RecoverPasswordPage')}>Esqueceu a senha</Styled.Text1>
+            <Styled.RecoverPassword><div onClick={() => navigate('/RecoverPassword')}> Esqueceu a senha?</div> </Styled.RecoverPassword>
 
             <Styled.Button type="submit" disabled={formState.isSubmitting}>
-              {formState.isSubmitting ? 'Aguarde...' : 'Login'}
+              Acessar
             </Styled.Button>
-            <Styled.Text2 onClick={() => navigate(`/createAccount`)}>Cadrastrar</Styled.Text2>
+            <Styled.RecoverPassword>Ainda não possui uma conta? <div className='textOnClick' onClick={() => navigate(`/createAccount`)}>Cadastre-se</div></Styled.RecoverPassword>
           </Styled.Form>
         </Styled.DivInputs>
         <Styled.DivImage>
