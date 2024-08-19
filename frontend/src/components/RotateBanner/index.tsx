@@ -6,9 +6,9 @@ import React, {
 
 import { DivSlider, ImageSlider } from "./style";
 
-import imageLogin1 from '../../images/image1.jpeg';
-import imageLogin2 from '../../images/image2.jpeg';
-import imageLogin3 from '../../images/image3.jpeg';
+import imageLogin1 from '../../images/image1.jpg';
+import imageLogin2 from '../../images/image2.jpg';
+import imageLogin3 from '../../images/image3.jpg';
 
 let time = 5000;
 const images = [imageLogin1, imageLogin2, imageLogin3];
