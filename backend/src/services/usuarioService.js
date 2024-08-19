@@ -49,7 +49,7 @@ class UsuarioService {
     async readUsers(res) {
         try {
             const listUsers = await User.findAll();
-            return res.status(201).json({ message: 'Usuário criado!', user: newUser });
+            return res.status(200).json({ message: 'Lista de usuários!', user: listUsers });
         } catch (error) {
             console.error(error);
             return res.status(403).json({ error: 'Erro ao listar usuários.' });

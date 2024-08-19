@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 app.use('/users', userRoutes);
 app.use('/login', loginRoutes);
-app.use('/users/despesas',despesasRoutes);
+app.use('/users/despesas',SecurityRoutes,despesasRoutes);
 
 app.use('/users',SecurityRoutes, userRoutes);
 app.use('/protected',SecurityRoutes,(req,res)=>{
