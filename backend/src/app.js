@@ -3,8 +3,9 @@ const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 const despesasRoutes = require('./routes/despesasRoutes');
+const servicesRoutes = require('./routes/servicesRoutes');
 const swaggerUi = require('swagger-ui-express');
-const SecurityRoutes = require('./middlewares/auth')
+const SecurityRoutes = require('./middlewares/auth');
 const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
@@ -19,10 +20,11 @@ app.use(bodyParser.json());
 
 app.use('/users', userRoutes);
 app.use('/login', loginRoutes);
-app.use('/users/despesas',SecurityRoutes,despesasRoutes);
+app.use('/users/despesas', despesasRoutes);
+app.use('/users/services', servicesRoutes);
 
-app.use('/users',SecurityRoutes, userRoutes);
-app.use('/protected',SecurityRoutes,(req,res)=>{
+app.use('/users', SecurityRoutes, userRoutes);
+app.use('/protected', SecurityRoutes, (req, res) => {
     res.json({ message: 'This is a protected route', user: req.user });
 })
 

@@ -1,4 +1,5 @@
 const { DespesaFuncionario } = require('../db/models');
+const { User } = require('../db/models');
 
 class DespesasService {
     async createDespesa(req, res) {
@@ -7,6 +8,11 @@ class DespesasService {
 
             if (!dataAtividade || !valorGasto || !status || !serviceId || !usersId) {
                 return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
+            }
+
+            const user = await User.findByPk(usersId);
+            if (!user) {
+                throw new Error('Usuário não encontrado');
             }
 
             // Cadastra despesa

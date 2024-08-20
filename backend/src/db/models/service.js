@@ -23,6 +23,7 @@ module.exports = (sequelize) => {
       sequelize,
       modelName: "Service",
       tableName: "Services", // Nome da tabela no banco de dados
+      timestamps: false, // Desativa as colunas createdAt e updatedAt
     }
   );
 
