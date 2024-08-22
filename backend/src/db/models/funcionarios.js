@@ -4,25 +4,46 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Funcionarios extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+   
     static associate(models) {
-      // define association here
+      Funcionarios.hasMany(models.Servicos, {
+        foreignKey: 'responsavel', // Chave estrangeira em Servicos referenciando Funcionarios
+        as: 'servicos' // Alias para o relacionamento
+      });
     }
   }
   Funcionarios.init({
-    Id: DataTypes.INTEGER,
-    nome: DataTypes.STRING,
-    cpf: DataTypes.STRING,
-    endereco: DataTypes.STRING,
-    email: DataTypes.STRING,
-    funcao: DataTypes.STRING
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    nome: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    cpf: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    endereco: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    funcao: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Funcionarios',
+    tableName: 'Funcionarios', // Nome da tabela no banco de dados
   });
   return Funcionarios;
 };
