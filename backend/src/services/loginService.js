@@ -1,4 +1,4 @@
-const { User } = require('../db/models');
+const { Admin } = require('../db/models');
 const bcrypt = require('bcrypt');
 const {generateToken, verifyToken} = require('./auth');
 
@@ -11,21 +11,21 @@ class LoginService {
         }
 
         try {
-            // Busca o usuário pelo email
-            const user = await User.findOne({
+            // Busca o adm pelo email
+            const adm = await Admin.findOne({
                 where: { email: email }
             });
 
-            if (!user) {
-                // Caso o usuário não seja encontrado
+            if (!adm) {
+                // Caso o adm não seja encontrado
                 return res.status(404).json({ error: 'Email não encontrado.' });
             }
 
             // Compara a senha fornecida com a senha armazenada no banco de dados
-            const isMatch = await bcrypt.compare(password, user.password);
+            const isMatch = await bcrypt.compare(password, adm.password);
 
             if (isMatch) {
-                const token = generateToken(user);
+                const token = generateToken(adm);
                 
                 // Senha correta, autenticação bem-sucedida
                 return res.status(200).json({ token,message: 'Login bem-sucedido.' });
