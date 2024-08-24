@@ -79,7 +79,9 @@ class FuncionarioService {
 
             // deleta funcionario pelo id
             await funcionario.destroy();
-            res.status(204).json({ message: `Funcionário deletado com sucesso!` });
+            res.status(204).json();
+            console.log(`Funcionario id=${id} deletado com sucesso!`)
+
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
