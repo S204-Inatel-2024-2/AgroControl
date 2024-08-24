@@ -4,5 +4,6 @@ const router = express.Router();
 
 router.post('/', funcionarioController.createFuncionario);
 router.get('/:id', funcionarioController.getFuncionarioById);
+router.get('/', funcionarioController.getAllFuncionarios);
 
 module.exports = router;

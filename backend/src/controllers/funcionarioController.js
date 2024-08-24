@@ -12,9 +12,16 @@ class funcionarioController {
     }
     static async getFuncionarioById(req, res) {
         try {
-            await funcionarioService.getFuncionarioById(req, res);
+            await funcionarioService.getAllFuncionarios(req, res);
         } catch (error) {
-            await funcionarioService.getFuncionarioById(req, res);
+            await funcionarioService.getAllFuncionarios(req, res);
+        }
+    }
+    static async getAllFuncionarios(req, res) {
+        try {
+            await funcionarioService.getAllFuncionarios(req, res);
+        } catch (error) {
+            await funcionarioService.getAllFuncionarios(req, res);
         }
     }
 }

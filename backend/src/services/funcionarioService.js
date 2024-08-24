@@ -24,7 +24,7 @@ class FuncionarioService {
         }
     }
     // Busca funcionario pelo Id
-    async getFuncionarioById(req, res) {
+    async getAllFuncionarios(req, res) {
         try {
             const { id } = req.params;
             const funcionario = await Funcionarios.findByPk(id);
@@ -36,6 +36,15 @@ class FuncionarioService {
             res.status(200).json({ funcionario, message: 'Funcionário encontrado com sucesso!' });
         } catch (error) {
             res.status(500).json({ message: error.message });
+        }
+    }
+    // Lista todos os funcionários
+    async getAllFuncionarios(req, res) {
+        try {
+            const funcionarios = await Funcionarios.findAll();
+            res.status(200).json(funcionarios)
+        } catch (error) {
+            res.status(500).json({ error: 'Não foi possivel listar funcionários!' })
         }
     }
 }
