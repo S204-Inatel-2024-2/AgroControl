@@ -23,7 +23,7 @@ class FuncionarioService {
             res.status(500).json({ message: error.message });
         }
     }
-    // Busca funcionario pelo Id
+    // Busca funcionario pelo id
     async getAllFuncionarios(req, res) {
         try {
             const { id } = req.params;
@@ -42,9 +42,31 @@ class FuncionarioService {
     async getAllFuncionarios(req, res) {
         try {
             const funcionarios = await Funcionarios.findAll();
-            res.status(200).json(funcionarios)
+            res.status(200).json(funcionarios);
         } catch (error) {
-            res.status(500).json({ error: 'Não foi possivel listar funcionários!' })
+            res.status(500).json({ error: 'Não foi possivel listar funcionários!' });
+        }
+    }
+    // Atualiza as informações do funcionario informado por id
+    async updateFuncionario(req, res) {
+        try {
+            const { id } = req.params;
+            const { nome, cpf, endereco, email, funcao } = req.body;
+
+            // verifica se o funcionario é cadastrado
+            const funcionario = await Funcionarios.findByPk(id);
+
+            funcionario.nome = nome || funcionario.nome;
+            funcionario.cpf = cpf || funcionario.cpf;
+            funcionario.endereco = endereco || funcionario.endereco;
+            funcionario.email = email || funcionario.email;
+            funcionario.funcao = funcao || funcionario.funcao;
+
+            // salva os dados atualizados de funcionario
+            await funcionario.save();
+            res.status(200).json({ funcionario, message: `Dados atualizados do funcionario id=${id} com sucesso!` })
+        } catch (error) {
+            res.status(500).json({ message: error.message });
         }
     }
 }
