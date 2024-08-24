@@ -23,6 +23,21 @@ class FuncionarioService {
             res.status(500).json({ message: error.message });
         }
     }
+    // Busca funcionario pelo Id
+    async getFuncionarioById(req, res) {
+        try {
+            const { id } = req.params;
+            const funcionario = await Funcionarios.findByPk(id);
+
+            if (!funcionario) {
+                return res.status(404).json({ error: 'Funcionário não encontrado.' });
+            }
+
+            res.status(200).json({ funcionario, message: 'Funcionário encontrado com sucesso!' });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
 }
 
 module.exports = FuncionarioService;

@@ -7,7 +7,14 @@ class funcionarioController {
         try {
             await funcionarioService.createFuncionario(req, res);
         } catch (error) {
-            res.status(400).send({ message: error.message });
+            await funcionarioService.createFuncionario(req, res);
+        }
+    }
+    static async getFuncionarioById(req, res) {
+        try {
+            await funcionarioService.getFuncionarioById(req, res);
+        } catch (error) {
+            await funcionarioService.getFuncionarioById(req, res);
         }
     }
 }
