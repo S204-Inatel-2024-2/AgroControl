@@ -11,9 +11,9 @@ class funcionarioController {
     }
     static async getFuncionarioById(req, res) {
         try {
-            await funcionarioService.getAllFuncionarios(req, res);
+            await funcionarioService.getFuncionarioById(req, res);
         } catch (error) {
-            await funcionarioService.getAllFuncionarios(req, res);
+            await funcionarioService.getFuncionarioById(req, res);
         }
     }
     static async getAllFuncionarios(req, res) {
@@ -28,6 +28,13 @@ class funcionarioController {
             await funcionarioService.updateFuncionario(req, res);
         } catch (error) {
             await funcionarioService.updateFuncionario(req, res);
+        }
+    }
+    static async deleteFuncionario(req, res) {
+        try {
+            await funcionarioService.deleteFuncionario(req, res);
+        } catch (error) {
+            await funcionarioService.deleteFuncionario(req, res);
         }
     }
 }

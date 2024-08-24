@@ -8,7 +8,6 @@ class FuncionarioService {
             if (!nome || !cpf || !endereco || !email || !funcao) {
                 return res.status(400).json({ error: 'Os campos são obrigatórios.' });
             }
-
             // Cadastra novo funcionario
             const funcionario = await Funcionarios.create({
                 nome,
@@ -17,14 +16,13 @@ class FuncionarioService {
                 email,
                 funcao
             });
-
             res.status(201).json({ funcionario, message: 'Funcionário cadastrado com sucesso!' });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
     }
     // Busca funcionario pelo id
-    async getAllFuncionarios(req, res) {
+    async getFuncionarioById(req, res) {
         try {
             const { id } = req.params;
             const funcionario = await Funcionarios.findByPk(id);
@@ -32,7 +30,6 @@ class FuncionarioService {
             if (!funcionario) {
                 return res.status(404).json({ error: 'Funcionário não encontrado.' });
             }
-
             res.status(200).json({ funcionario, message: 'Funcionário encontrado com sucesso!' });
         } catch (error) {
             res.status(500).json({ message: error.message });
@@ -53,7 +50,7 @@ class FuncionarioService {
             const { id } = req.params;
             const { nome, cpf, endereco, email, funcao } = req.body;
 
-            // verifica se o funcionario é cadastrado
+            // verifica se o funcionario existe
             const funcionario = await Funcionarios.findByPk(id);
 
             funcionario.nome = nome || funcionario.nome;
@@ -65,6 +62,24 @@ class FuncionarioService {
             // salva os dados atualizados de funcionario
             await funcionario.save();
             res.status(200).json({ funcionario, message: `Dados atualizados do funcionario id=${id} com sucesso!` })
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+    // Deleta funcionario por informado por id 
+    async deleteFuncionario(req, res) {
+        try {
+            const { id } = req.params;
+
+            // Verifica se o funcionario existe
+            const funcionario = await Funcionarios.findByPk(id);
+            if (!funcionario) {
+                return res.status(404).json({ error: 'Funcionário não encontrado.' });
+            }
+
+            // deleta funcionario pelo id
+            await funcionario.destroy();
+            res.status(204).json({ message: `Funcionário deletado com sucesso!` });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
