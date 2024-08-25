@@ -11,13 +11,13 @@
     }
   ],
   "paths": {
-    "/users": {
+    "/funcionarios": {
       "post": {
         "tags": [
-          "Users"
+          "Funcionarios"
         ],
-        "summary": "Criar um novo usuário",
-        "description": "Adiciona um novo usuário à base de dados",
+        "summary": "Criar Funcionário",
+        "description": "Criar Funcionário",
         "requestBody": {
           "required": true,
           "content": {
@@ -25,33 +25,43 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "firstName": {
+                  "nome": {
                     "type": "string",
                     "description": "Nome do usuário"
                   },
-                  "lastName": {
+                  "cpf": {
                     "type": "string",
-                    "description": "ultimo nome do usuário"
+                    "description": "cpf do usuário"
                   },
                   "email": {
                     "type": "string",
                     "description": "Email do usuário"
                   },
-                  "password": {
+                  "endereco": {
                     "type": "string",
-                    "description": "senha do usuário"
+                    "description": "endereço do usuário"
                   },
-                  "userTypeId": {
-                    "type": "integer",
-                    "description": "Tipo de usuário"
+                  "funcao": {
+                    "type": "string",
+                    "description": "trabalho exercido"
+                  },
+                  "salario": {
+                    "type": "float",
+                    "description": "salário do funcionario"
+                  },
+                  "DataNascimento": {
+                    "type": "string",
+                    "description": "nascimento"
                   }
                 },
                 "required": [
-                  "firstName",
-                  "Lastname",
+                  "nome",
+                  "cpf",
                   "email",
-                  "password",
-                  "userTypeId"
+                  "endereco",
+                  "funcao",
+                  "salario",
+                  "dataNascimento"
                 ]
               }
             }
@@ -59,7 +69,7 @@
         },
         "responses": {
           "201": {
-            "description": "Usuário criado com sucesso",
+            "description": "Funcionário cadastrado com sucesso",
             "content": {
               "application/json": {
                 "schema": {
@@ -78,26 +88,41 @@
                     },
                     "email": {
                       "type": "string"
+                    },
+                    "funcao": {
+                      "type": "string"
+                    },
+                    "salario": {
+                      "type": "float"
+                    },
+                    "dataNascimento": {
+                      "type": "string"
+                    },
+                    "createAt": {
+                      "type": "date"
+                    },
+                    "updateAt": {
+                      "type": "date"
                     }
                   }
                 }
               }
             }
           },
-          "400": {
+          "500": {
             "description": "Solicitação inválida"
           }
         }
       },
       "get": {
         "tags": [
-          "Users"
+          "Funcionarios"
         ],
-        "summary": "Retorna uma lista de usuários",
-        "description": "Obtém todos os usuários cadastrados na base de dados",
+        "summary": "Retorna uma lista de Funcionários",
+        "description": "Retorna uma lista de Funcionários",
         "responses": {
           "200": {
-            "description": "Lista de usuários",
+            "description": "Retorna uma lista de Funcionários",
             "content": {
               "application/json": {
                 "schema": {
@@ -105,18 +130,34 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "id": {
-                        "type": "integer",
-                        "description": "ID do usuário"
-                      },
-                      "name": {
-                        "type": "string",
-                        "description": "Nome do usuário"
-                      },
-                      "email": {
-                        "type": "string",
-                        "description": "Email do usuário"
-                      }
+                      "nome": {
+                    "type": "string",
+                    "description": "Nome do usuário"
+                  },
+                  "cpf": {
+                    "type": "string",
+                    "description": "cpf do usuário"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email do usuário"
+                  },
+                  "endereco": {
+                    "type": "string",
+                    "description": "endereço do usuário"
+                  },
+                  "funcao": {
+                    "type": "string",
+                    "description": "trabalho exercido"
+                  },
+                  "salario": {
+                    "type": "float",
+                    "description": "salário do funcionario"
+                  },
+                  "DataNascimento": {
+                    "type": "string",
+                    "description": "nascimento"
+                  }
                     }
                   }
                 }
@@ -128,7 +169,227 @@
           }
         }
       }
+      
     },
+    "/funcionarios/{id}": {
+  "get": {
+    "tags": [
+      "Funcionarios"
+    ],
+    "summary": "Retorna um funcionário pelo ID",
+    "description": "Busca um funcionário específico pelo ID",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "ID do funcionário a ser buscado",
+        "schema": {
+          "type": "integer"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Dados do funcionário",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "description": "Nome do usuário"
+                },
+                "cpf": {
+                  "type": "string",
+                  "description": "CPF do usuário"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "Email do usuário"
+                },
+                "endereco": {
+                  "type": "string",
+                  "description": "Endereço do usuário"
+                },
+                "funcao": {
+                  "type": "string",
+                  "description": "Trabalho exercido"
+                },
+                "salario": {
+                  "type": "float",
+                  "description": "Salário do funcionário"
+                },
+                "dataNascimento": {
+                  "type": "string",
+                  "description": "Data de nascimento do funcionário"
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Usuário não encontrado"
+      },
+      "500": {
+        "description": "Erro interno do servidor"
+      }
+    }
+  },
+  "patch": {
+    "tags": [
+      "Funcionarios"
+    ],
+    "summary": "Edita um funcionário pelo ID",
+    "description": "Edita um funcionário específico pelo ID",
+    "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "description": "Nome do usuário"
+                  },
+                  "cpf": {
+                    "type": "string",
+                    "description": "cpf do usuário"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email do usuário"
+                  },
+                  "endereco": {
+                    "type": "string",
+                    "description": "endereço do usuário"
+                  },
+                  "funcao": {
+                    "type": "string",
+                    "description": "trabalho exercido"
+                  },
+                  "salario": {
+                    "type": "float",
+                    "description": "salário do funcionario"
+                  },
+                  "DataNascimento": {
+                    "type": "string",
+                    "description": "nascimento"
+                  }
+                },
+                "required": [
+                  "nome",
+                  "cpf",
+                  "email",
+                  "endereco",
+                  "funcao",
+                  "salario",
+                  "dataNascimento"
+                ]
+              }
+            }
+          }
+        },
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "ID do funcionário a ser Editado",
+        "schema": {
+          "type": "integer"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Dados do funcionário",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "description": "Nome do usuário"
+                },
+                "cpf": {
+                  "type": "string",
+                  "description": "CPF do usuário"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "Email do usuário"
+                },
+                "endereco": {
+                  "type": "string",
+                  "description": "Endereço do usuário"
+                },
+                "funcao": {
+                  "type": "string",
+                  "description": "Trabalho exercido"
+                },
+                "salario": {
+                  "type": "float",
+                  "description": "Salário do funcionário"
+                },
+                "dataNascimento": {
+                  "type": "string",
+                  "description": "Data de nascimento do funcionário"
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Usuário não encontrado"
+      },
+      "500": {
+        "description": "Erro interno do servidor"
+      }
+    }
+  },
+  "delete": {
+    "tags": [
+      "Funcionarios"
+    ],
+    "summary": "Deleta um funcionário pelo ID",
+    "description": "Deleta um funcionário específico pelo ID",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "ID do funcionário a ser Deletado",
+        "schema": {
+          "type": "integer"
+        }
+      }
+    ],
+    "responses": {
+      "204": {
+        "description": "Dados do funcionário",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Funcionário não encontrado"
+      },
+      "500": {
+        "description": "Erro interno do servidor"
+      }
+    }
+  }
+},
     "/login": {
       "post": {
         "tags": [
