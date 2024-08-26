@@ -31,3 +31,23 @@ export const login = async (user: any) => {
     config.data = user
     return axios.request<any>(config);
 };
+
+export const authConfig: AxiosRequestConfig = {
+    ...config, 
+    headers: {
+        ...config.headers,
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoidGVzdGVAZW1haWwuY29tIiwiaWF0IjoxNzI0Njk0ODEyLCJleHAiOjE3MjQ2OTg0MTJ9.DfIT51iT71mgonNQXX9g-nGAV4fOEloCERGBDI9QGIo'
+        //`Bearer ${localStorage.getItem('token')}`,
+    },
+};
+
+export const createFuncionario = async (funcionario: any) => {
+    const localConfig={
+        ...authConfig,
+        url: 'funcionarios',
+        method: 'post',
+        data: funcionario
+    }
+    
+    return axios.request<any>(localConfig);
+};
