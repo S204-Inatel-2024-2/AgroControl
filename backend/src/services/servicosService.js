@@ -51,7 +51,7 @@ class ServicosService {
             const servico = await Servicos.findByPk(id);
             if (!servico) return res.status(404).json({ error: 'Serviço não encontrado.' });
 
-            const funcionario = await Funcionario.findByPk(responsavel);
+            const funcionario = await Funcionarios.findByPk(responsavel);
             if (!funcionario) return res.status(404).json({ error: 'Funcionário não encontrado.' });
 
             const tipo = await TiposServico.findByPk(tipoServico);
