@@ -28,20 +28,13 @@ class ServicosService {
         try {
             // Desestruturação do corpo da requisição
             const { status, dataAtividade, tipoServico, responsavel, valorGasto } = req.body;
-/*
-            // Verifica se o funcionário e o tipo de serviço existem
-            const [funcionario, tipo] = await Promise.all([
-                Funcionarios.findByPk(responsavel),
-                TiposServico.findByPk(tipoServico)
-            ]);
 
-            if (!funcionario || !tipo) {
-                return res.status(404).json({
-                    error: !funcionario ? 'Funcionário não encontrado.' : 'Tipo de Serviço não encontrado.'
-                });
-            }
-*/
-            // Cria o novo serviço
+            const funcionario = await Funcionarios.findByPk(responsavel);
+            if (!funcionario) return res.status(404).json({ error: 'Funcionário não encontrado.' });
+
+            const tipo = await TiposServico.findByPk(tipoServico);
+            if (!tipo) return res.status(404).json({ error: 'Tipo de Serviço não encontrado.' });
+
             const novoServico = await Servicos.create({ status, dataAtividade, tipoServico, responsavel, valorGasto });
             res.status(201).json(novoServico);
         } catch (error) {
@@ -54,20 +47,16 @@ class ServicosService {
         try {
             const { id } = req.params;
             const { status, dataAtividade, tipoServico, responsavel, valorGasto } = req.body;
-/*
-            const [servico, funcionario, tipo] = await Promise.all([
-                Servicos.findByPk(id),
-                Funcionarios.findByPk(responsavel),
-                TiposServico.findByPk(tipoServico)
-            ]);
 
+            const servico = await Servicos.findByPk(id);
             if (!servico) return res.status(404).json({ error: 'Serviço não encontrado.' });
-            if (!funcionario || !tipo) {
-                return res.status(404).json({
-                    error: !funcionario ? 'Funcionário não encontrado.' : 'Tipo de Serviço não encontrado.'
-                });
-            }
-*/
+
+            const funcionario = await Funcionario.findByPk(responsavel);
+            if (!funcionario) return res.status(404).json({ error: 'Funcionário não encontrado.' });
+
+            const tipo = await TiposServico.findByPk(tipoServico);
+            if (!tipo) return res.status(404).json({ error: 'Tipo de Serviço não encontrado.' });
+
             await servico.update({ status, dataAtividade, tipoServico, responsavel, valorGasto });
             res.status(200).json(servico);
         } catch (error) {
