@@ -3,9 +3,9 @@ const { Funcionarios } = require('../db/models');
 class FuncionarioService {
     async createFuncionario(req, res) {
         try {
-            const { nome, cpf, endereco, email, funcao } = req.body;
+            const { nome, cpf, endereco, email, funcao,salario,dataNascimento } = req.body;
 
-            if (!nome || !cpf || !endereco || !email || !funcao) {
+            if (!nome || !cpf || !endereco || !email || !funcao|| !salario || !dataNascimento) {
                 return res.status(400).json({ error: 'Os campos são obrigatórios.' });
             }
             // Cadastra novo funcionario
@@ -14,7 +14,10 @@ class FuncionarioService {
                 cpf,
                 endereco,
                 email,
-                funcao
+                funcao,
+                salario,
+                dataNascimento
+
             });
             res.status(201).json({ funcionario, message: 'Funcionário cadastrado com sucesso!' });
         } catch (error) {
@@ -48,16 +51,22 @@ class FuncionarioService {
     async updateFuncionario(req, res) {
         try {
             const { id } = req.params;
-            const { nome, cpf, endereco, email, funcao } = req.body;
+            const { nome, cpf, endereco, email, funcao,salario,dataNascimento } = req.body;
 
             // verifica se o funcionario existe
             const funcionario = await Funcionarios.findByPk(id);
+
+            if(!funcionario){
+               return res.status(404).json({message:"Usuário não existe"})
+            }
 
             funcionario.nome = nome || funcionario.nome;
             funcionario.cpf = cpf || funcionario.cpf;
             funcionario.endereco = endereco || funcionario.endereco;
             funcionario.email = email || funcionario.email;
             funcionario.funcao = funcao || funcionario.funcao;
+            funcionario.salario = salario || funcionario.salario;
+            funcionario.dataNascimento = dataNascimento || funcionario.dataNascimento;
 
             // salva os dados atualizados de funcionario
             await funcionario.save();
@@ -80,7 +89,7 @@ class FuncionarioService {
             // deleta funcionario pelo id
             await funcionario.destroy();
             res.status(204).json();
-            console.log(`Funcionario id=${id} deletado com sucesso!`)
+           
 
         } catch (error) {
             res.status(500).json({ message: error.message });

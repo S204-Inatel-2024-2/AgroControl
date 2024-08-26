@@ -39,6 +39,14 @@ module.exports = (sequelize, DataTypes) => {
     funcao: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    salario:{
+      type: DataTypes.FLOAT,
+      allowNull:true
+    },
+    dataNascimento:{
+      type: DataTypes.STRING,
+      allowNull:true
     }
   }, {
     sequelize,
