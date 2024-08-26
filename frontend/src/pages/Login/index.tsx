@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as Styled from './styled';
-import { useNavigate } from 'react-router';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as Styled from "./styled";
+import { useNavigate } from "react-router";
 //import RotateBanner from '../../components/RotateBanner';
-import { login } from '../../service';
-import RotateBanner from '../../components/RotateBanner';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import logo from '../../images/Logo.png';
+import { login } from "../../service";
+import RotateBanner from "../../components/RotateBanner";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import logo from "../../images/Logo.png";
 
 type FormValues = {
-
   email: string;
   password: string;
 };
@@ -23,68 +22,80 @@ export function LoginPage(): JSX.Element {
     const user = {
       email: data.email,
       password: data.password,
-    }
+    };
     login(user)
-      .then(resp => {
-        console.log(resp)
-        localStorage.setItem('user', JSON.stringify(user));
-        navigate('/home')
+      .then((resp) => {
+        console.log(resp);
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", resp.data.token);
+        navigate("/home");
       })
-      .catch(error => {
-        console.log(error)
-      })
-    navigate('/home')
+      .catch((error) => {
+        console.log(error);
+      });
+    navigate("/home");
   };
 
   return (
     <>
       <Styled.Container>
         <Styled.DivInputs>
-          <Styled.ImageSlider
-            key={logo}
-            src={logo}
-            alt={`Imagem ${logo}`}
-          />
+          <Styled.ImageSlider key={logo} src={logo} alt={`Imagem ${logo}`} />
           <Styled.Title>Agrocontrol</Styled.Title>
           <Styled.Form onSubmit={handleSubmit(onSubmit)}>
             <Styled.Label>
               <Styled.Input
                 type="email"
-                placeholder='Entre com o e-mail'
-                {...register('email', { required: true })}
+                placeholder="Entre com o e-mail"
+                {...register("email", { required: true })}
                 disabled={formState.isSubmitting}
               />
-              {formState.errors.email && <Styled.Error>Email é obrigatório</Styled.Error>}
+              {formState.errors.email && (
+                <Styled.Error>Email é obrigatório</Styled.Error>
+              )}
             </Styled.Label>
 
             <Styled.Label>
               <Styled.Input
-                type={showPassword ? 'text' : 'password'}
-                placeholder='Entre com a senha'
+                type={showPassword ? "text" : "password"}
+                placeholder="Entre com a senha"
                 // minLength={8}
-                {...register('password', { required: true })}
+                {...register("password", { required: true })}
                 disabled={formState.isSubmitting}
               />
               <Styled.EyeIcon onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
               </Styled.EyeIcon>
-              {formState.errors.password && <Styled.Error>Senha é obrigatória</Styled.Error>}
+              {formState.errors.password && (
+                <Styled.Error>Senha é obrigatória</Styled.Error>
+              )}
             </Styled.Label>
 
-            <Styled.RecoverPassword><div onClick={() => navigate('/RecoverPassword')}> Esqueceu a senha?</div> </Styled.RecoverPassword>
+            <Styled.RecoverPassword>
+              <div onClick={() => navigate("/RecoverPassword")}>
+                {" "}
+                Esqueceu a senha?
+              </div>{" "}
+            </Styled.RecoverPassword>
 
             <Styled.Button type="submit" disabled={formState.isSubmitting}>
               Acessar
             </Styled.Button>
-            <Styled.RecoverPassword>Ainda não possui uma conta? <div className='textOnClick' onClick={() => navigate(`/createAccount`)}>Cadastre-se</div></Styled.RecoverPassword>
+            <Styled.RecoverPassword>
+              Ainda não possui uma conta?{" "}
+              <div
+                className="textOnClick"
+                onClick={() => navigate(`/createAccount`)}
+              >
+                Cadastre-se
+              </div>
+            </Styled.RecoverPassword>
           </Styled.Form>
         </Styled.DivInputs>
         <Styled.DivImage>
           <RotateBanner />
         </Styled.DivImage>
-
       </Styled.Container>
     </>
-
   );
-};
+}
