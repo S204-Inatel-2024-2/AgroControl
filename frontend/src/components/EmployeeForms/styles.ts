@@ -5,7 +5,9 @@ export const Container = styled.div`
     padding-right: 3%;
     //background-color: #f5c400;
 `;
-
+export const Form = styled.form`
+  
+`
 export const Title = styled.text`
     font-size: 20px;
     font-weight: bolder;
@@ -16,7 +18,7 @@ export const Title = styled.text`
 
 export const InputDiv = styled.div`
   padding-top: 5px;
-  width: 70%;
+  width: 75%;
   
   //background-color: black;
 `
@@ -34,6 +36,7 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
+  
   margin-left: auto;
   height: 30px;
   width: 800px;
@@ -78,6 +81,29 @@ export const Button = styled.button`
 export const ButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  
+`
 
+export const Error = styled.text`
+  color: ${({ theme }) => theme.colors.danger};
+  position: absolute;
+  right: 10px;
+  font-size: 12px;
+`
+
+export const ObservacaoInput = styled.textarea`
+  margin-left: auto;
+  min-height: 150px;
+  min-width: 800px;
+  resize: none;
+  padding: 8px;
+  border: 1px solid ${({ theme }) => theme.colors.placeholderInput};
+  border-radius: 8px;
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.text};
+  background-color: ${({ theme }) => theme.colors.backgroundInput};
+  
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.placeholderInput};
+    opacity: 1;
+  }
 `

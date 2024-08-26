@@ -9,6 +9,7 @@ export const Container = styled.div`
 	height: 100px;
 	width: 100%;
     background-color: #f5c400;
+    z-index: 1;
 `;
 
 export const Title = styled.text`
