@@ -7,6 +7,9 @@ import { login } from '../../service';
 import RotateBanner from '../../components/RotateBanner';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import logo from '../../images/Logo.png';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 type FormValues = {
 
@@ -14,10 +17,50 @@ type FormValues = {
   password: string;
 };
 
+
+
 export function LoginPage(): JSX.Element {
   const { register, handleSubmit, formState } = useForm<FormValues>();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+
+  const handleSuccess = () => {
+    setSuccess(true);
+    toast.success('Operação realizada com sucesso!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+      style: {
+        backgroundColor: '#4CAF50', // verde
+        color: '#fff',
+      },
+    });
+  };
+
+  const handleError = () => {
+    setError(true);
+    toast.error('Erro ao realizar a operação!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+      style: {
+        backgroundColor: '#FF9800', // laranja
+        color: '#fff',
+      },
+    });
+  };
 
   const onSubmit = (data: FormValues) => {
     const user = {
@@ -28,12 +71,13 @@ export function LoginPage(): JSX.Element {
       .then(resp => {
         console.log(resp)
         localStorage.setItem('user', JSON.stringify(user));
+        handleSuccess()
         navigate('/home')
       })
       .catch(error => {
+        handleError()
         console.log(error)
       })
-    navigate('/home')
   };
 
   return (
@@ -76,7 +120,9 @@ export function LoginPage(): JSX.Element {
             <Styled.Button type="submit" disabled={formState.isSubmitting}>
               Acessar
             </Styled.Button>
-            <Styled.RecoverPassword>Ainda não possui uma conta? <div className='textOnClick' onClick={() => navigate(`/createAccount`)}>Cadastre-se</div></Styled.RecoverPassword>
+            {/*
+           <Styled.RecoverPassword>Ainda não possui uma conta? <div className='textOnClick' onClick={() => navigate(`/createAccount`)}>Cadastre-se</div></Styled.RecoverPassword>
+           */}
           </Styled.Form>
         </Styled.DivInputs>
         <Styled.DivImage>
