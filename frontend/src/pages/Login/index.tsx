@@ -70,12 +70,14 @@ export function LoginPage(): JSX.Element {
         console.log(resp);
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", resp.data.token);
+        toast.success('Operação realizada com sucesso!')
         navigate("/home");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
+        toast.error('Erro ao realizar a operação!')
+
       });
-    navigate("/home");
   };
 
   return (
