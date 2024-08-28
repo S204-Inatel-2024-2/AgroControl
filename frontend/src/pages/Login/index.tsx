@@ -21,44 +21,6 @@ export function LoginPage(): JSX.Element {
   const { register, handleSubmit, formState } = useForm<FormValues>();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
-
-  const handleSuccess = () => {
-    setSuccess(true);
-    toast.success('Operação realizada com sucesso!', {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'colored',
-      style: {
-        backgroundColor: '#4CAF50', // verde
-        color: '#fff',
-      },
-    });
-  };
-
-  const handleError = () => {
-    setError(true);
-    toast.error('Erro ao realizar a operação!', {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'colored',
-      style: {
-        backgroundColor: '#FF9800', // laranja
-        color: '#fff',
-      },
-    });
-  };
 
   const onSubmit = (data: FormValues) => {
     const user = {
