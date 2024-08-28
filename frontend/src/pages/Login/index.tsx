@@ -7,7 +7,7 @@ import { login } from '../../service';
 import RotateBanner from '../../components/RotateBanner';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import logo from '../../images/Logo.png';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 type FormValues = {

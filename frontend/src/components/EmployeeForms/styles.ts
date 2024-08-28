@@ -18,9 +18,8 @@ export const Title = styled.text`
 
 export const InputDiv = styled.div`
   padding-top: 5px;
-  width: 75%;
+  width: 70%;
   
-  //background-color: black;
 `
 export const Label = styled.label`
   display: flex;
@@ -33,6 +32,7 @@ export const Label = styled.label`
   position:relative;
   transition: 0.5s;
   color:  ${({ theme }) => theme.colors.text};
+  white-space: nowrap;
 `;
 
 export const Input = styled.input`
@@ -88,12 +88,13 @@ export const Error = styled.text`
   position: absolute;
   right: 10px;
   font-size: 12px;
+  
 `
 
 export const ObservacaoInput = styled.textarea`
   margin-left: auto;
   min-height: 150px;
-  min-width: 800px;
+  width: 745px;
   resize: none;
   padding: 8px;
   border: 1px solid ${({ theme }) => theme.colors.placeholderInput};
@@ -107,3 +108,18 @@ export const ObservacaoInput = styled.textarea`
     opacity: 1;
   }
 `
+export const RowDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; 
+  width: 100%; 
+  padding-top: 10px; 
+`
+
+export const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 48%;
+  
+`
+
