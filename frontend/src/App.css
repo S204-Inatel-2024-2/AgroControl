@@ -32,7 +32,48 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.Toastify__toast-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: auto;
+  text-align: center;
+  line-height: 1.5;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+}
+
+.Toastify__toast-icon {
+  display: none !important;
+}
+
+.Toastify__toast-body {
+  margin: 10px !important;
+}
+
+.Toastify__toast--success {
+  background: #048243 !important;
+  color: white !important;
+}
+
+.Toastify__toast--warning {
+  background: yellow;
+}
+
+.Toastify__toast--error {
+  background: #c21618 !important;
+  color: white !important;
+}
+
+.Toastify__toast--info {
+  background: #5DAEFF !important;
+  color: white !important;
 }

@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
 const servicosRoutes = require('./routes/servicosRoutes');
+const tiposServicoRoutes = require('./routes/tiposServicoRoutes');
 
 const app = express();
 app.use(cors());//habilita acesso para o frontEnd
@@ -17,5 +18,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));//mapeia
 app.use('/login', loginRoutes);
 app.use('/funcionarios', SecurityRoutes, funcionariosRoutes);
 app.use('/servicos', SecurityRoutes, servicosRoutes);
+app.use('/tiposervico', SecurityRoutes, tiposServicoRoutes);
 
 module.exports = app; 

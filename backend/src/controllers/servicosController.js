@@ -12,11 +12,11 @@ class ServicosController {
     }
 
     // Método para obter um serviço específico pelo ID
-    static async getServico(req, res) {
+    static async getServicoById(req, res) {
         try {
-            await servicosService.getServico(req, res);
+            await servicosService.getServicoById(req, res);
         } catch (error) {
-            await servicosService.getServico(req, res);
+            await servicosService.getServicoById(req, res);
         }
     }
 

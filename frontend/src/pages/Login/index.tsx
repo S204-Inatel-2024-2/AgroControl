@@ -3,15 +3,19 @@ import { useForm } from "react-hook-form";
 import * as Styled from "./styled";
 import { useNavigate } from "react-router";
 //import RotateBanner from '../../components/RotateBanner';
-import { login } from "../../service";
-import RotateBanner from "../../components/RotateBanner";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import logo from "../../images/Logo.png";
+import { login } from '../../service';
+import RotateBanner from '../../components/RotateBanner';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import logo from '../../images/Logo.png';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type FormValues = {
   email: string;
   password: string;
 };
+
+
 
 export function LoginPage(): JSX.Element {
   const { register, handleSubmit, formState } = useForm<FormValues>();
@@ -28,12 +32,14 @@ export function LoginPage(): JSX.Element {
         console.log(resp);
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", resp.data.token);
+        toast.success('Operação realizada com sucesso!')
         navigate("/home");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
+        toast.error('Erro ao realizar a operação!')
+
       });
-    navigate("/home");
   };
 
   return (
