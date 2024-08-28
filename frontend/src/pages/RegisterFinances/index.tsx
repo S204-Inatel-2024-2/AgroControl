@@ -25,17 +25,28 @@ import {
 } from "./styled";
 import { Header } from "../../components/Header";
 import { listAllFuncionarios } from "../../service";
+import { serviceSchema } from "../../validations/ServiceValidation";
 
 export function RegisterFinances(): JSX.Element {
-  const [dataAtividade, setDataAtividade] = useState("");
-  const [servico, setServico] = useState("");
   const [responsavelServico, setResponsavelServico] = useState("");
   const [listaFuncionarios, setListaFuncionarios] = useState([]);
   const [valorGasto, setValorGasto] = useState("R$0.00");
   const [status, setStatus] = useState("");
 
-  const handleRegister = () => {
-    //adicionar funcionalidade
+  const createService = async (event: any) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = {
+      date: form.elements.date.value,
+      serviceType: form.elements.serviceType.value,
+      serviceResponsible: form.elements.serviceResponsible.value,
+      serviceValue: form.elements.serviceValue.value,
+      serviceStatus: form.elements.serviceStatus.value,
+      observations: form.elements.observations.value,
+    };
+    const isValid = await serviceSchema.isValid(formData);
+    // console.log(isValid, formData);
   };
 
   function maskCurrency(value: string) {
@@ -65,32 +76,32 @@ export function RegisterFinances(): JSX.Element {
             <h2>Relatório Financeiro</h2>
             <div>
               <Button>Voltar</Button>
-              <Button onClick={handleRegister}>Salvar informações</Button>
+              <Button type="submit" form="meuForm">
+                Salvar informações
+              </Button>
             </div>
           </SubTitle>
-          <Form>
+          <Form onSubmit={createService} id="meuForm">
             <LabelData>
               Data da atividade:
               <InputData
                 required
                 type="date"
-                onChange={(e) => setDataAtividade(e.target.value)}
+                name="date"
                 onKeyDown={(e) => e.preventDefault()}
               />
             </LabelData>
 
             <LabelServico>
               Tipo de Serviço:
-              <Input
-                required
-                type="text"
-                onChange={(e) => setServico(e.target.value)}
-              />
+              <Input required type="text" name="serviceType" />
             </LabelServico>
 
             <LabelResponsavel>
               Responsável pelo Serviço:
               <Select
+                required
+                name="serviceResponsible"
                 value={responsavelServico}
                 onChange={(e) => setResponsavelServico(e.target.value)}
               >
@@ -107,6 +118,7 @@ export function RegisterFinances(): JSX.Element {
                 value={valorGasto}
                 type="text"
                 required
+                name="serviceValue"
                 onChange={(e) => setValorGasto(maskCurrency(e.target.value))}
               />
             </LabelValor>
@@ -114,6 +126,8 @@ export function RegisterFinances(): JSX.Element {
             <LabelStatus>
               Status do serviço:
               <Select
+                required
+                name="serviceStatus"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
@@ -126,7 +140,7 @@ export function RegisterFinances(): JSX.Element {
 
             <LabelObs>
               Observações:
-              <InputObs rows={6} />
+              <InputObs required name="observations" rows={6} />
             </LabelObs>
           </Form>
         </Body>
