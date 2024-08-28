@@ -3,6 +3,7 @@ import * as Styled from './styles';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { createFuncionario } from '../../service';
+import { toast } from 'react-toastify';
 
 type FormValues = {
   name: string
@@ -16,7 +17,7 @@ type FormValues = {
 
 
 export function EmployeeForms(): JSX.Element {
-  const { register, handleSubmit, formState } = useForm<FormValues>();
+  const { register, handleSubmit, formState, reset} = useForm<FormValues>();
   const navigate = useNavigate();
 
   const onSubmit = (data: FormValues) => {
@@ -33,12 +34,14 @@ export function EmployeeForms(): JSX.Element {
       .then(resp => {
         console.log(resp)
         localStorage.setItem('funcionario', JSON.stringify(funcionario));
-        navigate('/home')
+        toast.success('Operação realizada com sucesso!')
+        reset()
       })
       .catch(error => {
         console.log(error)
+        toast.error('Erro ao realizar a operação!')
       })
-    navigate('/home')
+    
     //console.log("submited", funcionario)
   }
   return (
