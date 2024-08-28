@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-import { RxExit } from "react-icons/rx";
-import { GiHamburgerMenu } from "react-icons/gi";
 import {
   Body,
   Button,
   Container,
-  Exit,
   Form,
-  Greeting,
   Input,
   InputData,
   InputObs,
@@ -17,19 +13,24 @@ import {
   LabelServico,
   LabelStatus,
   LabelValor,
-  Menu,
   Option,
   Select,
   SubTitle,
-  Title,
 } from "./styled";
 import { Header } from "../../components/Header";
-import { listAllFuncionarios } from "../../service";
+import {
+  createServico,
+  listAllFuncionarios,
+  listAllTiposServico,
+} from "../../service";
 import { serviceSchema } from "../../validations/ServiceValidation";
+import { toast } from "react-toastify";
 
 export function RegisterFinances(): JSX.Element {
   const [responsavelServico, setResponsavelServico] = useState("");
+  const [tipoServico, setTipoServico] = useState("");
   const [listaFuncionarios, setListaFuncionarios] = useState([]);
+  const [listaTiposServico, setListaTiposServico] = useState([]);
   const [valorGasto, setValorGasto] = useState("R$0.00");
   const [status, setStatus] = useState("");
 
@@ -38,15 +39,21 @@ export function RegisterFinances(): JSX.Element {
 
     const form = event.currentTarget;
     const formData = {
-      date: form.elements.date.value,
-      serviceType: form.elements.serviceType.value,
-      serviceResponsible: form.elements.serviceResponsible.value,
-      serviceValue: form.elements.serviceValue.value,
-      serviceStatus: form.elements.serviceStatus.value,
+      dataAtividade: form.elements.date.value,
+      tipoServico: form.elements.serviceType.value,
+      responsavel: form.elements.serviceResponsible.value,
+      valorGasto: form.elements.serviceValue.value,
+      status: form.elements.serviceStatus.value,
       observations: form.elements.observations.value,
     };
     const isValid = await serviceSchema.isValid(formData);
-    // console.log(isValid, formData);
+
+    if (isValid) {
+      const response = await createServico(formData);
+      if (response.status === 201)
+        toast.success("Operação realizada com sucesso!");
+      else toast.error("Erro ao realizar a operação!");
+    } else toast.error("Os dados fornecidos estão incorretos.");
   };
 
   function maskCurrency(value: string) {
@@ -63,7 +70,13 @@ export function RegisterFinances(): JSX.Element {
     if (response) setListaFuncionarios(response.data);
   }
 
+  async function getAllTiposServico() {
+    const response = await listAllTiposServico();
+    if (response) setListaTiposServico(response.data);
+  }
+
   useEffect(() => {
+    getAllTiposServico();
     getAllFuncionarios();
   }, []);
 
@@ -94,7 +107,17 @@ export function RegisterFinances(): JSX.Element {
 
             <LabelServico>
               Tipo de Serviço:
-              <Input required type="text" name="serviceType" />
+              <Select
+                required
+                name="serviceType"
+                value={tipoServico}
+                onChange={(e) => setTipoServico(e.target.value)}
+              >
+                <Option value="" disabled hidden></Option>
+                {listaTiposServico.map((item: any) => (
+                  <Option value={item.id}>{item.descricao}</Option>
+                ))}
+              </Select>
             </LabelServico>
 
             <LabelResponsavel>
@@ -107,7 +130,7 @@ export function RegisterFinances(): JSX.Element {
               >
                 <Option value="" disabled hidden></Option>
                 {listaFuncionarios.map((item: any) => (
-                  <Option value={item.nome}>{item.nome}</Option>
+                  <Option value={item.id}>{item.nome}</Option>
                 ))}
               </Select>
             </LabelResponsavel>

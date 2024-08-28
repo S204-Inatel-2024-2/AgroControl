@@ -62,3 +62,24 @@ export const listAllFuncionarios = async () => {
 
   return axios.request<any>(localConfig);
 };
+
+export const listAllTiposServico = async () => {
+  const localConfig = {
+    ...authConfig,
+    url: "tiposervico",
+    method: "get",
+  };
+
+  return axios.request<any>(localConfig);
+};
+
+export const createServico = async (servico: any) => {
+  const localConfig = {
+    ...authConfig,
+    url: "servicos",
+    method: "post",
+    data: servico,
+  };
+
+  return axios.request<any>(localConfig);
+};
