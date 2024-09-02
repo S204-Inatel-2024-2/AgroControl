@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-import { RxExit } from "react-icons/rx";
-import { GiHamburgerMenu } from "react-icons/gi";
 import {
   Body,
   Button,
   Container,
-  Exit,
   Form,
-  Greeting,
   Input,
   InputData,
   InputObs,
@@ -17,25 +13,47 @@ import {
   LabelServico,
   LabelStatus,
   LabelValor,
-  Menu,
   Option,
   Select,
   SubTitle,
-  Title,
 } from "./styled";
 import { Header } from "../../components/Header";
-import { listAllFuncionarios } from "../../service";
+import {
+  createServico,
+  listAllFuncionarios,
+  listAllTiposServico,
+} from "../../service";
+import { serviceSchema } from "../../validations/ServiceValidation";
+import { toast } from "react-toastify";
 
 export function RegisterFinances(): JSX.Element {
-  const [dataAtividade, setDataAtividade] = useState("");
-  const [servico, setServico] = useState("");
   const [responsavelServico, setResponsavelServico] = useState("");
+  const [tipoServico, setTipoServico] = useState("");
   const [listaFuncionarios, setListaFuncionarios] = useState([]);
+  const [listaTiposServico, setListaTiposServico] = useState([]);
   const [valorGasto, setValorGasto] = useState("R$0.00");
   const [status, setStatus] = useState("");
 
-  const handleRegister = () => {
-    //adicionar funcionalidade
+  const createService = async (event: any) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = {
+      dataAtividade: form.elements.date.value,
+      tipoServico: form.elements.serviceType.value,
+      responsavel: form.elements.serviceResponsible.value,
+      valorGasto: form.elements.serviceValue.value,
+      status: form.elements.serviceStatus.value,
+      observations: form.elements.observations.value,
+    };
+    const isValid = await serviceSchema.isValid(formData);
+
+    if (isValid) {
+      const response = await createServico(formData);
+      if (response.status === 201)
+        toast.success("Operação realizada com sucesso!");
+      else toast.error("Erro ao realizar a operação!");
+    } else toast.error("Os dados fornecidos estão incorretos.");
   };
 
   function maskCurrency(value: string) {
@@ -52,7 +70,13 @@ export function RegisterFinances(): JSX.Element {
     if (response) setListaFuncionarios(response.data);
   }
 
+  async function getAllTiposServico() {
+    const response = await listAllTiposServico();
+    if (response) setListaTiposServico(response.data);
+  }
+
   useEffect(() => {
+    getAllTiposServico();
     getAllFuncionarios();
   }, []);
 
@@ -65,38 +89,48 @@ export function RegisterFinances(): JSX.Element {
             <h2>Relatório Financeiro</h2>
             <div>
               <Button>Voltar</Button>
-              <Button onClick={handleRegister}>Salvar informações</Button>
+              <Button type="submit" form="meuForm">
+                Salvar informações
+              </Button>
             </div>
           </SubTitle>
-          <Form>
+          <Form onSubmit={createService} id="meuForm">
             <LabelData>
               Data da atividade:
               <InputData
                 required
                 type="date"
-                onChange={(e) => setDataAtividade(e.target.value)}
+                name="date"
                 onKeyDown={(e) => e.preventDefault()}
               />
             </LabelData>
 
             <LabelServico>
               Tipo de Serviço:
-              <Input
+              <Select
                 required
-                type="text"
-                onChange={(e) => setServico(e.target.value)}
-              />
+                name="serviceType"
+                value={tipoServico}
+                onChange={(e) => setTipoServico(e.target.value)}
+              >
+                <Option value="" disabled hidden></Option>
+                {listaTiposServico.map((item: any) => (
+                  <Option value={item.id}>{item.descricao}</Option>
+                ))}
+              </Select>
             </LabelServico>
 
             <LabelResponsavel>
               Responsável pelo Serviço:
               <Select
+                required
+                name="serviceResponsible"
                 value={responsavelServico}
                 onChange={(e) => setResponsavelServico(e.target.value)}
               >
                 <Option value="" disabled hidden></Option>
                 {listaFuncionarios.map((item: any) => (
-                  <Option value={item.nome}>{item.nome}</Option>
+                  <Option value={item.id}>{item.nome}</Option>
                 ))}
               </Select>
             </LabelResponsavel>
@@ -107,6 +141,7 @@ export function RegisterFinances(): JSX.Element {
                 value={valorGasto}
                 type="text"
                 required
+                name="serviceValue"
                 onChange={(e) => setValorGasto(maskCurrency(e.target.value))}
               />
             </LabelValor>
@@ -114,6 +149,8 @@ export function RegisterFinances(): JSX.Element {
             <LabelStatus>
               Status do serviço:
               <Select
+                required
+                name="serviceStatus"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
@@ -126,7 +163,7 @@ export function RegisterFinances(): JSX.Element {
 
             <LabelObs>
               Observações:
-              <InputObs rows={6} />
+              <InputObs required name="observations" rows={6} />
             </LabelObs>
           </Form>
         </Body>
