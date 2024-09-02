@@ -9,7 +9,7 @@ function App() {
     <>
       <AppRoutes />
       <ToastContainer
-        position='top-center'
+        position='top-right'
         hideProgressBar
         closeButton={false} />
     </>
