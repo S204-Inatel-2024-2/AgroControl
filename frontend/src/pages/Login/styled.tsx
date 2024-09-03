@@ -150,7 +150,7 @@ export const Error = styled.text`
 `;
 
 export const ImageSlider = styled.img`
-  width: 100px;
+  width: 90px;
   object-fit: cover;
   opacity:1;
 `;

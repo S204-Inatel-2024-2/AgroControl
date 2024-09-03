@@ -6,9 +6,10 @@ import { useNavigate } from "react-router";
 import { login } from '../../service';
 import RotateBanner from '../../components/RotateBanner';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import logo from '../../images/Logo.png';
+import logo from '../../images/agronomia.svg';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import FullScreenLoader from "../../components/FullScreenLoader";
 
 type FormValues = {
   email: string;
@@ -20,15 +21,17 @@ type FormValues = {
 export function LoginPage(): JSX.Element {
   const { register, handleSubmit, formState } = useForm<FormValues>();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = (data: FormValues) => {
+    setLoading(true)
     const user = {
       email: data.email,
       password: data.password,
     };
     login(user)
-      .then((resp) => {
+      .then((resp) => { 
         console.log(resp);
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", resp.data.token);
@@ -38,12 +41,13 @@ export function LoginPage(): JSX.Element {
       .catch((error) => {
         console.error(error);
         toast.error('Erro ao realizar a operação!')
-
       });
+    setLoading(false)
   };
 
   return (
     <>
+    <FullScreenLoader isLoading={loading} />
       <Styled.Container>
         <Styled.DivInputs>
           <Styled.ImageSlider key={logo} src={logo} alt={`Imagem ${logo}`} />
@@ -87,7 +91,7 @@ export function LoginPage(): JSX.Element {
             <Styled.Button type="submit" disabled={formState.isSubmitting}>
               Acessar
             </Styled.Button>
-            <Styled.RecoverPassword>
+            {/* <Styled.RecoverPassword>
               Ainda não possui uma conta?{" "}
               <div
                 className="textOnClick"
@@ -95,7 +99,7 @@ export function LoginPage(): JSX.Element {
               >
                 Cadastre-se
               </div>
-            </Styled.RecoverPassword>
+            </Styled.RecoverPassword> */}
           </Styled.Form>
         </Styled.DivInputs>
         <Styled.DivImage>
