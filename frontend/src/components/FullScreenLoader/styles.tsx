@@ -16,7 +16,7 @@ export const Overlay = styled.div`
 export const Loader = styled.div`
   border: 16px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 16px solid ${({ theme }) => theme.colors.backgroundButton};
+  border-top: 16px solid #ffbd59;
   width: 120px;
   height: 120px;
   animation: spin 2s linear infinite;
