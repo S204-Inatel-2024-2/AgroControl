@@ -10,6 +10,7 @@ import logo from '../../images/agronomia.svg';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FullScreenLoader from "../../components/FullScreenLoader";
+import { useLoading } from "../../components/FullScreenLoader/LoadingContext";
 
 type FormValues = {
   email: string;
@@ -21,7 +22,7 @@ type FormValues = {
 export function LoginPage(): JSX.Element {
   const { register, handleSubmit, formState } = useForm<FormValues>();
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useLoading();
   const navigate = useNavigate();
 
   const onSubmit = (data: FormValues) => {
@@ -47,7 +48,6 @@ export function LoginPage(): JSX.Element {
 
   return (
     <>
-    <FullScreenLoader isLoading={loading} />
       <Styled.Container>
         <Styled.DivInputs>
           <Styled.ImageSlider key={logo} src={logo} alt={`Imagem ${logo}`} />
@@ -91,7 +91,8 @@ export function LoginPage(): JSX.Element {
             <Styled.Button type="submit" disabled={formState.isSubmitting}>
               Acessar
             </Styled.Button>
-            {/* <Styled.RecoverPassword>
+            {/* 
+            <Styled.RecoverPassword>
               Ainda não possui uma conta?{" "}
               <div
                 className="textOnClick"
@@ -99,7 +100,8 @@ export function LoginPage(): JSX.Element {
               >
                 Cadastre-se
               </div>
-            </Styled.RecoverPassword> */}
+            </Styled.RecoverPassword> 
+            */}
           </Styled.Form>
         </Styled.DivInputs>
         <Styled.DivImage>

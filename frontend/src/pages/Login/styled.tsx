@@ -146,6 +146,7 @@ export const Button = styled.button`
 `;
 
 export const Error = styled.text`
+  font-size: 12px;
   color: ${({ theme }) => theme.colors.danger};
 `;
 
