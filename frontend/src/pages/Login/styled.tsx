@@ -56,7 +56,7 @@ export const Text1 = styled.div`
 export const RecoverPassword = styled.div`
   display: flex;
   justify-content: flex-start;
-  width: 100%;
+  width: 70%;
   font-size: 13px;
   gap: 5px;
   cursor: pointer;
@@ -76,6 +76,7 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   padding: 16px;
   gap: 10px;
 `;
@@ -85,7 +86,7 @@ export const Label = styled.label`
   flex-direction: column;
   font-size: 14px;
   margin-bottom: 8px;
-  width: 420px;
+  width: 70%;
   gap: 5px;
   transition: 0.5s;
   color:  ${({ theme }) => theme.colors.text};
@@ -120,7 +121,7 @@ export const Input = styled.input`
 
 export const EyeIcon = styled.div`
   position: absolute;
-  right: 125px;
+  right: 16%;
   padding: 14px;
   cursor: pointer;
   color: ${({ theme }) => theme.colors.placeholderInput};
