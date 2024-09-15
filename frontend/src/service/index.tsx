@@ -70,14 +70,17 @@ export const getFuncionarioById = async (id: number) => {
     method: "get",
   };
 
-  try {
-    const response = await axios.request<any>(localConfig);
-    console.log('Dados recebidos do servidor:', response);
-    return response;
-  } catch (error) {
-    console.error('Erro no Axios:', error);
-    throw error;
-  }
+  return axios.request<any>(localConfig);
+};
+
+export const deleteFuncionario = async (id: number) => {
+  const localConfig = {
+    ...authConfig,
+    url: `funcionarios/${id}`,
+    method: "delete",
+  };
+
+  return axios.request<any>(localConfig);
 };
 
 export const listAllTiposServico = async () => {
