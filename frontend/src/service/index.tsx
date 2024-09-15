@@ -63,6 +63,23 @@ export const listAllFuncionarios = async () => {
   return axios.request<any>(localConfig);
 };
 
+export const getFuncionarioById = async (id: number) => {
+  const localConfig = {
+    ...authConfig,
+    url: `funcionarios/${id}`,
+    method: "get",
+  };
+
+  try {
+    const response = await axios.request<any>(localConfig);
+    console.log('Dados recebidos do servidor:', response);
+    return response;
+  } catch (error) {
+    console.error('Erro no Axios:', error);
+    throw error;
+  }
+};
+
 export const listAllTiposServico = async () => {
   const localConfig = {
     ...authConfig,
