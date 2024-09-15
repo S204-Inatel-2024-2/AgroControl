@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getFuncionarioById } from '../../service';
+import { getFuncionarioById, deleteFuncionario } from '../../service';
 import { useNavigate } from 'react-router-dom'; 
 import * as Styled from './styles';
 
@@ -44,6 +44,19 @@ export function EmployeeDetails(): JSX.Element {
     fetchData();
   }, [id]);
 
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm("Tem certeza que deseja excluir o funcionário?");
+    if (confirmDelete && id) {
+      try {
+        await deleteFuncionario(Number(id)); 
+        alert('Funcionário excluído com sucesso!');
+        navigate('/home'); 
+      } catch (error) {
+        alert('Erro ao excluir o funcionário.');
+      }
+    }
+  };
+
   if (loading) {
     return <Styled.Loading>Carregando...</Styled.Loading>;
   }
@@ -63,7 +76,7 @@ export function EmployeeDetails(): JSX.Element {
       <Styled.TitleDiv>
         <Styled.LeftButtons>
           <Styled.Button onClick={() => navigate('/employeeregistration')}>Editar informações</Styled.Button>
-          <Styled.Button onClick={() => navigate('/home')}>Excluir funcionário</Styled.Button>
+          <Styled.Button onClick={handleDelete}>Excluir funcionário</Styled.Button>
         </Styled.LeftButtons>
 
         <Styled.RightButton>
