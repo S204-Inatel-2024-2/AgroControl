@@ -48,16 +48,12 @@ export function RegisterFinances(): JSX.Element {
     };
     const isValid = await serviceSchema.isValid(formData);
 
-    if (!isValid) {
+    if (isValid) {
       const response = await createServico(formData);
       if (response.status === 201)
         toast.success("Operação realizada com sucesso!");
       else toast.error("Erro ao realizar a operação!");
-    } else {
-      toast.error("Os dados fornecidos estão incorretos.");
-      console.log("imprimindo ")
-      console.log(formData)
-    }
+    } else toast.error("Os dados fornecidos estão incorretos.");
   };
 
   function maskCurrency(value: string) {
@@ -119,10 +115,9 @@ export function RegisterFinances(): JSX.Element {
               >
                 <Option value="" disabled hidden></Option>
                 {listaTiposServico.map((item: any) => (
-                  <Option key={item.id} value={item.id}>{item.descricao}</Option>
+                  <Option value={item.id}>{item.descricao}</Option>
                 ))}
               </Select>
-
             </LabelServico>
 
             <LabelResponsavel>
@@ -135,10 +130,9 @@ export function RegisterFinances(): JSX.Element {
               >
                 <Option value="" disabled hidden></Option>
                 {listaFuncionarios.map((item: any) => (
-                  <Option key={item.id} value={item.id}>{item.nome}</Option>
+                  <Option value={item.id}>{item.nome}</Option>
                 ))}
               </Select>
-
             </LabelResponsavel>
 
             <LabelValor>
