@@ -103,3 +103,33 @@ export const createServico = async (servico: any) => {
 
   return axios.request<any>(localConfig);
 };
+
+export const getServicoById = async (id: number) => {
+  const localConfig = {
+    ...authConfig,
+    url: `servicos/${id}`,
+    method: "get",
+  };
+
+  return axios.request<any>(localConfig);
+};
+
+export const deleteServico = async (id: number) => {
+  const localConfig = {
+    ...authConfig,
+    url: `servicos/${id}`,
+    method: "delete",
+  };
+
+  return axios.request<any>(localConfig);
+};
+
+export const getTipoServicoById = async (id: number) => {
+  const localConfig = {
+    ...authConfig,
+    url: `tiposervico/${id}`,
+    method: "get",
+  };
+
+  return axios.request<any>(localConfig);
+};
