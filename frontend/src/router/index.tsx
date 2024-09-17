@@ -4,6 +4,7 @@ import { LoginPage } from "../pages/Login";
 import Layout from "../layout";
 import { EmployeeRegistration } from "../pages/EmployeeRegistration";
 import { RegisterFinances } from "../pages/RegisterFinances";
+import {RegisterReceitas} from "../pages/RegisterReceitas"
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
             element={<EmployeeRegistration />}
           />
           <Route path="registerfinances" element={<RegisterFinances />} />
+          <Route path="registerReceitas" element={<RegisterReceitas />} />
         </Route>
       </Routes>
     </BrowserRouter>
