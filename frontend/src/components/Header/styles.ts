@@ -18,6 +18,9 @@ export const Menu = styled.div`
   align-items: center;
   gap: 50px; /* Espaço entre o ícone do menu e o título */
   padding-left: 56px;
+  svg{
+    cursor: pointer;
+  }
 `;
 
 export const Title = styled.text`
