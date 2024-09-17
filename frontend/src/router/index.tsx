@@ -4,6 +4,9 @@ import { LoginPage } from "../pages/Login";
 import Layout from "../layout";
 import { EmployeeRegistration } from "../pages/EmployeeRegistration";
 import { RegisterFinances } from "../pages/RegisterFinances";
+import { Services } from "../pages/Services";
+import { EmployeeDetails } from "../components/Details";
+import { ServiceDetails } from "../components/ServiceDetails";
 
 const AppRoutes = () => {
   return (
