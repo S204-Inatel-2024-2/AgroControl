@@ -5,7 +5,7 @@ import Layout from "../layout";
 import { EmployeeRegistration } from "../pages/EmployeeRegistration";
 import { RegisterFinances } from "../pages/RegisterFinances";
 import {RegisterReceitas} from "../pages/RegisterReceitas"
-
+import { ServiceDetails } from "../pages/ServiceDetails";
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -18,6 +18,7 @@ const AppRoutes = () => {
             element={<EmployeeRegistration />}
           />
           <Route path="registerfinances" element={<RegisterFinances />} />
+          <Route path="servicedetails/:id" element={<ServiceDetails />} />
           <Route path="registerReceitas" element={<RegisterReceitas />} />
         </Route>
       </Routes>
