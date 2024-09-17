@@ -9,7 +9,6 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import logo from '../../images/agronomia.svg';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import FullScreenLoader from "../../components/FullScreenLoader";
 import { useLoading } from "../../components/FullScreenLoader/LoadingContext";
 
 type FormValues = {
@@ -32,18 +31,19 @@ export function LoginPage(): JSX.Element {
       password: data.password,
     };
     login(user)
-      .then((resp) => { 
+      .then((resp) => {
         console.log(resp);
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", resp.data.token);
         toast.success('Operação realizada com sucesso!')
         navigate("/home");
+        setLoading(false)
       })
       .catch((error) => {
         console.error(error);
         toast.error('Erro ao realizar a operação!')
+        setLoading(false)
       });
-    setLoading(false)
   };
 
   return (
