@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Styled from './styled';
 import { Header } from '../../components/Header';
 import Table from '../../components/Table';
+import Pagination from '../../components/Pagination';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { BiExport } from "react-icons/bi";
+import { listAllFuncionarios } from '../../service';
+import { toast } from 'react-toastify';
 
 export function Employees(): JSX.Element {
+  const [listEmployees, setListEmployees] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
+
   const columns = [
     { header: 'Responsável pelo serviço', accessor: 'nome', width: '100px' },
     { header: 'CPF', accessor: 'cpf', width: '100px' },
@@ -14,29 +21,42 @@ export function Employees(): JSX.Element {
     { header: 'Valor do serviço', accessor: 'salario', width: '50px' },
   ];
 
-  const data: any[] = [
-    { nome: 'John', cpf: '122.443.322.10', funcao: 'Capina', salario: '1200' },
-    { nome: 'Rodorfo', cpf: '122.443.322.10', funcao: 'Plantio', salario: '2000' },
-    { nome: 'Jose', cpf: '122.443.322.10', funcao: 'Plantio', salario: '4000' },
-    { nome: 'Keitin', cpf: '122.443.322.10', funcao: 'Controle de pragas', salario: '1600' },
-    { nome: 'dona kleusa', cpf: '122.443.322.10', funcao: 'Capina', salario: '100' }
-  ];
+  useEffect(() => {
+    listAllFuncionarios()
+      .then((resp) => {
+        setListEmployees(resp.data);
+      })
+      .catch((error) => {
+        console.error(error);
+        //if (error.response.data.message) navigator('')
+        console.log(error.response.data.message)
+      });
+  }, []);
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredData = data.filter(user => {
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm]);
+
+  const filteredData = listEmployees.filter(user => {
     const name = user.nome?.toLowerCase() || '';
     const service = user.funcao?.toLowerCase() || '';
     const search = searchTerm.toLowerCase();
-
     return name.includes(search) || service.includes(search);
-  })
+  });
+
+  const totalItems = filteredData.length;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentData = filteredData.slice(startIndex, startIndex + itemsPerPage);
+
 
   const exportPDF = () => {
     const doc = new jsPDF();
 
     const tableColumn = columns.map(col => col.header);
-    const tableRows: (string | number)[][] = data.map(user => [
+    const tableRows: (string | number)[][] = listEmployees.map(user => [
       user.nome,
       user.cpf,
       user.funcao,
@@ -58,26 +78,35 @@ export function Employees(): JSX.Element {
           <Styled.DivHeader>
             <Styled.Title>Gerenciamento de Serviços</Styled.Title>
 
-            <Styled.Text
-              onClick={exportPDF}
-            >
-              <BiExport />
-              Exportar
-            </Styled.Text>
-            <Styled.Button>
-              Cadastrar
-            </Styled.Button>
+            <Styled.DivButtonn>
+              <Styled.Text onClick={exportPDF}>
+                <BiExport />
+                Exportar
+              </Styled.Text>
+              <Styled.Button>
+                Cadastrar
+              </Styled.Button>
+            </Styled.DivButtonn>
+
           </Styled.DivHeader>
+
           <Styled.Input
             type="text"
             placeholder="Buscar pelo nome do funcionário ou pelo serviço"
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
           />
-          <Table columns={columns} data={filteredData} />
+          <Styled.DivTable>
+            <Table columns={columns} data={currentData} />
+          </Styled.DivTable>
+          <Pagination
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+          />
         </Styled.Content>
       </Styled.Container>
     </>
-
   );
-};
+}
