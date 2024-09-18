@@ -9,7 +9,6 @@ const fs = require('fs');
 const cors = require('cors');
 const servicosRoutes = require('./routes/servicosRoutes');
 const tiposServicoRoutes = require('./routes/tiposServicoRoutes');
-const receitasRoutes = require('./routes/receitasRoutes');
 
 const app = express();
 app.use(cors());//habilita acesso para o frontEnd
@@ -20,6 +19,5 @@ app.use('/login', loginRoutes);
 app.use('/funcionarios', SecurityRoutes, funcionariosRoutes);
 app.use('/servicos', SecurityRoutes, servicosRoutes);
 app.use('/tiposervico', SecurityRoutes, tiposServicoRoutes);
-app.use('/receitas', SecurityRoutes, receitasRoutes)
 
 module.exports = app; 
