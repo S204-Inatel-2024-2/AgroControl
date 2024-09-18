@@ -5,7 +5,6 @@ import Layout from "../layout";
 import { EmployeeRegistration } from "../pages/EmployeeRegistration";
 import { RegisterFinances } from "../pages/RegisterFinances";
 import { EmployeeDetails } from "../pages/EmployeeDetails";
-import { ServiceDetails } from "../pages/ServiceDetails";
 import {RegisterReceitas} from "../pages/RegisterReceitas"
 import { ServiceDetails } from "../pages/ServiceDetails";
 

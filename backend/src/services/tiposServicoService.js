@@ -1,7 +1,6 @@
 const { TiposServico } = require('../db/models');
 
 class TiposServicoService {
-    // Método para listar todos os tipos de serviço
     async getAllTiposServico(req, res) {
         try {
             const tiposServico = await TiposServico.findAll();
@@ -11,7 +10,6 @@ class TiposServicoService {
         }
     }
 
-    // Método para obter um tipo de serviço específico pelo ID
     async getTipoServicoById(req, res) {
         try {
             const { id } = req.params;
@@ -26,7 +24,6 @@ class TiposServicoService {
         }
     }
 
-    // Método para criar um novo tipo de serviço
     async createTipoServico(req, res) {
         try {
             const { descricao } = req.body;
@@ -42,7 +39,6 @@ class TiposServicoService {
         }
     }
 
-    // Método para atualizar um tipo de serviço existente
     async updateTipoServico(req, res) {
         try {
             const { id } = req.params;
@@ -64,7 +60,6 @@ class TiposServicoService {
         }
     }
 
-    // Método para deletar um tipo de serviço pelo ID
     async deleteTipoServico(req, res) {
         try {
             const { id } = req.params;
