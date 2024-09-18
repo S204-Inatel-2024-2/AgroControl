@@ -7,6 +7,7 @@ import { RegisterFinances } from "../pages/RegisterFinances";
 import { EmployeeDetails } from "../pages/EmployeeDetails";
 import { ServiceDetails } from "../pages/ServiceDetails";
 import { Employees } from "../pages/Employees";
+import { Services } from "../pages/Services";
 
 const AppRoutes = () => {
   return (
@@ -24,6 +25,7 @@ const AppRoutes = () => {
           <Route path="registerfinances" element={<RegisterFinances />} />
           <Route path="employeedetails/:id" element={<EmployeeDetails />} />
           <Route path="servicedetails/:id" element={<ServiceDetails />} />
+          <Route path="services" element={<Services/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
