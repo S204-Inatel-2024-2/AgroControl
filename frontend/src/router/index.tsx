@@ -7,9 +7,8 @@ import { RegisterFinances } from "../pages/RegisterFinances";
 import { Employees } from "../pages/Employees";
 import { EmployeeDetails } from "../pages/EmployeeDetails";
 import { ServiceDetails } from "../pages/ServiceDetails";
-import {RegisterReceitas} from "../pages/RegisterReceitas"
-import { ServiceDetails } from "../pages/ServiceDetails";
 import { RegisterReceitas } from "../pages/RegisterReceitas"
+
 
 
 const AppRoutes = () => {
