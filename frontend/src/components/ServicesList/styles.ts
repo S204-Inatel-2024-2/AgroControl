@@ -36,17 +36,15 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
-  
-  margin-left: auto;
+  width: auto;
   height: 30px;
-  width: 800px;
   padding: 8px;
   border: 1px solid ${({ theme }) => theme.colors.placeholderInput};
   border-radius: 8px;
   font-size: 14px;
   color: ${({ theme }) => theme.colors.text};
   background-color: ${({ theme }) => theme.colors.backgroundInput};
-  
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.placeholderInput};
     opacity: 1;
@@ -82,6 +80,8 @@ export const Button = styled.button`
 export const ButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 60px;
+  align-items: center;
 `
 
 export const Error = styled.text`
@@ -116,11 +116,23 @@ export const RowDiv = styled.div`
   width: 100%; 
   padding-top: 10px; 
 `
-
-export const InputWrapper = styled.div`
+export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  width: 48%;
-  
-`
+  height: 100%;
+  padding: 0px 20px 0px 20px;
+  gap: 20px;
+`;
+export const Text = styled.div`
+  color: #000000;
+  font-size: 15px;
+  font-weight: 550;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  svg{
+    font-size: 17px;
+  }
+`;
 
