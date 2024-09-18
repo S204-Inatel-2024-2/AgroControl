@@ -6,9 +6,10 @@ import { useNavigate } from "react-router";
 import { login } from '../../service';
 import RotateBanner from '../../components/RotateBanner';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import logo from '../../images/Logo.png';
+import logo from '../../images/agronomia.svg';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useLoading } from "../../components/FullScreenLoader/LoadingContext";
 
 type FormValues = {
   email: string;
@@ -20,9 +21,11 @@ type FormValues = {
 export function LoginPage(): JSX.Element {
   const { register, handleSubmit, formState } = useForm<FormValues>();
   const [showPassword, setShowPassword] = useState(false);
+  const { setLoading } = useLoading();
   const navigate = useNavigate();
 
   const onSubmit = (data: FormValues) => {
+    setLoading(true)
     const user = {
       email: data.email,
       password: data.password,
@@ -34,11 +37,12 @@ export function LoginPage(): JSX.Element {
         localStorage.setItem("token", resp.data.token);
         toast.success('Operação realizada com sucesso!')
         navigate("/home");
+        setLoading(false)
       })
       .catch((error) => {
         console.error(error);
         toast.error('Erro ao realizar a operação!')
-
+        setLoading(false)
       });
   };
 
@@ -87,6 +91,7 @@ export function LoginPage(): JSX.Element {
             <Styled.Button type="submit" disabled={formState.isSubmitting}>
               Acessar
             </Styled.Button>
+            {/* 
             <Styled.RecoverPassword>
               Ainda não possui uma conta?{" "}
               <div
@@ -95,7 +100,8 @@ export function LoginPage(): JSX.Element {
               >
                 Cadastre-se
               </div>
-            </Styled.RecoverPassword>
+            </Styled.RecoverPassword> 
+            */}
           </Styled.Form>
         </Styled.DivInputs>
         <Styled.DivImage>
