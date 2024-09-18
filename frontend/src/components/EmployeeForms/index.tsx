@@ -17,7 +17,7 @@ type FormValues = {
 
 
 export function EmployeeForms(): JSX.Element {
-  const { register, handleSubmit, formState, reset} = useForm<FormValues>();
+  const { register, handleSubmit, formState, reset } = useForm<FormValues>();
   const navigate = useNavigate();
 
   const onSubmit = (data: FormValues) => {
@@ -41,7 +41,7 @@ export function EmployeeForms(): JSX.Element {
         console.log(error)
         toast.error('Erro ao realizar a operação!')
       })
-    
+
     //console.log("submited", funcionario)
   }
   return (
@@ -71,8 +71,8 @@ export function EmployeeForms(): JSX.Element {
             <Styled.InputWrapper >
               <Styled.Label>
                 CPF:
-                <Styled.Input 
-                style={{marginLeft: 89}}
+                <Styled.Input
+                  style={{ marginLeft: 89 }}
                   type="text"
                   placeholder='CPF'
                   {...register('cpf', { required: true })}
@@ -84,13 +84,13 @@ export function EmployeeForms(): JSX.Element {
             <Styled.InputWrapper >
               <Styled.Label>
                 Data de nascimento:
-                <Styled.Input 
+                <Styled.Input
                   type="date"
                   placeholder=''
                   {...register('birthDate', { required: true })}
                   disabled={formState.isSubmitting}
                 />
-                {formState.errors.birthDate && <Styled.Error style={{bottom:0}}>Data de nascimento é obrigatória</Styled.Error>}
+                {formState.errors.birthDate && <Styled.Error style={{ bottom: 0 }}>Data de nascimento é obrigatória</Styled.Error>}
 
               </Styled.Label>
             </Styled.InputWrapper>
@@ -130,19 +130,19 @@ export function EmployeeForms(): JSX.Element {
             />
             {formState.errors.role && <Styled.Error>Função é obrigatória</Styled.Error>}
           </Styled.Label>
-          
-          
-          <Styled.Label style={{gap:20}}>
+
+
+          <Styled.Label style={{ gap: 20 }}>
             Valor do pagamento:
-            <Styled.Input 
+            <Styled.Input
               type="text"
               placeholder='valor'
               disabled={formState.isSubmitting}
               {...register('payment', { required: true })}
             />
             {formState.errors.payment && <Styled.Error>Pagamento é obrigatório</Styled.Error>}
-          </Styled.Label> 
-         
+          </Styled.Label>
+
           <Styled.Label >
             Observações:
             <Styled.ObservacaoInput
@@ -150,8 +150,8 @@ export function EmployeeForms(): JSX.Element {
             //disabled={formState.isSubmitting}
             />
           </Styled.Label>
-       
-          </Styled.InputDiv>
+
+        </Styled.InputDiv>
 
       </Styled.Form>
     </Styled.Container>
