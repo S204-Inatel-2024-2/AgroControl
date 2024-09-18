@@ -2,6 +2,8 @@
 import * as Styled from './styles';
 import { useNavigate } from 'react-router-dom';
 import Table from '../../components/Table';
+import jsPDF from 'jspdf';
+import { BiExport } from 'react-icons/bi';
 
 const data: any[] = [
     { id: 1, col1: '2024-09-13', col2: 'Serviço 1', col3: 'João', col4: 500.00, col5: 'Concluído' },
@@ -29,6 +31,26 @@ const formattedData = data.map(item => ({
 
 
 export function ServicesList(): JSX.Element {
+
+    const exportPDF = () => {
+    const doc = new jsPDF();
+
+    const tableColumn = columns.map(col => col.header);
+    const tableRows: (string | number)[][] = data.map(service => [
+      service.col1,
+      service.col2,
+      service.col3,
+      service.col4,
+      service.col5,
+    ]);
+
+    (doc as any).autoTable({
+      head: [tableColumn],
+      body: tableRows,
+    });
+    doc.save('table_services.pdf');
+  };
+
     const navigate = useNavigate();
 
     return (
@@ -38,10 +60,19 @@ export function ServicesList(): JSX.Element {
                 <Styled.Title>Gerenciamento de Serviços</Styled.Title>
                 <Styled.ButtonDiv>
                     <Styled.Button onClick={() => navigate('/registerFinances')}>Cadastrar</Styled.Button>
+                    <Styled.Text onClick={exportPDF}><BiExport />Exportar</Styled.Text>
                 </Styled.ButtonDiv>
             </Styled.TitleDiv>
+            <Styled.Content>
+            
+            <Styled.Input
+            type="text"
+            placeholder="Buscar pelo nome do funcionário ou pelo serviço"
+            // value={searchTerm}
+            // onChange={e => setSearchTerm(e.target.value)}
+          />
             <Table columns={columns} data={formattedData} />
-                
+            </Styled.Content>   
             
         </Styled.Container>
 
