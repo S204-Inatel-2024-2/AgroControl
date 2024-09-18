@@ -97,6 +97,10 @@ const Sidebar = <T,>({ isOpen }: Props<T>) => {
           <IconWrapper><FaMoneyBillWave /></IconWrapper>
           Controle Financeiro
         </SidebarItem>
+        <SidebarItem to="/services">
+          <IconWrapper><MdHomeRepairService /></IconWrapper>
+          Serviços
+        </SidebarItem>
         <SidebarItem to="/employeeregistration">
           <IconWrapper><MdHomeRepairService /></IconWrapper>
           Gerenciamento de Serviços
@@ -105,6 +109,7 @@ const Sidebar = <T,>({ isOpen }: Props<T>) => {
           <IconWrapper><FaUsers /></IconWrapper>
           Gerenciamento de Funcionários
         </SidebarItem>
+        
         <SidebarItem to="/suporte">
           <IconWrapper><FaHeadset /></IconWrapper>
           Suporte
