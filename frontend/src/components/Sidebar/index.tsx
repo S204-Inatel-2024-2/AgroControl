@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
@@ -93,11 +94,11 @@ const Sidebar = <T,>({ isOpen }: Props<T>) => {
           <IconWrapper><FaHome /></IconWrapper>
           Home
         </SidebarItem>
-        <SidebarItem to="/registerfinances">
+        <SidebarItem to="/registerReceitas">
           <IconWrapper><FaMoneyBillWave /></IconWrapper>
           Controle Financeiro
         </SidebarItem>
-        <SidebarItem to="/employeeregistration">
+        <SidebarItem to="/services">
           <IconWrapper><MdHomeRepairService /></IconWrapper>
           Gerenciamento de Serviços
         </SidebarItem>

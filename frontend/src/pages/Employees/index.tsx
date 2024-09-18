@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import * as Styled from './styled';
 import { Header } from '../../components/Header';
@@ -8,10 +9,12 @@ import 'jspdf-autotable';
 import { BiExport } from "react-icons/bi";
 import { listAllFuncionarios } from '../../service';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'; 
 
 export function Employees(): JSX.Element {
   const [listEmployees, setListEmployees] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
   const itemsPerPage = 9;
 
   const columns = [
@@ -83,9 +86,7 @@ export function Employees(): JSX.Element {
                 <BiExport />
                 Exportar
               </Styled.Text>
-              <Styled.Button>
-                Cadastrar
-              </Styled.Button>
+              <Styled.Button onClick={() => navigate('/employeeregistration')}>Cadastrar</Styled.Button>
             </Styled.DivButtonn>
 
           </Styled.DivHeader>

@@ -29,17 +29,15 @@ const formattedData = data.map(item => ({
 
 
 export function ServicesList(): JSX.Element {
-
-    
-
     const navigate = useNavigate();
+
     return (
 
         <Styled.Container>
             <Styled.TitleDiv>
                 <Styled.Title>Gerenciamento de Serviços</Styled.Title>
                 <Styled.ButtonDiv>
-                    <Styled.Button onClick={() => {}}>Cadastrar</Styled.Button>
+                    <Styled.Button onClick={() => navigate('/registerFinances')}>Cadastrar</Styled.Button>
                 </Styled.ButtonDiv>
             </Styled.TitleDiv>
             <Table columns={columns} data={formattedData} />
