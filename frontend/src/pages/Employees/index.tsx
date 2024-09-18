@@ -15,10 +15,10 @@ export function Employees(): JSX.Element {
   const itemsPerPage = 9;
 
   const columns = [
-    { header: 'Responsável pelo serviço', accessor: 'nome', width: '100px' },
+    { header: 'Nome do funcionário', accessor: 'nome', width: '100px' },
     { header: 'CPF', accessor: 'cpf', width: '100px' },
-    { header: 'Serviço', accessor: 'funcao', width: '150px' },
-    { header: 'Valor do serviço', accessor: 'salario', width: '50px' },
+    { header: 'Função', accessor: 'funcao', width: '150px' },
+    { header: 'Salário', accessor: 'salario', width: '50px' },
   ];
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export function Employees(): JSX.Element {
         <Header />
         <Styled.Content>
           <Styled.DivHeader>
-            <Styled.Title>Gerenciamento de Serviços</Styled.Title>
+            <Styled.Title>Gerenciamento de Funcionários:</Styled.Title>
 
             <Styled.DivButtonn>
               <Styled.Text onClick={exportPDF}>
@@ -92,7 +92,7 @@ export function Employees(): JSX.Element {
 
           <Styled.Input
             type="text"
-            placeholder="Buscar pelo nome do funcionário ou pelo serviço"
+            placeholder="Buscar pelo nome do funcionário ou pela função"
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
           />
