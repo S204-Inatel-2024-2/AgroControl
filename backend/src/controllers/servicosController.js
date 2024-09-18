@@ -2,48 +2,43 @@ const ServicosService = require('../services/servicosService');
 const servicosService = new ServicosService();
 
 class ServicosController {
-    // Método para listar todos os serviços
     static async getAllServicos(req, res) {
         try {
             await servicosService.getAllServicos(req, res);
         } catch (error) {
-            await servicosService.getAllServicos(req, res);
+            res.status(400).send({ message: error.message });
         }
     }
 
-    // Método para obter um serviço específico pelo ID
     static async getServicoById(req, res) {
         try {
             await servicosService.getServicoById(req, res);
         } catch (error) {
-            await servicosService.getServicoById(req, res);
+            res.status(400).send({ message: error.message });
         }
     }
 
-    // Método para criar um novo serviço
     static async createServico(req, res) {
         try {
             await servicosService.createServico(req, res);
         } catch (error) {
-            await servicosService.createServico(req, res);
+            res.status(400).send({ message: error.message });
         }
     }
 
-    // Método para atualizar um serviço existente
     static async updateServico(req, res) {
         try {
             await servicosService.updateServico(req, res);
         } catch (error) {
-            await servicosService.updateServico(req, res);
+            res.status(400).send({ message: error.message });
         }
     }
 
-    // Método para deletar um serviço existente
     static async deleteServico(req, res) {
         try {
             await servicosService.deleteServico(req, res);
         } catch (error) {
-            await servicosService.deleteServico(req, res);
+            res.status(400).send({ message: error.message });
         }
     }
 }
