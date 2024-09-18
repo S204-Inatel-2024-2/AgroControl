@@ -7,9 +7,11 @@ const swaggerUi = require('swagger-ui-express');
 const loginRoutes = require('./routes/loginRoutes');
 const SecurityRoutes = require('./middlewares/auth');
 const servicosRoutes = require('./routes/servicosRoutes');
+const receitasRoutes = require('./routes/receitasRoutes');
 const tiposServicoRoutes = require('./routes/tiposServicoRoutes');
 const funcionariosRoutes = require('./routes/funcionariosRoutes');
 const categoriasReceitas = require('./routes/categoriasReceitaRoutes');
+
 
 const app = express();
 app.use(cors());//habilita acesso para o frontEnd
@@ -20,6 +22,7 @@ app.use('/login', loginRoutes);
 app.use('/servicos', SecurityRoutes, servicosRoutes);
 app.use('/categorias',SecurityRoutes,categoriasReceitas);
 app.use('/tiposervico', SecurityRoutes, tiposServicoRoutes);
+app.use('/receitas', SecurityRoutes, receitasRoutes)
 app.use('/funcionarios', SecurityRoutes, funcionariosRoutes);
 
 
