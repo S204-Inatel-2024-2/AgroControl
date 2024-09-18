@@ -37,7 +37,6 @@ export const authConfig: AxiosRequestConfig = {
   headers: {
     ...config.headers,
     Authorization:
-      //   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoidGVzdGVAZW1haWwuY29tIiwiaWF0IjoxNzI0Njk0ODEyLCJleHAiOjE3MjQ2OTg0MTJ9.DfIT51iT71mgonNQXX9g-nGAV4fOEloCERGBDI9QGIo",
       `Bearer ${localStorage.getItem("token")}`,
   },
 };
@@ -63,6 +62,26 @@ export const listAllFuncionarios = async () => {
   return axios.request<any>(localConfig);
 };
 
+export const getFuncionarioById = async (id: number) => {
+  const localConfig = {
+    ...authConfig,
+    url: `funcionarios/${id}`,
+    method: "get",
+  };
+
+  return axios.request<any>(localConfig);
+};
+
+export const deleteFuncionario = async (id: number) => {
+  const localConfig = {
+    ...authConfig,
+    url: `funcionarios/${id}`,
+    method: "delete",
+  };
+
+  return axios.request<any>(localConfig);
+};
+
 export const listAllTiposServico = async () => {
   const localConfig = {
     ...authConfig,
@@ -79,6 +98,36 @@ export const createServico = async (servico: any) => {
     url: "servicos",
     method: "post",
     data: servico,
+  };
+
+  return axios.request<any>(localConfig);
+};
+
+export const getServicoById = async (id: number) => {
+  const localConfig = {
+    ...authConfig,
+    url: `servicos/${id}`,
+    method: "get",
+  };
+
+  return axios.request<any>(localConfig);
+};
+
+export const deleteServico = async (id: number) => {
+  const localConfig = {
+    ...authConfig,
+    url: `servicos/${id}`,
+    method: "delete",
+  };
+
+  return axios.request<any>(localConfig);
+};
+
+export const getTipoServicoById = async (id: number) => {
+  const localConfig = {
+    ...authConfig,
+    url: `tiposervico/${id}`,
+    method: "get",
   };
 
   return axios.request<any>(localConfig);

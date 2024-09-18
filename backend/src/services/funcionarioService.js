@@ -3,9 +3,9 @@ const { Funcionarios } = require('../db/models');
 class FuncionarioService {
     async createFuncionario(req, res) {
         try {
-            const { nome, cpf, endereco, email, funcao,salario,dataNascimento } = req.body;
+            const { nome, cpf, endereco, email, funcao, salario, dataNascimento } = req.body;
 
-            if (!nome || !cpf || !endereco || !email || !funcao|| !salario || !dataNascimento) {
+            if (!nome || !cpf || !endereco || !email || !funcao || !salario || !dataNascimento) {
                 return res.status(400).json({ error: 'Os campos são obrigatórios.' });
             }
             // Cadastra novo funcionario
@@ -51,13 +51,13 @@ class FuncionarioService {
     async updateFuncionario(req, res) {
         try {
             const { id } = req.params;
-            const { nome, cpf, endereco, email, funcao,salario,dataNascimento } = req.body;
+            const { nome, cpf, endereco, email, funcao, salario, dataNascimento } = req.body;
 
             // verifica se o funcionario existe
             const funcionario = await Funcionarios.findByPk(id);
 
-            if(!funcionario){
-               return res.status(404).json({message:"Usuário não existe"})
+            if (!funcionario) {
+                return res.status(404).json({ message: "Funcionário não encontrado." })
             }
 
             funcionario.nome = nome || funcionario.nome;
@@ -89,7 +89,7 @@ class FuncionarioService {
             // deleta funcionario pelo id
             await funcionario.destroy();
             res.status(204).json();
-           
+
 
         } catch (error) {
             res.status(500).json({ message: error.message });
