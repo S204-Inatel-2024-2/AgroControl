@@ -6,7 +6,7 @@ class TiposServicoController {
         try {
             await tiposServicoService.getAllTiposServico(req, res);
         } catch (error) {
-            await tiposServicoService.getAllTiposServico(req, res);
+            res.status(400).send({ message: error.message });
         }
     }
 
@@ -14,7 +14,7 @@ class TiposServicoController {
         try {
             await tiposServicoService.getTipoServicoById(req, res);
         } catch (error) {
-            await tiposServicoService.getTipoServicoById(req, res);
+            res.status(400).send({ message: error.message });
         }
     }
 
@@ -22,7 +22,7 @@ class TiposServicoController {
         try {
             await tiposServicoService.createTipoServico(req, res);
         } catch (error) {
-            await tiposServicoService.createTipoServico(req, res);
+            res.status(400).send({ message: error.message });
         }
     }
 
@@ -30,7 +30,7 @@ class TiposServicoController {
         try {
             await tiposServicoService.updateTipoServico(req, res);
         } catch (error) {
-            await tiposServicoService.updateTipoServico(req, res);
+            res.status(400).send({ message: error.message });
         }
     }
 
@@ -38,7 +38,7 @@ class TiposServicoController {
         try {
             await tiposServicoService.deleteTipoServico(req, res);
         } catch (error) {
-            await tiposServicoService.deleteTipoServico(req, res);
+            res.status(400).send({ message: error.message });
         }
     }
 }
