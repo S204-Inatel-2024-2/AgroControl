@@ -25,8 +25,13 @@ export const Container = styled.div`
 export const Menu = styled.div`
   display: flex;
   align-items: center;
+  gap: 50px; /* Espaço entre o ícone do menu e o título */
+  padding-left: 56px;
   gap: 30px; /* Espaço entre o ícone do menu e o título */
 
+  svg{
+    cursor: pointer;
+  }
   @media (max-width: 768px) {
     gap: 15px;
     width: 100%;

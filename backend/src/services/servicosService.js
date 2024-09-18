@@ -1,7 +1,6 @@
 const { Servicos, Funcionarios, TiposServico } = require('../db/models');
 
 class ServicosService {
-    // Método para listar todos os serviços 
     async getAllServicos(req, res) {
         try {
             const servicos = await Servicos.findAll();
@@ -11,7 +10,6 @@ class ServicosService {
         }
     }
 
-    // Método para obter um serviço específico pelo ID 
     async getServicoById(req, res) {
         try {
             const { id } = req.params;
@@ -26,10 +24,13 @@ class ServicosService {
         }
     }
 
-    // Método para criar um novo serviço
     async createServico(req, res) {
         try {
             const { status, dataAtividade, tipoServico, responsavel, valorGasto } = req.body;
+
+            if (!status || !dataAtividade || !tipoServico || !responsavel || !valorGasto) {
+                return res.status(400).json({ error: 'Os campos são obrigatórios.' });
+            }
 
             const funcionario = await Funcionarios.findByPk(responsavel);
             if (!funcionario){
@@ -54,7 +55,6 @@ class ServicosService {
         }
     }
 
-    // Método para atualizar um serviço existente
     async updateServico(req, res) {
         try {
             const { id } = req.params;
@@ -88,7 +88,6 @@ class ServicosService {
         }
     }
 
-    // Método para deletar um serviço pelo ID
     async deleteServico(req, res) {
         try {
             const { id } = req.params;
