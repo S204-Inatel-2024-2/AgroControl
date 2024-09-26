@@ -1,4 +1,5 @@
 const { Receita } = require('../db/models');
+const { Categoria } = require('../db/models')
 
 class ReceitaService {
     async createReceita(req, res) {
@@ -8,6 +9,17 @@ class ReceitaService {
             if (!lucro || !valorReceita || !observacao || !idCategoria) {
                 return res.status(400).json({ error: 'Os campos são obrigatórios.' });
             }
+
+            const isCategoria = await Categoria.findOne({
+                where: {
+                    id: idCategoria,
+                }
+            });
+
+            if (!isCategoria) {
+                return res.status(404).json({ error: 'Categoria não Encontrada.' });
+            }
+
             // Cadastra nova receita
             const receita = await Receita.create({
                 lucro,
@@ -20,7 +32,7 @@ class ReceitaService {
             res.status(500).json({ message: error.message });
         }
     }
-    // Busca funcionario pelo id
+    // Busca Receita pelo id
     async getReceitaById(req, res) {
         try {
             const { id } = req.params;
