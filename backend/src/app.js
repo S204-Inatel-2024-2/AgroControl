@@ -6,9 +6,9 @@ const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const loginRoutes = require('./routes/login');
 const SecurityRoutes = require('./middlewares/auth');
-const servicosRoutes = require('./routes/servicosRoutes');
+const servicosRoutes = require('./routes/servicos');
 const receitasRoutes = require('./routes/receitasRoutes');
-const tiposServicoRoutes = require('./routes/tiposServicoRoutes');
+const tiposServicoRoutes = require('./routes/tiposServico');
 const funcionariosRoutes = require('./routes/funcionarios');
 const categoriasReceitas = require('./routes/categoriasReceitaRoutes');
 
