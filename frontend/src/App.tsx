@@ -8,9 +8,9 @@ import { LoadingProvider } from './components/FullScreenLoader/LoadingContext';
 function App() {
   return (
     <>
-     
+
       <LoadingProvider>
-         <AppRoutes />
+        <AppRoutes />
       </LoadingProvider>
       <ToastContainer
         position='top-right'

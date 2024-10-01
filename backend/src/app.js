@@ -4,12 +4,12 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
-const loginRoutes = require('./routes/loginRoutes');
+const loginRoutes = require('./routes/login');
 const SecurityRoutes = require('./middlewares/auth');
-const servicosRoutes = require('./routes/servicosRoutes');
+const servicosRoutes = require('./routes/servicos');
 const receitasRoutes = require('./routes/receitasRoutes');
-const tiposServicoRoutes = require('./routes/tiposServicoRoutes');
-const funcionariosRoutes = require('./routes/funcionariosRoutes');
+const tiposServicoRoutes = require('./routes/tiposServico');
+const funcionariosRoutes = require('./routes/funcionarios');
 const categoriasReceitas = require('./routes/categoriasReceitaRoutes');
 
 
@@ -20,7 +20,7 @@ const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, 'docs', 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));//mapeia as rotas da aplicação e documenta no swaager
 app.use('/login', loginRoutes);
 app.use('/servicos', SecurityRoutes, servicosRoutes);
-app.use('/categorias',SecurityRoutes,categoriasReceitas);
+app.use('/categorias', SecurityRoutes, categoriasReceitas);
 app.use('/tiposervico', SecurityRoutes, tiposServicoRoutes);
 app.use('/receitas', SecurityRoutes, receitasRoutes)
 app.use('/funcionarios', SecurityRoutes, funcionariosRoutes);
