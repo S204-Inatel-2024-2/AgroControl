@@ -3,8 +3,31 @@ const { Servicos, Funcionarios, TiposServico } = require('../db/models');
 class ServicosService {
     async getAllServicos(req, res) {
         try {
-            const servicos = await Servicos.findAll();
-            res.status(200).json(servicos);
+            const servicos = await Servicos.findAll({
+                include: [
+                    {
+                        model: TiposServico,
+                        attributes: ['descricao']
+                    },
+                    {
+                        model: Funcionarios,
+                        attributes: ['nome'],
+                    }
+                ]
+            });
+
+            const formattedServicos = servicos.map(servico => ({
+                IdServico: servico.IdServico,
+                status: servico.status,
+                dataAtividade: servico.dataAtividade,
+                tipoServico: servico.TiposServico ? servico.TiposServico.descricao : null, // Descrição do tipo de serviço
+                responsavel: servico.Funcionario ? servico.Funcionario.nome : null, // Nome do responsável
+                valorGasto: servico.valorGasto,
+                createdAt: servico.createdAt,
+                updatedAt: servico.updatedAt
+            }));
+
+            res.status(200).json(formattedServicos);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -14,7 +37,7 @@ class ServicosService {
         try {
             const { id } = req.params;
             const servico = await Servicos.findByPk(id);
-            
+
             if (!servico) {
                 return res.status(404).json({ error: 'Serviço não encontrado.' });
             }
@@ -33,7 +56,7 @@ class ServicosService {
             }
 
             const funcionario = await Funcionarios.findByPk(responsavel);
-            if (!funcionario){
+            if (!funcionario) {
                 return res.status(404).json({ error: 'Funcionário não encontrado.' });
             }
 
@@ -42,12 +65,12 @@ class ServicosService {
                 return res.status(404).json({ error: 'Tipo de Serviço não encontrado.' });
             }
 
-            const novoServico = await Servicos.create({ 
-                status, 
-                dataAtividade, 
-                tipoServico, 
-                responsavel, 
-                valorGasto 
+            const novoServico = await Servicos.create({
+                status,
+                dataAtividade,
+                tipoServico,
+                responsavel,
+                valorGasto
             });
             res.status(201).json(novoServico);
         } catch (error) {
@@ -61,26 +84,26 @@ class ServicosService {
             const { status, dataAtividade, tipoServico, responsavel, valorGasto } = req.body;
 
             const servico = await Servicos.findByPk(id);
-            if (!servico){
+            if (!servico) {
                 return res.status(404).json({ error: 'Serviço não encontrado.' });
             }
 
             const funcionario = await Funcionarios.findByPk(responsavel);
-            if (!funcionario){
+            if (!funcionario) {
                 return res.status(404).json({ error: 'Funcionário não encontrado.' });
             }
 
             const tipo = await TiposServico.findByPk(tipoServico);
-            if (!tipo){
+            if (!tipo) {
                 return res.status(404).json({ error: 'Tipo de Serviço não encontrado.' });
             }
 
-            await servico.update({ 
-                status, 
-                dataAtividade, 
-                tipoServico, 
-                responsavel, 
-                valorGasto 
+            await servico.update({
+                status,
+                dataAtividade,
+                tipoServico,
+                responsavel,
+                valorGasto
             });
             res.status(200).json(servico);
         } catch (error) {
@@ -93,7 +116,7 @@ class ServicosService {
             const { id } = req.params;
 
             const servico = await Servicos.findByPk(id);
-            if (!servico){
+            if (!servico) {
                 return res.status(404).json({ error: 'Serviço não encontrado.' });
             }
 

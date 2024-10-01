@@ -7,16 +7,14 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       //relacionamento com a tabela de Tipos de serviço
-      Servicos.belongsTo(models.Service, {
-        foreignKey: 'tipoServico'
-      })
-    }
+      Servicos.belongsTo(models.TiposServico, {
+        foreignKey: 'tipoServico',
+      });
 
-    static associate(models) {
-      //relacionamento com a tabela de Funcionários
       Servicos.belongsTo(models.Funcionarios, {
-        foreignKey: 'tipoServico'
-      })
+        foreignKey: 'responsavel',
+      });
+
     }
 
 
