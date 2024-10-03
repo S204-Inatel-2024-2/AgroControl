@@ -22,7 +22,7 @@ import { receitaSchema } from "../../validations/ReceitaValidation"
 
 export function RegisterReceitas(): JSX.Element {
     const [islucroReceita, setLucroReceita] = useState("");//
-    const [valorReceita, setValorReceita] = useState("R$0.00");
+    const [valorReceita, setValorReceita] = useState("");
     const [categorias, setCategorias] = useState("");
     const [listaCategoriasReceita, setCategoriasReceita] = useState([]);
 
@@ -31,25 +31,24 @@ export function RegisterReceitas(): JSX.Element {
 
         const form = event.currentTarget;
         const formData = {
-            isLucro: form.elements.IsLucro.value,
-            valorReceita: form.elements.receitaValue.value,
-            obsReceita: form.elements.observationsReceita.value,
-            categoriaReceita: form.elements.categoriaReceita.value,
-        }
+            lucro: form.elements.lucro.value === 'Sim' ? true : "false",
+            valorReceita: parseFloat(form.elements.valorReceita.value),
+            observacao: form.elements.observacao.value,
+            idCategoria: Number(form.elements.idCategoria.value),
+        };
 
         const isValid = await receitaSchema.isValid(formData);
 
-        if (isValid) {
+        if (!isValid) {
             const response = await createReceita(formData);
             if (response.status === 201)
                 toast.success("Operação realizada com sucesso!");
-            else toast.error("Erro ao realizar a operação!");
+            else toast.error("Erro ao realizar a operação dsada !");
         } else {
             toast.error("Os dados fornecidos estão incorretos.");
-            console.log("imprimindo ")
-            console.log(formData)
+            console.log("imprimindo ");
+            console.log(formData);
         }
-
     };
 
     async function getAllCategorias() {
@@ -60,7 +59,6 @@ export function RegisterReceitas(): JSX.Element {
     useEffect(() => {
         getAllCategorias();
     }, []);
-
 
     return (
         <>
@@ -81,7 +79,7 @@ export function RegisterReceitas(): JSX.Element {
                             Categoria da receita:
                             <Select
                                 required
-                                name="categoriaReceita"
+                                name="idCategoria"
                                 value={categorias}
                                 onChange={(e) => setCategorias(e.target.value)}
                             >
@@ -100,7 +98,7 @@ export function RegisterReceitas(): JSX.Element {
                                 value={valorReceita}
                                 type="text"
                                 required
-                                name="receitaValue"
+                                name="valorReceita"
                                 onChange={(e) => setValorReceita(e.target.value)}
                             />
                         </LabelValor>
@@ -108,20 +106,20 @@ export function RegisterReceitas(): JSX.Element {
 
                         <LabelObs>
                             Observações:
-                            <InputObs required name="observations" rows={6} />
+                            <InputObs required name="observacao" rows={6} />
                         </LabelObs>
 
                         <LabelIsLucro>
                             A receita gerou lucro:
                             <Select
                                 required
-                                name="IsLucro"
+                                name="lucro"
                                 value={islucroReceita}
                                 onChange={(e) => setLucroReceita(e.target.value)}
                             >
                                 <Option value="" disabled hidden></Option>
-                                <Option value="pendente">Sim</Option>
-                                <Option value="emAndamento">Não</Option>
+                                <Option value="Sim">Sim</Option>
+                                <Option value="Não">Não</Option>
                             </Select>
                         </LabelIsLucro>
 
