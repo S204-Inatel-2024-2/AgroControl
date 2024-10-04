@@ -1,18 +1,19 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    padding-left: 3%;
-    padding-right: 3%;
-    //background-color: #f5c400;
+  padding-top: 18vh;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 `;
-export const Form = styled.form`
-  
-`
+
 export const Title = styled.text`
     font-size: 20px;
     font-weight: bolder;
     color: #de8400;
-    //position: absolute;
+  
     
 `
 
@@ -52,6 +53,7 @@ export const Input = styled.input`
 `;
 
 export const TitleDiv = styled.div`
+  padding-left: 2vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -119,7 +121,6 @@ export const RowDiv = styled.div`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
   padding: 0px 20px 0px 20px;
   gap: 20px;
 `;

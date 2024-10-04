@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    padding-left: 3%;
-    padding-right: 3%;
+    padding-left: 3vw;
+    padding-right: 3vw;
     //background-color: #f5c400;
 `;
+
 export const Form = styled.form`
   
 `
@@ -18,7 +19,10 @@ export const Title = styled.text`
 
 export const InputDiv = styled.div`
   padding-top: 5px;
-  width: 70%;
+  display: flex;
+  flex-direction: column;
+  width: 66vw;
+  overflow: hidden;
   
 `
 export const Label = styled.label`
@@ -36,7 +40,6 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
-  
   margin-left: auto;
   height: 30px;
   width: 800px;
