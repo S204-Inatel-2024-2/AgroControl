@@ -1,11 +1,11 @@
-const LoginService = require('../services/loginService')
+const LoginService = require('../services/login')
 const loginService = new LoginService();
 class LoginController {
 
-    static async validateLogin(req,res){
-        try{
-            await loginService.login(req,res);
-        }catch(error){
+    static async validateLogin(req, res) {
+        try {
+            await loginService.login(req, res);
+        } catch (error) {
             res.status(400).send({ message: error.message });
         }
     }

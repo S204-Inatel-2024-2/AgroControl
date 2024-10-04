@@ -6,28 +6,28 @@ class receitaController {
         try {
             await receitaService.createReceita(req, res);
         } catch (error) {
-            await receitaService.createReceita(req, res);
+            return res.status(400).json({ error: error });
         }
     }
     static async getReceitaById(req, res) {
         try {
             await receitaService.getReceitaById(req, res);
         } catch (error) {
-            await receitaService.getReceitaById(req, res);
+            return res.status(400).json({ error: error });
         }
     }
     static async getAllReceitas(req, res) {
         try {
             await receitaService.getAllReceitas(req, res);
         } catch (error) {
-            await receitaService.getAllReceitas(req, res);
+            return res.status(400).json({ error: error });
         }
     }
     static async updateReceita(req, res) {
         try {
             await receitaService.updateReceita(req, res);
         } catch (error) {
-            await receitaService.updateReceita(req, res);
+            return res.status(400).json({ error: error });
         }
     }
 }

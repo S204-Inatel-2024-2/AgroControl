@@ -1,4 +1,4 @@
-const FuncionarioService = require('../services/funcionarioService');
+const FuncionarioService = require('../services/funcionario');
 const funcionarioService = new FuncionarioService();
 
 class funcionarioController {
@@ -6,35 +6,35 @@ class funcionarioController {
         try {
             await funcionarioService.createFuncionario(req, res);
         } catch (error) {
-            await funcionarioService.createFuncionario(req, res);
+            return res.status(400).json({ error: error });
         }
     }
     static async getFuncionarioById(req, res) {
         try {
             await funcionarioService.getFuncionarioById(req, res);
         } catch (error) {
-            await funcionarioService.getFuncionarioById(req, res);
+            return res.status(400).json({ error: error });
         }
     }
     static async getAllFuncionarios(req, res) {
         try {
             await funcionarioService.getAllFuncionarios(req, res);
         } catch (error) {
-            await funcionarioService.getAllFuncionarios(req, res);
+            return res.status(400).json({ error: error });
         }
     }
     static async updateFuncionario(req, res) {
         try {
             await funcionarioService.updateFuncionario(req, res);
         } catch (error) {
-            await funcionarioService.updateFuncionario(req, res);
+            return res.status(400).json({ error: error });
         }
     }
     static async deleteFuncionario(req, res) {
         try {
             await funcionarioService.deleteFuncionario(req, res);
         } catch (error) {
-            await funcionarioService.deleteFuncionario(req, res);
+            return res.status(400).json({ error: error });
         }
     }
 }
