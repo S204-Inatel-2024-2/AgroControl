@@ -2,6 +2,7 @@ const { Admin } = require('../db/models');
 const bcrypt = require('bcrypt');
 const { generateToken } = require('./auth');
 
+
 class LoginService {
     async login(req, res) {
         const { email, password } = req.body;
@@ -26,7 +27,7 @@ class LoginService {
 
             if (isMatch) {
                 const token = generateToken(adm);
-
+                
                 // Senha correta, autenticação bem-sucedida
                 return res.status(200).json({ token, message: 'Login bem-sucedido.' });
             } else {
