@@ -16,8 +16,13 @@ const columns: {header: string; accessor: keyof Services; width: string }[] = [
   { header: 'Valor do serviço', accessor: 'valorGasto', width: '50px' },
   { header: 'Status', accessor: 'status', width: '50px' },
 ]
-const formatCurrency = (value: number) => {
-  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const formatCurrency = (value: number | string) => {
+  try{
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }catch(error){
+    return null
+  }
+  
 }
 
 
@@ -78,7 +83,7 @@ export function ServicesList(): JSX.Element {
     const doc = new jsPDF();
 
     const tableColumn = columns.map(col => col.header);
-    const tableRows: (string | number | Date )[][] = formattedServices.map(service => [
+    const tableRows: (string | number | Date | null )[][] = formattedServices.map(service => [
       service.dataAtividade,
       service.tipoServico,
       service.responsavel,
