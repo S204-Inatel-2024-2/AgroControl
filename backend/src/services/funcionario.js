@@ -1,5 +1,5 @@
 const { Funcionarios } = require('../db/models');
-const {novoFuncionario} = require('../utils/servidorEmail')
+const {emailnovoFuncionario} = require('../utils/servidorEmail')
 
 class FuncionarioService {
     async createFuncionario(req, res) {
@@ -21,7 +21,7 @@ class FuncionarioService {
 
             });
             
-            await novoFuncionario(funcionario)
+            await emailnovoFuncionario(funcionario)
             res.status(201).json({ funcionario, message: 'Funcionário cadastrado com sucesso!' });
         } catch (error) {
             res.status(500).json({ message: error.message });
