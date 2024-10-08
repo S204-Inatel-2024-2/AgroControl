@@ -8,7 +8,7 @@ let transporter = nodemailer.createTransport({
     secure: false,     // Sem SSL/TLS
 });
 
-async function novoFuncionario(funcionarioNovo) {
+async function emailnovoFuncionario(funcionarioNovo) {
     try {
         let info = await transporter.sendMail({
             from: `${funcionarioNovo.nome},'<${funcionarioNovo.email}>'`,
@@ -24,4 +24,4 @@ async function novoFuncionario(funcionarioNovo) {
     }
 }
 
-module.exports = { novoFuncionario };
+module.exports = { emailnovoFuncionario };

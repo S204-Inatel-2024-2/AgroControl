@@ -9,7 +9,7 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js"
   },
-  "author": "Matheus Henrique Lourenço Bernardo",
+  "author": "Matheus Henrique Lourenço Bernardo,iza Lopes, João Ryan, Juliely, Marcio Taier e Guilherme Cotta",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
