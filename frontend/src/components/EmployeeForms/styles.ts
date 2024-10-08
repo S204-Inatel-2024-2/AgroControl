@@ -113,9 +113,10 @@ export const ObservacaoInput = styled.textarea`
 `
 export const RowDiv = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  gap: 20px; 
-  width: 100%; 
+  /* gap:;  */
+  width: 66vw; 
   padding-top: 10px; 
 `
 
