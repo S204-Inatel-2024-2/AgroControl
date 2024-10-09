@@ -32,6 +32,7 @@ export function RegisterFinances(): JSX.Element {
   const [listaFuncionarios, setListaFuncionarios] = useState([]);
   const [listaTiposServico, setListaTiposServico] = useState([]);
   const [valorGasto, setValorGasto] = useState("R$0.00");
+  const [valor, setValor] = useState(0.00)
   const [status, setStatus] = useState("");
 
   const createService = async (event: any) => {
@@ -42,7 +43,7 @@ export function RegisterFinances(): JSX.Element {
       dataAtividade: form.elements.date.value,
       tipoServico: form.elements.serviceType.value,
       responsavel: form.elements.serviceResponsible.value,
-      valorGasto: form.elements.serviceValue.value,
+      valorGasto: valor,
       status: form.elements.serviceStatus.value,
       observations: form.elements.observations.value,
     };
@@ -61,10 +62,10 @@ export function RegisterFinances(): JSX.Element {
   };
 
   function maskCurrency(value: string) {
-    value = value.replace(/\D/g, "");
+    value = value.replace(/[^\d,-]/g, "");
     value = (parseFloat(value) / 100).toFixed(2).replace(",", ".");
-
-    value = `R$${value}`;
+    setValor(parseFloat(value))
+    value  = `R$${value}`;
 
     return value;
   }
