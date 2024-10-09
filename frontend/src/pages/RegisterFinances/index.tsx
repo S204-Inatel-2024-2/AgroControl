@@ -90,7 +90,7 @@ export function RegisterFinances(): JSX.Element {
         <Header />
         <Body>
           <SubTitle>
-            <h2>Relatório Financeiro</h2>
+            <h2>Cadastro de novo serviço</h2>
             <div>
               <Button>Voltar</Button>
               <Button type="submit" form="meuForm">

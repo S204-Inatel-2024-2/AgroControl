@@ -98,7 +98,7 @@ const Sidebar = <T,>({ isOpen }: Props<T>) => {
           <IconWrapper><FaMoneyBillWave /></IconWrapper>
           Controle Financeiro
         </SidebarItem>
-        <SidebarItem to="/employeeregistration">
+        <SidebarItem to="/services">
           <IconWrapper><MdHomeRepairService /></IconWrapper>
           Gerenciamento de Serviços
         </SidebarItem>

@@ -26,9 +26,6 @@ const formattedData = data.map(item => ({
     ...item,
     col4: formatCurrency(item.col4)
 }))
- 
-
-
 
 export function ServicesList(): JSX.Element {
 
@@ -59,8 +56,8 @@ export function ServicesList(): JSX.Element {
             <Styled.TitleDiv>
                 <Styled.Title>Gerenciamento de Serviços</Styled.Title>
                 <Styled.ButtonDiv>
-                    <Styled.Button onClick={() => navigate('/registerFinances')}>Cadastrar</Styled.Button>
                     <Styled.Text onClick={exportPDF}><BiExport />Exportar</Styled.Text>
+                    <Styled.Button onClick={() => navigate('/registerFinances')}>Cadastrar</Styled.Button>
                 </Styled.ButtonDiv>
             </Styled.TitleDiv>
             <Styled.Content>
