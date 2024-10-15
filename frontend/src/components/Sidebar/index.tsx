@@ -33,6 +33,7 @@ const SidebarContainer = styled.div<{ isOpen: boolean }>`
   left: 0;
   padding: 20px;
   padding-top: 125px;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   animation: ${({ isOpen }) => (isOpen ? slideIn : slideOut)} 0.5s ease-out forwards;
@@ -77,40 +78,45 @@ transition: 0.2s;
 
 
 type Props<T> = {
-    isOpen: boolean;
+  isOpen: boolean;
 };
 
 const Sidebar = <T,>({ isOpen }: Props<T>) => {
-    return (
-        <>
-            <SidebarContainer isOpen={isOpen}>
-                {/* <SidebarItem to="/dashboard-financeiro">
+  return (
+    <>
+      <SidebarContainer isOpen={isOpen}>
+        {/* <SidebarItem to="/dashboard-financeiro">
                     <IconWrapper><FaChartLine /></IconWrapper>
                     Dashboard Financeiro
                 </SidebarItem> */}
-                <SidebarItem to="/home">
-                    <IconWrapper><FaHome /></IconWrapper>
-                    Home
-                </SidebarItem>
-                <SidebarItem to="/registerfinances">
-                    <IconWrapper><FaMoneyBillWave /></IconWrapper>
-                    Controle Financeiro
-                </SidebarItem>
-                <SidebarItem to="/employeeregistration">
-                    <IconWrapper><MdHomeRepairService /></IconWrapper>
-                    Gerenciamento de Serviços
-                </SidebarItem>
-                <SidebarItem to="/employees">
-                    <IconWrapper><FaUsers /></IconWrapper>
-                    Gerenciamento de Funcionários
-                </SidebarItem>
-                <SidebarItem to="/suporte">
-                    <IconWrapper><FaHeadset /></IconWrapper>
-                    Suporte
-                </SidebarItem>
-            </SidebarContainer>
-        </>
-    );
+        <SidebarItem to="/home">
+          <IconWrapper><FaHome /></IconWrapper>
+          Home
+        </SidebarItem>
+        <SidebarItem to="/registerfinances">
+          <IconWrapper><FaMoneyBillWave /></IconWrapper>
+          Controle Financeiro
+        </SidebarItem>
+        <SidebarItem to="/services">
+          <IconWrapper><MdHomeRepairService /></IconWrapper>
+          Serviços
+        </SidebarItem>
+        <SidebarItem to="/employeeregistration">
+          <IconWrapper><MdHomeRepairService /></IconWrapper>
+          Gerenciamento de Serviços
+        </SidebarItem>
+        <SidebarItem to="/employees">
+          <IconWrapper><FaUsers /></IconWrapper>
+          Gerenciamento de Funcionários
+        </SidebarItem>
+        
+        <SidebarItem to="/suporte">
+          <IconWrapper><FaHeadset /></IconWrapper>
+          Suporte
+        </SidebarItem>
+      </SidebarContainer>
+    </>
+  );
 };
 
 export default Sidebar;

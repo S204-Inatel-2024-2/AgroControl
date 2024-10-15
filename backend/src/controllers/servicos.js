@@ -1,4 +1,4 @@
-const ServicosService = require('../services/servicosService');
+const ServicosService = require('../services/servicos');
 const servicosService = new ServicosService();
 
 class ServicosController {

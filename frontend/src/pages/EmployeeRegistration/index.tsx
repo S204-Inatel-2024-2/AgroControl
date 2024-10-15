@@ -11,8 +11,9 @@ export function EmployeeRegistration(): JSX.Element {
   
   return (
     <>
+      <Header/>
         <Styled.Container>
-            <Header/>
+            
             <EmployeeForms/>
         
         

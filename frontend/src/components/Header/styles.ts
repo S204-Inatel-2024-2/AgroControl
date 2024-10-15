@@ -10,7 +10,7 @@ export const Container = styled.div`
   height: 100px;
   width: 100%;
   background-color: #f5c400;
-  z-index: 1;
+  z-index: 3;
   padding: 0 16px;
   box-sizing: border-box;
 

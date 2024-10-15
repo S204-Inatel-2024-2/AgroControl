@@ -1,4 +1,5 @@
 const { Funcionarios } = require('../db/models');
+const { emailnovoFuncionario } = require('../utils/servidorEmail')
 
 class FuncionarioService {
     async createFuncionario(req, res) {
@@ -8,6 +9,28 @@ class FuncionarioService {
             if (!nome || !cpf || !endereco || !email || !funcao || !salario || !dataNascimento) {
                 return res.status(400).json({ error: 'Os campos são obrigatórios.' });
             }
+
+            //Pesquisa pelo cpf e verifica se já é um cpf existente na base de dados
+            const cpfExistente = await Funcionarios.findOne({
+                where: { cpf: cpf }
+            })
+
+            if (cpfExistente) {
+                return res.status(400).json({ error: 'Este cpf pertence a outro usuário' })
+            }
+
+
+            //Pesquisa pelo email e verifica se já é umail cadastrado anteriormente
+            const emailExistente = await Funcionarios.findOne({
+                where: { email: email }
+            })
+
+            if (emailExistente) {
+                return res.status(400).json({ error: 'Este email pertence a outro usuário' })
+            }
+
+
+
             // Cadastra novo funcionario
             const funcionario = await Funcionarios.create({
                 nome,
@@ -19,6 +42,8 @@ class FuncionarioService {
                 dataNascimento
 
             });
+
+            await emailnovoFuncionario(funcionario)
             res.status(201).json({ funcionario, message: 'Funcionário cadastrado com sucesso!' });
         } catch (error) {
             res.status(500).json({ message: error.message });
