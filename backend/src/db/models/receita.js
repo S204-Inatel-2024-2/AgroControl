@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Receita extends Model {
@@ -11,21 +11,41 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // Definindo a associação com o modelo Categoria
       Receita.belongsTo(models.Categoria, {
-        foreignKey: 'idCategoria',
-        as: 'categoria', // Nome do alias para a associação
+        foreignKey: "idCategoria",
+        // as: "categoria", // Nome do alias para a associação
       });
     }
   }
 
-  Receita.init({
-    lucro: DataTypes.BOOLEAN,
-    valorReceita: DataTypes.FLOAT,
-    observacao: DataTypes.TEXT,
-    idCategoria: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'Receita',
-  });
+  Receita.init(
+    {
+      lucro: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
+      valorReceita: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      observacao: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      idCategoria: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Categoria",
+          key: "id",
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: "Receita",
+      tableName: "Receita",
+    }
+  );
 
   return Receita;
 };
