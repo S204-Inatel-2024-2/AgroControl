@@ -16,7 +16,7 @@ export function Employees(): JSX.Element {
 
   const columns = [
     { header: 'Nome do funcionário', accessor: 'nome', width: '100px' },
-    { header: 'CPF', accessor: 'cpf', width: '100px' },
+    { header: 'CPF', accessor: 'cpf', width: '100px'},
     { header: 'Função', accessor: 'funcao', width: '150px' },
     { header: 'Salário', accessor: 'salario', width: '50px' },
   ];
