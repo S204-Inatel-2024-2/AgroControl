@@ -24,12 +24,23 @@ export const config: AxiosRequestConfig = {
     return resp;
   },
 };
+
 export const authConfig: AxiosRequestConfig = {
   ...config,
   headers: {
     ...config.headers,
-    Authorization:
-      `Bearer ${localStorage.getItem("token")}`,
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 };
 
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.data && error.response.data.message === "Invalid token") {
+      window.location.href = "/";
+    }
+    return Promise.reject(error);
+  }
+);
