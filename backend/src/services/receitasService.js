@@ -17,7 +17,7 @@ class ReceitaService {
             });
 
             if (!isCategoria) {
-                return res.status(404).json({ error: 'Categoria não Encontrada.' });
+                return res.status(404).json({ error: 'Categoria não encontrada.' });
             }
 
             // Cadastra nova receita
