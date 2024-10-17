@@ -863,15 +863,15 @@
                         "type": "number",
                         "description": "Valor total gasto na execução do serviço"
                       },
-                      "updatedAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "Data da última atualização"
-                      },
                       "createdAt": {
                         "type": "string",
                         "format": "date-time",
                         "description": "Data de criação do registro"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data da última atualização"
                       }
                     }
                   }
@@ -936,15 +936,15 @@
                         "type": "number",
                         "description": "Valor total gasto na execução do serviço"
                       },
-                      "updatedAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "Data da última atualização"
-                      },
                       "createdAt": {
                         "type": "string",
                         "format": "date-time",
                         "description": "Data de criação do registro"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data da última atualização"
                       }
                     }
                   }
@@ -1062,15 +1062,15 @@
                       "type": "number",
                       "description": "Valor total gasto na execução do serviço"
                     },
-                    "updatedAt": {
-                      "type": "string",
-                      "format": "date-time",
-                      "description": "Data da última atualização"
-                    },
                     "createdAt": {
                       "type": "string",
                       "format": "date-time",
                       "description": "Data de criação do registro"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Data da última atualização"
                     }
                   }
                 }
@@ -1164,78 +1164,11 @@
         }
       }
     },
-    "/tiposservico": {
-      "get": {
-        "tags": ["TiposServico"],
-        "summary": "Retorna uma lista de todos os tipos de serviço",
-        "responses": {
-          "200": {
-            "description": "Lista de tipos de serviço",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "descricao": {
-                        "type": "string"
-                      },
-                      "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Erro interno do servidor"
-          }
-        }
-      }
-    },
-    "/tiposservico/{id}": {
-      "get": {
-        "tags": ["TiposServico"],
-        "summary": "Retorna um tipo de serviço específico pelo ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            },
-            "description": "ID do tipo de serviço"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Dados do tipo de serviço"
-          },
-          "404": {
-            "description": "Tipo de serviço não encontrado"
-          },
-          "500": {
-            "description": "Erro interno do servidor"
-          }
-        }
-      }
-    },
-    "/tiposservico": {
+    "/tiposervico": {
       "post": {
-        "tags": ["TiposServico"],
-        "summary": "Cria um novo tipo de serviço",
+        "tags": ["TipoServico"],
+        "summary": "Cadastra tipo de serviço",
+        "description": "Cadastra tipo de serviço",
         "requestBody": {
           "required": true,
           "content": {
@@ -1244,7 +1177,8 @@
                 "type": "object",
                 "properties": {
                   "descricao": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Descrição do tipo de serviço"
                   }
                 },
                 "required": ["descricao"]
@@ -1254,19 +1188,51 @@
         },
         "responses": {
           "201": {
-            "description": "Tipo de serviço criado com sucesso"
+            "description": "Tipo de serviço cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID do tipo de serviço cadastrado"
+                    },
+                    "descricao": {
+                      "type": "string",
+                      "description": "Descrição do tipo de serviço"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Descrição obrigatória ausente"
+            "description": "Descrição obrigatória ausente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que a descrição do tipo de serviço é obrigatória",
+                      "example": "Descrição é obrigatória."
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Erro interno do servidor"
+            "description": "Falha de requisição do servidor"
           }
         }
       },
       "get": {
-        "tags": ["TiposServico"],
+        "tags": ["TipoServico"],
         "summary": "Retorna uma lista de todos os tipos de serviço",
+        "description": "Retorna uma lista de todos os tipos de serviço",
         "responses": {
           "200": {
             "description": "Lista de tipos de serviço",
@@ -1278,18 +1244,12 @@
                     "type": "object",
                     "properties": {
                       "id": {
-                        "type": "integer"
+                        "type": "integer",
+                        "description": "ID do tipo de serviço cadastrado"
                       },
                       "descricao": {
-                        "type": "string"
-                      },
-                      "createdAt": {
                         "type": "string",
-                        "format": "date-time"
-                      },
-                      "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
+                        "description": "Descrição do tipo de serviço"
                       }
                     }
                   }
@@ -1298,15 +1258,16 @@
             }
           },
           "500": {
-            "description": "Erro interno do servidor"
+            "description": "Falha de requisição do servidor"
           }
         }
       }
     },
-    "/tiposservico/{id}": {
+    "/tiposervico/{id}": {
       "get": {
-        "tags": ["TiposServico"],
-        "summary": "Retorna um tipo de serviço específico pelo ID",
+        "tags": ["TipoServico"],
+        "summary": "Lista dados do tipo de serviço pelo ID",
+        "description": "Retorna dados de tipo de serviço pelo ID",
         "parameters": [
           {
             "name": "id",
@@ -1315,24 +1276,56 @@
             "schema": {
               "type": "integer"
             },
-            "description": "ID do tipo de serviço"
+            "description": "ID do tipo de serviço a ser procurado"
           }
         ],
         "responses": {
           "200": {
-            "description": "Dados do tipo de serviço"
+            "description": "Dados do tipo de serviço solicitado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID do tipo de serviço cadastrado"
+                    },
+                    "descricao": {
+                      "type": "string",
+                      "description": "Descrição do tipo de serviço"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Tipo de serviço não encontrado"
+            "description": "Tipo de serviço não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o tipo de serviço não foi encontrado",
+                      "example": "Tipo de serviço não encontrado."
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Erro interno do servidor"
+            "description": "Falha de requisição do servidor"
           }
         }
       },
       "put": {
-        "tags": ["TiposServico"],
-        "summary": "Atualiza um tipo de serviço existente pelo ID",
+        "tags": ["TipoServico"],
+        "summary": "Atualiza dados de tipo de serviço pelo ID",
+        "description": "Atualiza dados de tipo de serviço pelo ID",
         "parameters": [
           {
             "name": "id",
@@ -1341,7 +1334,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "ID do tipo de serviço"
+            "description": "ID do tipo de serviço a ser atualizado"
           }
         ],
         "requestBody": {
@@ -1352,7 +1345,8 @@
                 "type": "object",
                 "properties": {
                   "descricao": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Descrição do tipo de serviço"
                   }
                 },
                 "required": ["descricao"]
@@ -1362,19 +1356,50 @@
         },
         "responses": {
           "200": {
-            "description": "Tipo de serviço atualizado com sucesso"
+            "description": "Dados do tipo de serviço atualizados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID do tipo de serviço cadastrado"
+                    },
+                    "descricao": {
+                      "type": "string",
+                      "description": "Descrição do tipo de serviço"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Tipo de serviço não encontrado"
+            "description": "Tipo de serviço não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o tipo de serviço não foi encontrado",
+                      "example": "Tipo de serviço não encontrado."
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Erro interno do servidor"
+            "description": "Falha de requisição do servidor"
           }
         }
       },
       "delete": {
-        "tags": ["TiposServico"],
-        "summary": "Deleta um tipo de serviço específico pelo ID",
+        "tags": ["TipoServico"],
+        "summary": "Deleta um tipo de serviço pelo ID",
         "parameters": [
           {
             "name": "id",
@@ -1383,18 +1408,39 @@
             "schema": {
               "type": "integer"
             },
-            "description": "ID do tipo de serviço"
+            "description": "ID do tipo de serviço a ser deletado"
           }
         ],
         "responses": {
           "204": {
-            "description": "Tipo de serviço deletado com sucesso"
+            "description": "Dados do tipo de serviço deletado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Tipo de serviço não encontrado"
+            "description": "Tipo de serviço não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o tipo de serviço não foi encontrado",
+                      "example": "Tipo de serviço não encontrado."
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Erro interno do servidor"
+            "description": "Falha de requisição do servidor"
           }
         }
       }
@@ -1402,7 +1448,8 @@
     "/receitas": {
       "post": {
         "tags": ["Receitas"],
-        "summary": "Cria uma nova receita",
+        "summary": "Cadastra receita",
+        "description": "Cadastra receita",
         "requestBody": {
           "required": true,
           "content": {
@@ -1411,16 +1458,20 @@
                 "type": "object",
                 "properties": {
                   "lucro": {
-                    "type": "number"
+                    "type": "boolean",
+                    "description": "Lucro obtido com a receita"
                   },
                   "valorReceita": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Valor total da receita"
                   },
                   "observacao": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Observação sobre a receita"
                   },
                   "idCategoria": {
-                    "type": "integer"
+                    "type": "integer",
+                    "description": "ID da categoria à qual a receita pertence"
                   }
                 },
                 "required": [
@@ -1435,22 +1486,103 @@
         },
         "responses": {
           "201": {
-            "description": "Receita criada com sucesso"
+            "description": "Receita cadastrada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "receita": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "ID da receita cadastrada"
+                        },
+                        "lucro": {
+                          "type": "boolean",
+                          "description": "Indica se houve lucro na receita"
+                        },
+                        "valorReceita": {
+                          "type": "number",
+                          "description": "Valor total da receita"
+                        },
+                        "observacao": {
+                          "type": "string",
+                          "description": "Observação detalhando a receita"
+                        },
+                        "idCategoria": {
+                          "type": "integer",
+                          "description": "ID da categoria associada à receita"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data e hora da criação da receita"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data e hora da última atualização da receita"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de confirmação",
+                      "example": "Receita cadastrada com sucesso!"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Campos obrigatórios ausentes"
+            "description": "Campos obrigatórios ausentes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que os campos são obrigatórios",
+                      "example": "Os campos são obrigatórios."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Categoria não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que a categoria no qual a receita perence não foi encontrada",
+                      "example": "Categoria não encontrada."
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Erro ao criar receita"
+            "description": "Falha de requisição do servidor"
           }
         }
       },
       "get": {
         "tags": ["Receitas"],
-        "summary": "Lista todas as receitas",
+        "summary": "Retorna uma lista todas as receitas cadastradas",
+        "description": "Retorna uma lista todas as receitas cadastradas",
         "responses": {
           "200": {
-            "description": "Lista de receitas",
+            "description": "Lista de receitas cadastradas",
             "content": {
               "application/json": {
                 "schema": {
@@ -1459,19 +1591,34 @@
                     "type": "object",
                     "properties": {
                       "id": {
-                        "type": "integer"
+                        "type": "integer",
+                        "description": "ID da receita cadastrada"
                       },
                       "lucro": {
-                        "type": "number"
+                        "type": "boolean",
+                        "description": "Indica se houve lucro na receita"
                       },
                       "valorReceita": {
-                        "type": "number"
+                        "type": "number",
+                        "description": "Valor total da receita"
                       },
                       "observacao": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Observação detalhando a receita"
                       },
                       "idCategoria": {
-                        "type": "integer"
+                        "type": "integer",
+                        "description": "ID da categoria associada à receita"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data e hora da criação da receita"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data e hora da última atualização da receita"
                       }
                     }
                   }
@@ -1480,7 +1627,21 @@
             }
           },
           "500": {
-            "description": "Erro ao listar receitas"
+            "description": "Erro ao listar todas as receitas cadastradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando ao listar receitas cadastradas",
+                      "example": "Não foi possivel listar receitas!"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1488,7 +1649,8 @@
     "/receitas/{id}": {
       "get": {
         "tags": ["Receitas"],
-        "summary": "Recupera uma receita pelo ID",
+        "summary": "Lista dados da receita pelo ID",
+        "description": "Lista dados da receita pelo ID",
         "parameters": [
           {
             "name": "id",
@@ -1497,31 +1659,56 @@
             "schema": {
               "type": "integer"
             },
-            "description": "ID da receita"
+            "description": "ID da receita a ser procurada"
           }
         ],
         "responses": {
           "200": {
-            "description": "Receita encontrada",
+            "description": "Receita encontrada com sucesso",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
+                    "receita": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "ID da receita cadastrada"
+                        },
+                        "lucro": {
+                          "type": "boolean",
+                          "description": "Indica se houve lucro na receita"
+                        },
+                        "valorReceita": {
+                          "type": "number",
+                          "description": "Valor total da receita"
+                        },
+                        "observacao": {
+                          "type": "string",
+                          "description": "Observação detalhando a receita"
+                        },
+                        "idCategoria": {
+                          "type": "integer",
+                          "description": "ID da categoria associada à receita"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data e hora da criação da receita"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data e hora da última atualização da receita"
+                        }
+                      }
                     },
-                    "lucro": {
-                      "type": "number"
-                    },
-                    "valorReceita": {
-                      "type": "number"
-                    },
-                    "observacao": {
-                      "type": "string"
-                    },
-                    "idCategoria": {
-                      "type": "integer"
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de confirmação",
+                      "example": "Receita encontrada com sucesso!"
                     }
                   }
                 }
@@ -1529,16 +1716,31 @@
             }
           },
           "404": {
-            "description": "Receita não encontrada"
+            "description": "Receita não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que a receita não foi encontrada",
+                      "example": "Receita não encontrada."
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Erro ao buscar receita"
+            "description": "Falha de requisição do servidor"
           }
         }
       },
       "patch": {
         "tags": ["Receitas"],
-        "summary": "Atualiza uma receita pelo ID",
+        "summary": "Atualiza dados da receita pelo ID",
+        "description": "Atualizar dados da receita pelo ID",
         "parameters": [
           {
             "name": "id",
@@ -1547,7 +1749,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "ID da receita"
+            "description": "ID da receita a ser atualizada"
           }
         ],
         "requestBody": {
@@ -1558,16 +1760,20 @@
                 "type": "object",
                 "properties": {
                   "lucro": {
-                    "type": "number"
+                    "type": "boolean",
+                    "description": "Indica se houve lucro na receita"
                   },
                   "valorReceita": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "Valor total da receita"
                   },
                   "observacao": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Observação detalhando a receita"
                   },
                   "idCategoria": {
-                    "type": "integer"
+                    "type": "integer",
+                    "description": "ID da categoria associada à receita"
                   }
                 }
               }
@@ -1576,13 +1782,76 @@
         },
         "responses": {
           "200": {
-            "description": "Receita atualizada com sucesso"
+            "description": "Dados de receita atualizados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "receita": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "ID da receita cadastrada"
+                        },
+                        "lucro": {
+                          "type": "boolean",
+                          "description": "Indica se houve lucro na receita"
+                        },
+                        "valorReceita": {
+                          "type": "number",
+                          "description": "Valor total da receita"
+                        },
+                        "observacao": {
+                          "type": "string",
+                          "description": "Observação detalhando a receita"
+                        },
+                        "idCategoria": {
+                          "type": "integer",
+                          "description": "ID da categoria associada à receita"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data e hora da criação da receita"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data e hora da última atualização da receita"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de confirmação",
+                      "example": "Dados atualizados da receita id={id} com sucesso!"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Receita não encontrada"
+            "description": "Receita não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que a receita não foi encontrada",
+                      "example": "Receita não encontrada."
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Erro ao atualizar receita"
+            "description": "Falha de requisição do servidor"
           }
         }
       }
@@ -1590,10 +1859,11 @@
     "/categorias": {
       "get": {
         "tags": ["Categorias"],
-        "summary": "Lista todas as categorias de receitas",
+        "summary": "Retorna uma lista todas as categorias de receitas",
+        "description": "Retorna uma lista todas as categorias de receitas",
         "responses": {
           "200": {
-            "description": "Lista de categorias",
+            "description": "Lista de categorias de receitas",
             "content": {
               "application/json": {
                 "schema": {
@@ -1602,13 +1872,26 @@
                     "type": "object",
                     "properties": {
                       "id": {
-                        "type": "integer"
+                        "type": "integer",
+                        "description": "ID da categoria de receita"
                       },
                       "nome": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Nome da categoria de receita"
                       },
                       "descricao": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Descrição da categoria de receita"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data de criação da categoria"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data da última atualização"
                       }
                     }
                   }
