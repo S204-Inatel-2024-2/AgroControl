@@ -29,7 +29,7 @@ const formatCurrency = (value: number | string) => {
 interface Services {
   idServico: number;
   status: string;
-  dataAtividade: Date;
+  dataAtividade: string;
   tipoServico: string;
   responsavel: string;
   valorGasto: number;
@@ -58,6 +58,7 @@ export function ServicesList(): JSX.Element {
 
   const formattedServices = listServices.map(service => ({
   ...service,
+  dataAtividade: service.dataAtividade.substring(0,10),
   valorGasto: formatCurrency(service.valorGasto), // Formatar o valor em BRL
 
   }));
@@ -112,7 +113,7 @@ export function ServicesList(): JSX.Element {
             <BiExport />
             Exportar
           </Styled.Text>
-          <Styled.Button onClick={() => { }}>Cadastrar</Styled.Button>
+          <Styled.Button onClick={() => { navigate("/registrarservico")}}>Cadastrar</Styled.Button>
         </Styled.ButtonDiv>
       </Styled.TitleDiv>
       <Styled.Content>

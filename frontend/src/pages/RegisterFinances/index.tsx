@@ -25,6 +25,7 @@ import {
 } from "../../service";
 import { serviceSchema } from "../../validations/ServiceValidation";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export function RegisterFinances(): JSX.Element {
   const [responsavelServico, setResponsavelServico] = useState("");
@@ -84,6 +85,9 @@ export function RegisterFinances(): JSX.Element {
     getAllTiposServico();
     getAllFuncionarios();
   }, []);
+  
+  const navigate = useNavigate();
+
 
   return (
     <>
@@ -91,9 +95,9 @@ export function RegisterFinances(): JSX.Element {
         <Header />
         <Body>
           <SubTitle>
-            <h2>Relatório Financeiro</h2>
+            <h2>Cadastro de Serviço</h2>
             <div>
-              <Button>Voltar</Button>
+              <Button  onClick={() => {navigate(-1)}}>Voltar</Button>
               <Button type="submit" form="meuForm">
                 Salvar informações
               </Button>

@@ -70,7 +70,7 @@ export const Button = styled.button`
   font-weight: 700;
   color: #333333;
   border: none;
-  border-radius: 8px;
+  border-radius: 20px;
   font-size: 14px;
   cursor: pointer;
   background-color: ${({ theme }) => theme.colors.backgroundButton};

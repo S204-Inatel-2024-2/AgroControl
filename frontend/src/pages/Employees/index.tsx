@@ -8,6 +8,7 @@ import 'jspdf-autotable';
 import { BiExport } from "react-icons/bi";
 import { listAllFuncionarios } from '../../service';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export function Employees(): JSX.Element {
   const [listEmployees, setListEmployees] = useState<any[]>([]);
@@ -70,6 +71,8 @@ export function Employees(): JSX.Element {
     doc.save('table.pdf');
   };
 
+  const navigate = useNavigate()
+
   return (
     <>
       <Styled.Container>
@@ -83,7 +86,7 @@ export function Employees(): JSX.Element {
                 <BiExport />
                 Exportar
               </Styled.Text>
-              <Styled.Button>
+              <Styled.Button onClick={()=> {navigate("/employeeregistration")}}>
                 Cadastrar
               </Styled.Button>
             </Styled.DivButtonn>
