@@ -25,3 +25,12 @@ export const createReceita = async (receita: any) => {
         return { status: 500 }; // Retorna status 500 em caso de erro
     }
 }
+
+export const listAllReceitas = async () => {
+    const localConfig = {
+        ...authConfig,
+        url: "receitas",
+        method: "get"
+    }
+    return axios.request<any>(localConfig);
+}

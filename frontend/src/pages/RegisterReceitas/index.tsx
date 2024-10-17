@@ -18,6 +18,7 @@ import { Header } from "../../components/Header";
 import { listAllCategoriasReceita, createReceita } from '../../service/receita/receitaService'
 import { toast } from "react-toastify";
 import { receitaSchema } from "../../validations/ReceitaValidation"
+import { useNavigate } from "react-router-dom";
 
 
 export function RegisterReceitas(): JSX.Element {
@@ -60,6 +61,7 @@ export function RegisterReceitas(): JSX.Element {
         getAllCategorias();
     }, []);
 
+    const navigate = useNavigate()
     return (
         <>
             <Container>
@@ -68,7 +70,7 @@ export function RegisterReceitas(): JSX.Element {
                     <SubTitle>
                         <h2>Nova receita</h2>
                         <div>
-                            <Button>Voltar</Button>
+                            <Button onClick={()=>{navigate(-1)}}>Voltar</Button>
                             <Button type="submit" form="meuForm">
                                 Salvar informações
                             </Button>
