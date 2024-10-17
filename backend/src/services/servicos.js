@@ -15,7 +15,7 @@ class ServicosService {
           },
         ],
       });
-
+      //console.log(servicos);
       const formattedServicos = servicos.map((servico) => ({
         IdServico: servico.IdServico,
         status: servico.status,
@@ -28,7 +28,7 @@ class ServicosService {
         createdAt: servico.createdAt,
         updatedAt: servico.updatedAt,
       }));
-
+      console.log(formattedServicos);
       res.status(200).json(formattedServicos);
     } catch (error) {
       res.status(500).json({ error: error.message });
