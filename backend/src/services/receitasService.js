@@ -66,11 +66,11 @@ class ReceitaService {
         lucro: receitas.lucro,
         valorReceita: receitas.valorReceita,
         observacao: receitas.observacao,
-        categoria: receitas.Categoria ? receitas.idCategoria.descricao : null,
+        categoria: receitas.Categoria ? receitas.Categoria.descricao : null,
         createdAt: receitas.createdAt,
         updatedAt: receitas.updatedAt,
       }));
-
+      //   console.log(formattedReceita);
       res.status(200).json(formattedReceita);
     } catch (error) {
       console.log(error);
