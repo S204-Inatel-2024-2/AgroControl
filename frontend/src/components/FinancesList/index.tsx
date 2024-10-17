@@ -96,7 +96,7 @@ export function FinancesList(): JSX.Element {
       head: [tableColumn],
       body: tableRows,
     });
-    doc.save('table_services.pdf');
+    doc.save('table_finances.pdf');
   };
 
   const navigate = useNavigate();
