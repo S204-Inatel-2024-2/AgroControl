@@ -29,8 +29,6 @@ class FuncionarioService {
                 return res.status(400).json({ error: 'Este email pertence a outro usuário' })
             }
 
-
-
             // Cadastra novo funcionario
             const funcionario = await Funcionarios.create({
                 nome,
@@ -40,7 +38,6 @@ class FuncionarioService {
                 funcao,
                 salario,
                 dataNascimento
-
             });
 
             await emailnovoFuncionario(funcionario)
