@@ -23,6 +23,13 @@ class funcionarioController {
             return res.status(400).json({ error: error });
         }
     }
+    static async getServicosByFuncionario(req, res) { 
+        try {
+            await funcionarioService.getServicosByFuncionario(req, res);
+        } catch (error) {
+            return res.status(400).json({ error: error });
+        }
+    }
     static async updateFuncionario(req, res) {
         try {
             await funcionarioService.updateFuncionario(req, res);
