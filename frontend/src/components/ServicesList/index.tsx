@@ -1,30 +1,34 @@
+import * as Styled from "./styles";
+import { useNavigate } from "react-router-dom";
+import Table from "../../components/Table";
+import jsPDF from "jspdf";
+import { BiExport } from "react-icons/bi";
+import { useEffect, useState } from "react";
 
-import * as Styled from './styles';
-import { useNavigate } from 'react-router-dom';
-import Table from '../../components/Table';
-import jsPDF from 'jspdf';
-import { BiExport } from 'react-icons/bi';
-import { useEffect, useState } from 'react';
+import Pagination from "../Pagination";
+import { listAllServices } from "../../service/servicos/servicos";
 
-import Pagination from '../Pagination';
-import { listAllServices } from '../../service/servicos/servicos';
-
-const columns: {header: string; accessor: keyof Services; width: string }[] = [
-  { header: 'Data', accessor: 'dataAtividade', width: '100px' },
-  { header: 'Serviço', accessor: 'tipoServico', width: '100px' },
-  { header: 'Responsável pelo Serviço', accessor: 'responsavel', width: '150px' },
-  { header: 'Valor do serviço', accessor: 'valorGasto', width: '50px' },
-  { header: 'Status', accessor: 'status', width: '50px' },
-]
+const columns: { header: string; accessor: keyof Services; width: string }[] = [
+  { header: "Data", accessor: "dataAtividade", width: "100px" },
+  { header: "Serviço", accessor: "tipoServico", width: "100px" },
+  {
+    header: "Responsável pelo Serviço",
+    accessor: "responsavel",
+    width: "150px",
+  },
+  { header: "Valor do serviço", accessor: "valorGasto", width: "50px" },
+  { header: "Status", accessor: "status", width: "50px" },
+];
 const formatCurrency = (value: number | string) => {
-  try{
-    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-  }catch(error){
-    return null
+  try {
+    return value.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  } catch (error) {
+    return null;
   }
-  
-}
-
+};
 
 interface Services {
   idServico: number;
@@ -37,40 +41,36 @@ interface Services {
   updatedAt: number;
 }
 
-
-
 export function ServicesList(): JSX.Element {
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState("");
   const [listServices, setListServices] = useState<Services[]>([]);
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  useEffect(()=> {
+  useEffect(() => {
     listAllServices()
-      .then((resp)=> {
-        setListServices(resp.data)
+      .then((resp) => {
+        setListServices(resp.data);
       })
-      .catch((error)=> {
-        console.error(error)
-      })
-  }, [])
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
-  const formattedServices = listServices.map(service => ({
-  ...service,
-  dataAtividade: service.dataAtividade.substring(0,10),
-  valorGasto: formatCurrency(service.valorGasto), // Formatar o valor em BRL
-
+  const formattedServices = listServices.map((service) => ({
+    ...service,
+    dataAtividade: service.dataAtividade.substring(0, 10),
+    valorGasto: formatCurrency(service.valorGasto), // Formatar o valor em BRL
   }));
 
-
   useEffect(() => {
-    setCurrentPage(1)
+    setCurrentPage(1);
   }, [searchTerm]);
 
-    const filteredData = formattedServices.filter(service => {
-    const name = service.responsavel?.toLowerCase() || '';
-    const tipo = service.tipoServico?.toLowerCase() || '';
+  const filteredData = formattedServices.filter((service) => {
+    const name = service.responsavel?.toLowerCase() || "";
+    const tipo = service.tipoServico?.toLowerCase() || "";
     const search = searchTerm.toLowerCase();
     return name.includes(search) || tipo.includes(search);
   });
@@ -79,31 +79,29 @@ export function ServicesList(): JSX.Element {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = filteredData.slice(startIndex, startIndex + itemsPerPage);
 
-
   const exportPDF = () => {
     const doc = new jsPDF();
 
-    const tableColumn = columns.map(col => col.header);
-    const tableRows: (string | number | Date | null )[][] = formattedServices.map(service => [
-      service.dataAtividade,
-      service.tipoServico,
-      service.responsavel,
-      service.valorGasto,
-      service.status,
-    ]);
-
+    const tableColumn = columns.map((col) => col.header);
+    const tableRows: (string | number | Date | null)[][] =
+      formattedServices.map((service) => [
+        service.dataAtividade,
+        service.tipoServico,
+        service.responsavel,
+        service.valorGasto,
+        service.status,
+      ]);
 
     (doc as any).autoTable({
       head: [tableColumn],
       body: tableRows,
     });
-    doc.save('table_services.pdf');
+    doc.save("table_services.pdf");
   };
 
   const navigate = useNavigate();
 
   return (
-
     <Styled.Container>
       <Styled.TitleDiv>
         <Styled.Title>Gerenciamento de Serviços</Styled.Title>
@@ -113,29 +111,30 @@ export function ServicesList(): JSX.Element {
             <BiExport />
             Exportar
           </Styled.Text>
-          <Styled.Button onClick={() => { navigate("/registrarservico")}}>Cadastrar</Styled.Button>
+          <Styled.Button
+            onClick={() => {
+              navigate("/registrarservico");
+            }}
+          >
+            Cadastrar
+          </Styled.Button>
         </Styled.ButtonDiv>
       </Styled.TitleDiv>
       <Styled.Content>
-
-
         <Styled.Input
           type="text"
           placeholder="Buscar pelo nome do funcionário ou pelo serviço"
           value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Table columns={columns} data={currentData}/>
+        <Table columns={columns} data={currentData} />
         <Pagination
-            totalItems={totalItems}
-            itemsPerPage={itemsPerPage}
-            currentPage={currentPage}
-            onPageChange={setCurrentPage}
-          />
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
       </Styled.Content>
-      
-
     </Styled.Container>
-
-  )
+  );
 }

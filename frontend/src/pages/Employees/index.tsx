@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import * as Styled from './styled';
-import { Header } from '../../components/Header';
-import Table from '../../components/Table';
-import Pagination from '../../components/Pagination';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useEffect, useState } from "react";
+import * as Styled from "./styled";
+import { Header } from "../../components/Header";
+import Table from "../../components/Table";
+import Pagination from "../../components/Pagination";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import { BiExport } from "react-icons/bi";
 import { listAllFuncionarios } from '../../service';
 import { useNavigate } from 'react-router-dom';
@@ -19,10 +20,10 @@ export function Employees(): JSX.Element {
   const [loading, setLoading] = useState(true);
 
   const columns = [
-    { header: 'Nome do funcionário', accessor: 'nome', width: '100px' },
-    { header: 'CPF', accessor: 'cpf', width: '100px' },
-    { header: 'Função', accessor: 'funcao', width: '150px' },
-    { header: 'Salário', accessor: 'salario', width: '50px' },
+    { header: "Nome do funcionário", accessor: "nome", width: "100px" },
+    { header: "CPF", accessor: "cpf", width: "100px" },
+    { header: "Função", accessor: "funcao", width: "150px" },
+    { header: "Salário", accessor: "salario", width: "50px" },
   ];
 
   useEffect(() => {
@@ -40,16 +41,15 @@ export function Employees(): JSX.Element {
 
   }, []);
 
-  const [searchTerm, setSearchTerm] = useState('');
-
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    setCurrentPage(1)
+    setCurrentPage(1);
   }, [searchTerm]);
 
-  const filteredData = listEmployees.filter(user => {
-    const name = user.nome?.toLowerCase() || '';
-    const service = user.funcao?.toLowerCase() || '';
+  const filteredData = listEmployees.filter((user) => {
+    const name = user.nome?.toLowerCase() || "";
+    const service = user.funcao?.toLowerCase() || "";
     const search = searchTerm.toLowerCase();
     return name.includes(search) || service.includes(search);
   });
@@ -58,12 +58,11 @@ export function Employees(): JSX.Element {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = filteredData.slice(startIndex, startIndex + itemsPerPage);
 
-
   const exportPDF = () => {
     const doc = new jsPDF();
 
-    const tableColumn = columns.map(col => col.header);
-    const tableRows: (string | number)[][] = listEmployees.map(user => [
+    const tableColumn = columns.map((col) => col.header);
+    const tableRows: (string | number)[][] = listEmployees.map((user) => [
       user.nome,
       user.cpf,
       user.funcao,
@@ -74,7 +73,7 @@ export function Employees(): JSX.Element {
       head: [tableColumn],
       body: tableRows,
     });
-    doc.save('table.pdf');
+    doc.save("table.pdf");
   };
 
   const handleClick = (objeto: any) => {
@@ -97,7 +96,7 @@ export function Employees(): JSX.Element {
               <Styled.Button onClick={() => navigate('/employeeregistration')}>
                 Cadastrar
               </Styled.Button>
-            </Styled.DivButtonn>
+            </Styled.DivButtonn >
 
           </Styled.DivHeader >
 
@@ -105,7 +104,7 @@ export function Employees(): JSX.Element {
             type="text"
             placeholder="Buscar pelo nome do funcionário ou pela função"
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <Styled.DivTable>
             {loading ? (
