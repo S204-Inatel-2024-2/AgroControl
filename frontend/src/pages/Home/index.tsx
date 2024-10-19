@@ -32,7 +32,7 @@ export function Home(): JSX.Element {
               Dashboard Financeiro
               <Styled.IconWrapper><MdAnalytics /></Styled.IconWrapper>
             </Styled.Divbutton>
-            <Styled.Divbutton>
+            <Styled.Divbutton onClick={() => navigate('/finances')}>
               Controle Financeiro
               <Styled.IconWrapper><FaMoneyBillWave /></Styled.IconWrapper>
             </Styled.Divbutton>
