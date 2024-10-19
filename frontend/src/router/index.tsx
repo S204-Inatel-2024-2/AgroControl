@@ -6,9 +6,10 @@ import { EmployeeRegistration } from "../pages/EmployeeRegistration";
 import { RegisterFinances } from "../pages/RegisterFinances";
 import { EmployeeDetails } from "../pages/EmployeeDetails";
 import { ServiceDetails } from "../pages/ServiceDetails";
-import { RegisterReceitas } from "../pages/RegisterReceitas";
 import { Employees } from "../pages/Employees";
 import { Services } from "../pages/Services";
+import { RegisterReceitas } from "../pages/RegisterReceitas";
+import { Finances } from "../pages/Finances";
 
 const AppRoutes = () => {
   return (
@@ -22,12 +23,12 @@ const AppRoutes = () => {
             path="employeeregistration"
             element={<EmployeeRegistration />}
           />
-          <Route path="registerfinances" element={<RegisterFinances />} />
-          <Route path="registerReceitas" element={<RegisterReceitas />} />
+          <Route path="registrarservico" element={<RegisterFinances />} />
           <Route path="employeedetails/:id" element={<EmployeeDetails />} />
           <Route path="RegistrarReceitas" element={<RegisterReceitas />} />
           <Route path="servicedetails/:id" element={<ServiceDetails />} />
           <Route path="services" element={<Services />} />
+          <Route path="finances" element={<Finances />} />
         </Route>
       </Routes>
     </BrowserRouter>
