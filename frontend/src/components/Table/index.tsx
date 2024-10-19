@@ -30,7 +30,6 @@ const Table = <T,>({ columns, data, handleClick }: TableProps<T>) => {
       </thead>
       <tbody>
         {data.map((row, rowIndex) => (
-          console.log(row),
           <Styled.Tr key={rowIndex} onClick={() => handleClick && handleClick(row)}>
             {columns.map((column, colIndex) => (
               <Styled.Td

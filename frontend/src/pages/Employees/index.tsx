@@ -8,14 +8,14 @@ import 'jspdf-autotable';
 import { BiExport } from "react-icons/bi";
 import { listAllFuncionarios } from '../../service';
 import { useNavigate } from 'react-router-dom';
+import { Loader } from '../../components/Loader';
 
 export function Employees(): JSX.Element {
   const navigate = useNavigate();
   const [listEmployees, setListEmployees] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
-
-  console.log(listEmployees)
+  const [loading, setLoading] = useState(true);
 
   const columns = [
     { header: 'Nome do funcionário', accessor: 'nome', width: '100px' },
@@ -28,12 +28,15 @@ export function Employees(): JSX.Element {
     listAllFuncionarios()
       .then((resp) => {
         setListEmployees(resp.data);
+        setLoading(false)
       })
       .catch((error) => {
         console.error(error);
         //if (error.response.data.message) navigator('')
         console.log(error.response.data.message)
+        setLoading(false)
       });
+
   }, []);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -104,7 +107,12 @@ export function Employees(): JSX.Element {
             onChange={e => setSearchTerm(e.target.value)}
           />
           <Styled.DivTable>
-            <Table columns={columns} data={currentData} handleClick={handleClick} />
+            {loading ? (
+              <Loader />
+            ) : (
+              <Table columns={columns} data={currentData} handleClick={handleClick} />
+            )}
+
           </Styled.DivTable>
           <Pagination
             totalItems={totalItems}

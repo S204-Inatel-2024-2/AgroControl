@@ -31,6 +31,7 @@ export const DivButtonn = styled.div`
 
 export const DivTable = styled.div`
   height: 70%;
+  display: flex;
 `;
 
 export const Title = styled.div`
