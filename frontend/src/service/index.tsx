@@ -36,8 +36,7 @@ export const authConfig: AxiosRequestConfig = {
   ...config,
   headers: {
     ...config.headers,
-    Authorization:
-      `Bearer ${localStorage.getItem("token")}`,
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 };
 
@@ -130,5 +129,23 @@ export const getTipoServicoById = async (id: number) => {
     method: "get",
   };
 
+  return axios.request<any>(localConfig);
+};
+
+export const updateServico = async (idServico: number, data: any) => {
+  const localConfig = {
+    ...authConfig,
+    url: `/servicos/${idServico}`,
+    method: "put",
+    data,
+  };
+  return axios.request<any>(localConfig);
+};
+
+export const getServicosByFuncionario = async (funcionarioId: number) => {
+  const localConfig = {
+    ...authConfig,
+    url: `/funcionarios/${funcionarioId}/servicos`,
+  };
   return axios.request<any>(localConfig);
 };
