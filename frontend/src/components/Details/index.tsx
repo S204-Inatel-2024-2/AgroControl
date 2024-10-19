@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getFuncionarioById, deleteFuncionario } from '../../service';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import * as Styled from './styles';
 
 interface Funcionario {
@@ -34,7 +34,7 @@ export function EmployeeDetails(): JSX.Element {
     const fetchData = async () => {
       try {
         const response = await getFuncionarioById(Number(id));
-        setFuncionario(response.data.funcionario); 
+        setFuncionario(response.data.funcionario);
       } catch (error) {
         setError('Erro ao carregar os detalhes do funcionário.');
       } finally {
@@ -48,9 +48,9 @@ export function EmployeeDetails(): JSX.Element {
     const confirmDelete = window.confirm("Tem certeza que deseja excluir o funcionário?");
     if (confirmDelete && id) {
       try {
-        await deleteFuncionario(Number(id)); 
+        await deleteFuncionario(Number(id));
         alert('Funcionário excluído com sucesso!');
-        navigate('/home'); 
+        navigate('/employees');
       } catch (error) {
         alert('Erro ao excluir o funcionário.');
       }
@@ -69,10 +69,10 @@ export function EmployeeDetails(): JSX.Element {
     return <Styled.Error>Funcionário não encontrado.</Styled.Error>
   }
 
- const formattedDate = funcionario.dataNascimento ? new Date(funcionario.dataNascimento).toLocaleDateString() : 'Data inválida';
+  const formattedDate = funcionario.dataNascimento ? new Date(funcionario.dataNascimento).toLocaleDateString() : 'Data inválida';
 
   return (
-    <Styled.Container>   
+    <Styled.Container>
       <Styled.TitleDiv>
         <Styled.LeftButtons>
           <Styled.Button onClick={() => navigate('/employeeregistration')}>Editar informações</Styled.Button>
@@ -80,7 +80,7 @@ export function EmployeeDetails(): JSX.Element {
         </Styled.LeftButtons>
 
         <Styled.RightButton>
-          <Styled.Button onClick={() => navigate('/home')}>Voltar</Styled.Button>
+          <Styled.Button onClick={() => navigate('/employees')}>Voltar</Styled.Button>
         </Styled.RightButton>
       </Styled.TitleDiv>
 

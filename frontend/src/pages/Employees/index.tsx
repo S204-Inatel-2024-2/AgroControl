@@ -7,12 +7,15 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { BiExport } from "react-icons/bi";
 import { listAllFuncionarios } from '../../service';
-import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export function Employees(): JSX.Element {
+  const navigate = useNavigate();
   const [listEmployees, setListEmployees] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
+
+  console.log(listEmployees)
 
   const columns = [
     { header: 'Nome do funcionário', accessor: 'nome', width: '100px' },
@@ -70,6 +73,10 @@ export function Employees(): JSX.Element {
     doc.save('table.pdf');
   };
 
+  const handleClick = (objeto: any) => {
+    navigate(`/employeedetails/${objeto.id}`);
+  };
+
   return (
     <>
       <Styled.Container>
@@ -83,7 +90,7 @@ export function Employees(): JSX.Element {
                 <BiExport />
                 Exportar
               </Styled.Text>
-              <Styled.Button>
+              <Styled.Button onClick={() => navigate('/employeeregistration')}>
                 Cadastrar
               </Styled.Button>
             </Styled.DivButtonn>
@@ -97,7 +104,7 @@ export function Employees(): JSX.Element {
             onChange={e => setSearchTerm(e.target.value)}
           />
           <Styled.DivTable>
-            <Table columns={columns} data={currentData} />
+            <Table columns={columns} data={currentData} handleClick={handleClick} />
           </Styled.DivTable>
           <Pagination
             totalItems={totalItems}

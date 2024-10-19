@@ -30,7 +30,7 @@ export const DivButtonn = styled.div`
 `;
 
 export const DivTable = styled.div`
-  height: 540px;
+  height: 70%;
 `;
 
 export const Title = styled.div`
