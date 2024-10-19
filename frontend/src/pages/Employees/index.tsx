@@ -9,6 +9,7 @@ import { BiExport } from "react-icons/bi";
 import { listAllFuncionarios } from '../../service';
 import { useNavigate } from 'react-router-dom';
 import { Loader } from '../../components/Loader';
+import { toast } from 'react-toastify';
 
 export function Employees(): JSX.Element {
   const navigate = useNavigate();
@@ -98,7 +99,7 @@ export function Employees(): JSX.Element {
               </Styled.Button>
             </Styled.DivButtonn>
 
-          </Styled.DivHeader>
+          </Styled.DivHeader >
 
           <Styled.Input
             type="text"
@@ -120,8 +121,8 @@ export function Employees(): JSX.Element {
             currentPage={currentPage}
             onPageChange={setCurrentPage}
           />
-        </Styled.Content>
-      </Styled.Container>
+        </Styled.Content >
+      </Styled.Container >
     </>
   );
 }

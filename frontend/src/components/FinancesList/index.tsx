@@ -7,15 +7,15 @@ import { BiExport } from 'react-icons/bi';
 import { useEffect, useState } from 'react';
 
 import Pagination from '../Pagination';
-import { listAllServices } from '../../service/servicos/servicos';
+import { listAllReceitas } from '../../service/receita/receitaService';
 
-const columns: {header: string; accessor: keyof Services; width: string }[] = [
-  { header: 'Data', accessor: 'dataAtividade', width: '100px' },
-  { header: 'Serviço', accessor: 'tipoServico', width: '100px' },
-  { header: 'Responsável pelo Serviço', accessor: 'responsavel', width: '150px' },
-  { header: 'Valor do serviço', accessor: 'valorGasto', width: '50px' },
-  { header: 'Status', accessor: 'status', width: '50px' },
+const columns: {header: string; accessor: keyof Receitas; width: string }[] = [
+  { header: 'Data', accessor: 'createdAt', width: '100px' },
+  { header: 'Descrição', accessor: 'observacao', width: '200px' },
+  { header: 'Categoria', accessor: 'categoria', width: '100px' },
+  { header: 'Valor', accessor: 'valorReceita', width: '50px' },
 ]
+
 const formatCurrency = (value: number | string) => {
   try{
     return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -26,40 +26,40 @@ const formatCurrency = (value: number | string) => {
 }
 
 
-interface Services {
-  idServico: number;
-  status: string;
-  dataAtividade: string;
-  tipoServico: string;
-  responsavel: string;
-  valorGasto: number;
-  createdAt: number;
-  updatedAt: number;
+
+interface Receitas {
+  idReceita: number;
+  lucro: boolean;
+  valorReceita: number;
+  observacao: string;
+  categoria: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 
 
-export function ServicesList(): JSX.Element {
+export function FinancesList(): JSX.Element {
   const [searchTerm, setSearchTerm] = useState("")
-  const [listServices, setListServices] = useState<Services[]>([]);
+  const [listReceitas, setListReceitas] = useState<Receitas[]>([]);
   
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
   useEffect(()=> {
-    listAllServices()
+    listAllReceitas()
       .then((resp)=> {
-        setListServices(resp.data)
+        setListReceitas(resp.data)
       })
       .catch((error)=> {
         console.error(error)
       })
   }, [])
 
-  const formattedServices = listServices.map(service => ({
-  ...service,
-  dataAtividade: service.dataAtividade.substring(0,10),
-  valorGasto: formatCurrency(service.valorGasto), // Formatar o valor em BRL
+  const formattedReceitas = listReceitas.map(receita => ({
+  ...receita,
+  createdAt: receita.createdAt.substring(0, 10),
+  valorReceita: formatCurrency(receita.valorReceita), // Formatar o valor em BRL
 
   }));
 
@@ -68,11 +68,11 @@ export function ServicesList(): JSX.Element {
     setCurrentPage(1)
   }, [searchTerm]);
 
-    const filteredData = formattedServices.filter(service => {
-    const name = service.responsavel?.toLowerCase() || '';
-    const tipo = service.tipoServico?.toLowerCase() || '';
+    const filteredData = formattedReceitas.reverse().filter(receita => {
+    const categoria = receita.categoria?.toLowerCase() || '';
+    const observacao = receita.observacao?.toLowerCase() || '';
     const search = searchTerm.toLowerCase();
-    return name.includes(search) || tipo.includes(search);
+    return categoria.includes(search) || observacao.includes(search);
   });
 
   const totalItems = filteredData.length;
@@ -84,12 +84,11 @@ export function ServicesList(): JSX.Element {
     const doc = new jsPDF();
 
     const tableColumn = columns.map(col => col.header);
-    const tableRows: (string | number | Date | null )[][] = formattedServices.map(service => [
-      service.dataAtividade,
-      service.tipoServico,
-      service.responsavel,
-      service.valorGasto,
-      service.status,
+    const tableRows: (string | number | Date | null )[][] = formattedReceitas.reverse().map(receita => [
+      receita.createdAt,
+      receita.observacao,
+      receita.categoria,
+      receita.valorReceita,
     ]);
 
 
@@ -97,7 +96,7 @@ export function ServicesList(): JSX.Element {
       head: [tableColumn],
       body: tableRows,
     });
-    doc.save('table_services.pdf');
+    doc.save('table_finances.pdf');
   };
 
   const navigate = useNavigate();
@@ -106,14 +105,14 @@ export function ServicesList(): JSX.Element {
 
     <Styled.Container>
       <Styled.TitleDiv>
-        <Styled.Title>Gerenciamento de Serviços</Styled.Title>
+        <Styled.Title>Controle de Receitas</Styled.Title>
 
         <Styled.ButtonDiv>
           <Styled.Text onClick={exportPDF}>
             <BiExport />
             Exportar
           </Styled.Text>
-          <Styled.Button onClick={() => { navigate("/registrarservico")}}>Cadastrar</Styled.Button>
+          <Styled.Button onClick={() => {navigate('/RegistrarReceitas')}}>Cadastrar</Styled.Button>
         </Styled.ButtonDiv>
       </Styled.TitleDiv>
       <Styled.Content>
@@ -121,7 +120,7 @@ export function ServicesList(): JSX.Element {
 
         <Styled.Input
           type="text"
-          placeholder="Buscar pelo nome do funcionário ou pelo serviço"
+          placeholder="Buscar pela descrição ou pela categoria"
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
         />
