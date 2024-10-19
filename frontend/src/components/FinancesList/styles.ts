@@ -1,28 +1,25 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    padding-left: 3vw;
-    padding-right: 3vw;
-    //background-color: #f5c400;
+  padding-top: 18vh;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 `;
 
-export const Form = styled.form`
-  
-`
 export const Title = styled.text`
     font-size: 20px;
     font-weight: bolder;
     color: #de8400;
-    //position: absolute;
+  
     
 `
 
 export const InputDiv = styled.div`
   padding-top: 5px;
-  display: flex;
-  flex-direction: column;
-  width: 66vw;
-  overflow: hidden;
+  width: 70%;
   
 `
 export const Label = styled.label`
@@ -40,16 +37,15 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
-  margin-left: auto;
+  width: auto;
   height: 30px;
-  width: 800px;
   padding: 8px;
   border: 1px solid ${({ theme }) => theme.colors.placeholderInput};
   border-radius: 8px;
   font-size: 14px;
   color: ${({ theme }) => theme.colors.text};
   background-color: ${({ theme }) => theme.colors.backgroundInput};
-  
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.placeholderInput};
     opacity: 1;
@@ -57,16 +53,18 @@ export const Input = styled.input`
 `;
 
 export const TitleDiv = styled.div`
+  padding-left: 2vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 3%;
 
 `
 
 export const Button = styled.button`
   width: auto;
-  height: 40px;
-  padding: 8px 16px;
+  height: 30px;
+  padding: 8px 50px;
   font-weight: 700;
   color: #333333;
   border: none;
@@ -84,6 +82,8 @@ export const Button = styled.button`
 export const ButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 60px;
+  align-items: center;
 `
 
 export const Error = styled.text`
@@ -113,17 +113,27 @@ export const ObservacaoInput = styled.textarea`
 `
 export const RowDiv = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  /* gap:;  */
-  width: 66vw; 
+  gap: 20px; 
+  width: 100%; 
   padding-top: 10px; 
 `
-
-export const InputWrapper = styled.div`
+export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  width: 48%;
-  
-`
+  padding: 0px 20px 0px 20px;
+  gap: 20px;
+`;
+export const Text = styled.div`
+  color: #000000;
+  font-size: 15px;
+  font-weight: 550;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  svg{
+    font-size: 17px;
+  }
+`;
 
