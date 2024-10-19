@@ -15,6 +15,7 @@ import {
   ModalButton,
   StyledModal,
 } from "../Modal/styles";
+import axios from "axios";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -43,52 +44,84 @@ export function ConfirmationModal({
   const handleDelete = async () => {
     console.log("ID do Funcionário:", funcionarioId);
     try {
-      const response = await getServicosByFuncionario(funcionarioId);
-      const servicos = response.data;
-      console.log("Serviços recebidos:", servicos);
+      // Obtém os serviços vinculados ao funcionário
+      const servicos = await fetchServicos(funcionarioId);
 
-      if (Array.isArray(servicos) && servicos.length > 0) {
-        if (novoResponsavelId === null) {
-          alert("Por favor, selecione um novo responsável.");
-          return;
-        }
+      // Verifica se um novo responsável foi selecionado
+      validateNovoResponsavel();
 
-        console.log("Responsavel Novo:", novoResponsavelId);
+      // Se houver serviços, atualiza para o novo responsável
+      if (servicos.length > 0) {
+        await transferirServicos(servicos, novoResponsavelId);
+      }
 
-        for (const servico of servicos) {
-          console.log(`Atualizando serviço ID: ${servico.IdServico}`);
-          try {
-            await updateServico(servico.IdServico, {
-              status: servico.status,
-              dataAtividade: servico.dataAtividade,
-              tipoServico: servico.tipoServico,
-              responsavel: novoResponsavelId,
-              valorGasto: servico.valorGasto,
-            });
-          } catch (error) {
-            console.error(
-              `Erro ao atualizar serviço ${servico.IdServico}:`,
-              error
-            );
-          }
-        }
-        alert("Todos os serviços foram transferidos para o novo responsável.");
+      // Exclui o funcionário após a transferência
+      await excluirFuncionario(funcionarioId);
+      alert("Funcionário excluído com sucesso!");
+      onRequestClose();
+    } catch (error) {
+      handleError(error);
+    }
+  };
 
-        await deleteFuncionario(funcionarioId);
+  // Função para buscar serviços
+  const fetchServicos = async (funcionarioId: number) => {
+    const response = await getServicosByFuncionario(funcionarioId);
+    return response.data; // Retorna os serviços
+  };
+
+  // Função para validar novo responsável
+  const validateNovoResponsavel = () => {
+    if (novoResponsavelId === null) {
+      alert("Por favor, selecione um novo responsável.");
+      throw new Error("Novo responsável não selecionado.");
+    }
+    console.log("Responsável Novo:", novoResponsavelId);
+  };
+
+  // Função para transferir serviços
+  const transferirServicos = async (
+    servicos: any,
+    novoResponsavelId: number | null
+  ) => {
+    for (const servico of servicos) {
+      console.log(`Atualizando serviço ID: ${servico.IdServico}`);
+      try {
+        await updateServico(servico.IdServico, {
+          status: servico.status,
+          dataAtividade: servico.dataAtividade,
+          tipoServico: servico.tipoServico,
+          responsavel: novoResponsavelId,
+          valorGasto: servico.valorGasto,
+        });
+      } catch (error) {
+        console.error(`Erro ao atualizar serviço ${servico.IdServico}:`, error);
+        alert(`Erro ao atualizar serviço ${servico.IdServico}}`);
+      }
+    }
+    alert("Todos os serviços foram transferidos para o novo responsável.");
+  };
+
+  // Função para excluir o funcionário
+  const excluirFuncionario = async (funcionarioId: number) => {
+    await deleteFuncionario(funcionarioId);
+  };
+
+  // Função para lidar com erros
+  const handleError = (error: unknown) => {
+    if (axios.isAxiosError(error) && error.response) {
+      if (error.response.status === 404) {
+        alert(
+          "Nenhum serviço encontrado para este funcionário. Excluindo funcionário."
+        );
+        excluirFuncionario(funcionarioId);
         alert("Funcionário excluído com sucesso!");
         onRequestClose();
       } else {
-        console.log("Nenhum serviço encontrado, excluindo funcionário.");
-        await deleteFuncionario(funcionarioId);
-        alert("Funcionário excluído com sucesso!");
-        onRequestClose();
+        alert(`Erro ${error.response.status}: ${error.response.data.message}`);
       }
-    } catch (error) {
-      console.error(
-        "Erro ao transferir os serviços ou excluir o funcionário:",
-        error
-      );
-      alert("Erro ao excluir o funcionário.");
+    } else {
+      alert("Erro desconhecido ao excluir o funcionário.");
     }
   };
 
