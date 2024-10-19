@@ -31,7 +31,7 @@ const slideOut = keyframes`
 `;
 
 const SidebarContainer = styled.div<{ isOpen: boolean }>`
-  width: 250px;
+  width: 290px;
   height: 100vh;
   gap: 15px;
   background-color: #ffd54f; /* Cor amarela */
@@ -40,7 +40,7 @@ const SidebarContainer = styled.div<{ isOpen: boolean }>`
   left: 0;
   padding: 20px;
   padding-top: 125px;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   animation: ${({ isOpen }) => (isOpen ? slideIn : slideOut)} 0.5s ease-out

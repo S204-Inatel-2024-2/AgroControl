@@ -7,14 +7,17 @@ import Pagination from "../../components/Pagination";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { BiExport } from "react-icons/bi";
-import { listAllFuncionarios } from "../../service";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { listAllFuncionarios } from '../../service';
+import { useNavigate } from 'react-router-dom';
+import { Loader } from '../../components/Loader';
+import { toast } from 'react-toastify';
 
 export function Employees(): JSX.Element {
+  const navigate = useNavigate();
   const [listEmployees, setListEmployees] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
+  const [loading, setLoading] = useState(true);
 
   const columns = [
     { header: "Nome do funcionário", accessor: "nome", width: "100px" },
@@ -27,12 +30,15 @@ export function Employees(): JSX.Element {
     listAllFuncionarios()
       .then((resp) => {
         setListEmployees(resp.data);
+        setLoading(false)
       })
       .catch((error) => {
         console.error(error);
         //if (error.response.data.message) navigator('')
-        console.log(error.response.data.message);
+        console.log(error.response.data.message)
+        setLoading(false)
       });
+
   }, []);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -70,7 +76,9 @@ export function Employees(): JSX.Element {
     doc.save("table.pdf");
   };
 
-  const navigate = useNavigate();
+  const handleClick = (objeto: any) => {
+    navigate(`/employeedetails/${objeto.id}`);
+  };
 
   return (
     <>
@@ -85,15 +93,12 @@ export function Employees(): JSX.Element {
                 <BiExport />
                 Exportar
               </Styled.Text>
-              <Styled.Button
-                onClick={() => {
-                  navigate("/employeeregistration");
-                }}
-              >
+              <Styled.Button onClick={() => navigate('/employeeregistration')}>
                 Cadastrar
               </Styled.Button>
-            </Styled.DivButtonn>
-          </Styled.DivHeader>
+            </Styled.DivButtonn >
+
+          </Styled.DivHeader >
 
           <Styled.Input
             type="text"
@@ -102,7 +107,12 @@ export function Employees(): JSX.Element {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <Styled.DivTable>
-            <Table columns={columns} data={currentData} />
+            {loading ? (
+              <Loader />
+            ) : (
+              <Table columns={columns} data={currentData} handleClick={handleClick} />
+            )}
+
           </Styled.DivTable>
           <Pagination
             totalItems={totalItems}
@@ -110,8 +120,8 @@ export function Employees(): JSX.Element {
             currentPage={currentPage}
             onPageChange={setCurrentPage}
           />
-        </Styled.Content>
-      </Styled.Container>
+        </Styled.Content >
+      </Styled.Container >
     </>
   );
 }

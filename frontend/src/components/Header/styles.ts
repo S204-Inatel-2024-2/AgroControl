@@ -1,4 +1,22 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const backgroundAnimation = keyframes`
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: #f5c400;
+  }
+`;
+
+const backgroundNoneAnimation = keyframes`
+  from {
+    background-color: #f5c400;
+  }
+  to {
+    background-color: transparent;
+  }
+`;
 
 export const Container = styled.div`
   position: fixed;
@@ -13,6 +31,13 @@ export const Container = styled.div`
   z-index: 3;
   padding: 0 16px;
   box-sizing: border-box;
+  animation: ${backgroundAnimation} 0.8s ease-out forwards;
+  transition: background-color 0.5s;
+
+  &.home {
+    animation: ${backgroundNoneAnimation} 0.8s ease-out forwards;
+    transition: background-color 0.5s;
+  }
 
   @media (max-width: 768px) {
     height: 80px;

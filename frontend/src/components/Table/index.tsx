@@ -10,10 +10,11 @@ type TableColumn<T> = {
 type TableProps<T> = {
   columns: TableColumn<T>[];
   data: T[];
+  handleClick?: (objeto: any) => void
 };
 
 
-const Table = <T,>({ columns, data }: TableProps<T>) => {
+const Table = <T,>({ columns, data, handleClick }: TableProps<T>) => {
   return (
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
@@ -29,7 +30,7 @@ const Table = <T,>({ columns, data }: TableProps<T>) => {
       </thead>
       <tbody>
         {data.map((row, rowIndex) => (
-          <Styled.Tr key={rowIndex}>
+          <Styled.Tr key={rowIndex} onClick={() => handleClick && handleClick(row)}>
             {columns.map((column, colIndex) => (
               <Styled.Td
                 key={colIndex}
