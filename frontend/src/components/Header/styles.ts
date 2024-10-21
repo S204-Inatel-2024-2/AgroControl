@@ -1,4 +1,22 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const backgroundAnimation = keyframes`
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: #f5c400;
+  }
+`;
+
+const backgroundNoneAnimation = keyframes`
+  from {
+    background-color: #f5c400;
+  }
+  to {
+    background-color: transparent;
+  }
+`;
 
 export const Container = styled.div`
   position: fixed;
@@ -10,9 +28,16 @@ export const Container = styled.div`
   height: 100px;
   width: 100%;
   background-color: #f5c400;
-  z-index: 1;
+  z-index: 3;
   padding: 0 16px;
   box-sizing: border-box;
+  animation: ${backgroundAnimation} 0.8s ease-out forwards;
+  transition: background-color 0.5s;
+
+  &.home {
+    animation: ${backgroundNoneAnimation} 0.8s ease-out forwards;
+    transition: background-color 0.5s;
+  }
 
   @media (max-width: 768px) {
     height: 80px;
@@ -25,8 +50,13 @@ export const Container = styled.div`
 export const Menu = styled.div`
   display: flex;
   align-items: center;
+  gap: 50px; /* Espaço entre o ícone do menu e o título */
+  padding-left: 56px;
   gap: 30px; /* Espaço entre o ícone do menu e o título */
 
+  svg{
+    cursor: pointer;
+  }
   @media (max-width: 768px) {
     gap: 15px;
     width: 100%;

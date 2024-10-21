@@ -25,6 +25,7 @@ import {
 } from "../../service";
 import { serviceSchema } from "../../validations/ServiceValidation";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export function RegisterFinances(): JSX.Element {
   const [responsavelServico, setResponsavelServico] = useState("");
@@ -32,6 +33,7 @@ export function RegisterFinances(): JSX.Element {
   const [listaFuncionarios, setListaFuncionarios] = useState([]);
   const [listaTiposServico, setListaTiposServico] = useState([]);
   const [valorGasto, setValorGasto] = useState("R$0.00");
+  const [valor, setValor] = useState(0.0);
   const [status, setStatus] = useState("");
 
   const createService = async (event: any) => {
@@ -42,7 +44,7 @@ export function RegisterFinances(): JSX.Element {
       dataAtividade: form.elements.date.value,
       tipoServico: form.elements.serviceType.value,
       responsavel: form.elements.serviceResponsible.value,
-      valorGasto: form.elements.serviceValue.value,
+      valorGasto: valor,
       status: form.elements.serviceStatus.value,
       observations: form.elements.observations.value,
     };
@@ -55,15 +57,15 @@ export function RegisterFinances(): JSX.Element {
       else toast.error("Erro ao realizar a operação!");
     } else {
       toast.error("Os dados fornecidos estão incorretos.");
-      console.log("imprimindo ")
-      console.log(formData)
+      console.log("imprimindo ");
+      console.log(formData);
     }
   };
 
   function maskCurrency(value: string) {
-    value = value.replace(/\D/g, "");
+    value = value.replace(/[^\d,-]/g, "");
     value = (parseFloat(value) / 100).toFixed(2).replace(",", ".");
-
+    setValor(parseFloat(value));
     value = `R$${value}`;
 
     return value;
@@ -84,15 +86,23 @@ export function RegisterFinances(): JSX.Element {
     getAllFuncionarios();
   }, []);
 
+  const navigate = useNavigate();
+
   return (
     <>
       <Container>
         <Header />
         <Body>
           <SubTitle>
-            <h2>Relatório Financeiro</h2>
+            <h2>Cadastro de Serviço</h2>
             <div>
-              <Button>Voltar</Button>
+              <Button
+                onClick={() => {
+                  navigate(-1);
+                }}
+              >
+                Voltar
+              </Button>
               <Button type="submit" form="meuForm">
                 Salvar informações
               </Button>
@@ -119,10 +129,11 @@ export function RegisterFinances(): JSX.Element {
               >
                 <Option value="" disabled hidden></Option>
                 {listaTiposServico.map((item: any) => (
-                  <Option key={item.id} value={item.id}>{item.descricao}</Option>
+                  <Option key={item.id} value={item.id}>
+                    {item.descricao}
+                  </Option>
                 ))}
               </Select>
-
             </LabelServico>
 
             <LabelResponsavel>
@@ -135,10 +146,11 @@ export function RegisterFinances(): JSX.Element {
               >
                 <Option value="" disabled hidden></Option>
                 {listaFuncionarios.map((item: any) => (
-                  <Option key={item.id} value={item.id}>{item.nome}</Option>
+                  <Option key={item.id} value={item.id}>
+                    {item.nome}
+                  </Option>
                 ))}
               </Select>
-
             </LabelResponsavel>
 
             <LabelValor>
