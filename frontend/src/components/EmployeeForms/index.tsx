@@ -53,7 +53,6 @@ export function EmployeeForms(): JSX.Element {
           <Styled.ButtonDiv>
             <Styled.Button onClick={() => navigate(-1)}>Voltar</Styled.Button>
             <Styled.Button type='submit' disabled={formState.isSubmitting}>Salvar informações</Styled.Button>
-            <Styled.Button onClick={() => navigate('/employees')}>Voltar</Styled.Button>
           </Styled.ButtonDiv>
 
         </Styled.TitleDiv>
