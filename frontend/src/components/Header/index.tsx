@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RxExit } from "react-icons/rx";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Container, LogOut, Menu, Title, UserText } from "./styles";
@@ -7,8 +7,14 @@ import { useLocation } from "react-router-dom";
 
 export function Header(): JSX.Element {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
+  const [userName, setUserName] = useState<string>("");
   const location = useLocation();
-  console.log(location)
+  useEffect(() => {
+    const storedUserName = localStorage.getItem("user");
+    if (storedUserName) {
+      setUserName(storedUserName);
+    }
+  }, []);
   return (
     <>
       <Sidebar isOpen={showSidebar} />
@@ -18,7 +24,7 @@ export function Header(): JSX.Element {
           <Title>AgroControl</Title>
         </Menu>
         <LogOut>
-          <UserText>Olá, User</UserText>
+          <UserText>Olá, {userName || "user"}</UserText>
           <RxExit size={32} color="#333333" />
         </LogOut>
       </Container>
