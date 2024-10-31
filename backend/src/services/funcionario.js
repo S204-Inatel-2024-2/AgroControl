@@ -89,16 +89,16 @@ class FuncionarioService {
   // Busca serviços relacionados ao funcionário
   async getServicosByFuncionario(req, res) {
     try {
-      const { id } = req.params; 
+      const { id } = req.params;
       const servicos = await Servicos.findAll({
-        where: { responsavel: id }, 
+        where: { responsavel: id },
       });
 
       if (servicos.length === 0) {
         return res.status(404).json({ message: "Nenhum serviço encontrado para este funcionário." });
       }
 
-      console.log(`Serviços encontrados: ${JSON.stringify(servicos)}`); 
+      console.log(`Serviços encontrados: ${JSON.stringify(servicos)}`);
       return res.status(200).json(servicos);
     } catch (error) {
       console.error("Erro ao buscar serviços:", error);
