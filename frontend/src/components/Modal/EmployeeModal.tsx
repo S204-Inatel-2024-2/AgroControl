@@ -36,10 +36,15 @@ export function ConfirmationModal({
   useEffect(() => {
     if (isOpen) {
       listAllFuncionarios()
-        .then((response) => setFuncionarios(response.data))
+        .then((response) => {
+          const filteredFuncionarios = response.data.filter(
+            (funcionario: any) => funcionario.id !== funcionarioId
+          );
+          setFuncionarios(filteredFuncionarios);
+        })
         .catch((error) => console.error("Erro ao buscar funcionários:", error));
     }
-  }, [isOpen]);
+  }, [isOpen, funcionarioId]);
 
   const handleDelete = async () => {
     console.log("ID do Funcionário:", funcionarioId);
