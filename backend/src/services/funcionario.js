@@ -1,6 +1,5 @@
 const { Funcionarios, Servicos } = require("../db/models");
-const { emailnovoFuncionario } = require("../utils/servidorEmail");
-
+const { emailNovoFuncionario, emailFuncionarioRemovido } = require("../utils/servidorEmail");
 class FuncionarioService {
   async createFuncionario(req, res) {
     try {
@@ -52,7 +51,7 @@ class FuncionarioService {
         dataNascimento,
       });
 
-      await emailnovoFuncionario(funcionario);
+      await emailNovoFuncionario(funcionario);
       res
         .status(201)
         .json({ funcionario, message: "Funcionário cadastrado com sucesso!" });
@@ -60,6 +59,7 @@ class FuncionarioService {
       res.status(500).json({ message: error.message });
     }
   }
+
   // Busca funcionario pelo id
   async getFuncionarioById(req, res) {
     try {
@@ -99,6 +99,7 @@ class FuncionarioService {
       }
 
       console.log(`Serviços encontrados: ${JSON.stringify(servicos)}`);
+
       return res.status(200).json(servicos);
     } catch (error) {
       console.error("Erro ao buscar serviços:", error);
@@ -151,6 +152,8 @@ class FuncionarioService {
         return res.status(404).json({ error: "Funcionário não encontrado." });
       }
 
+      await emailFuncionarioRemovido(funcionario);
+      
       // deleta funcionario pelo id
       await funcionario.destroy();
       res.status(204).json();
