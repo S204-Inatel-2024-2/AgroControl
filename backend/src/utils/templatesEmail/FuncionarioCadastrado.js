@@ -7,7 +7,7 @@ module.exports = (funcionario) => {
 
             <h3 style="color: #0056b3;">Informações Importantes</h3>
             <p>Aqui estão algumas informações úteis para o seu início:</p>
-            <ul style="list-style-type: circle; margin-left: 20px;">
+            <ul style="list-style-type: circle; margin-left: 20px; line-height: 1.8;">
                 <li><strong>Email corporativo:</strong> ${funcionario.email}</li>
                 <li><strong>Seu gestor:</strong> Matheus</li>
             </ul>
