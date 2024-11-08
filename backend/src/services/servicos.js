@@ -1,5 +1,5 @@
 const { Servicos, Funcionarios, TiposServico } = require("../db/models");
-const { emailServicoFinalizado, emailServicoCancelado} = require("../utils/servidorEmail");
+const { emailServicoFinalizado, emailServicoCancelado, emailTransferenciaServico} = require("../utils/servidorEmail");
 class ServicosService {
   async getAllServicos(req, res) {
     try {
@@ -111,6 +111,9 @@ class ServicosService {
           .json({ error: "Tipo de Serviço não encontrado." });
       }
 
+      const responsavelAntigo = await Funcionarios.findByPk(servico.responsavel);
+      const responsavelAlterado = servico.responsavel !== responsavel;
+
       await servico.update({
         status,
         dataAtividade,
@@ -121,6 +124,7 @@ class ServicosService {
 
       if (status === 'concluido') {
         const dadosServico = {
+          servicos: await Servicos.findAll({ where: { responsavel: responsavel } }),
           servico: servico.IdServico, 
           status: servico.status,
           dataAtividade: servico.dataAtividade, 
@@ -128,8 +132,21 @@ class ServicosService {
           responsavel: funcionario.nome, 
           valorGasto: servico.valorGasto, 
         };
-
         await emailServicoFinalizado(dadosServico);
+      }
+
+      if (responsavelAlterado) {
+        const dadosServicoTransferido = {
+          servico: servico.IdServico,
+          status: servico.status,
+          dataAtividade: servico.dataAtividade,
+          tipoServico: servico.tipoServico,
+          valorGasto: servico.valorGasto,
+          responsavelAntigo: responsavelAntigo.nome,
+          novoResponsavel: funcionario.nome, 
+          novoResponsavelEmail: funcionario.email, 
+        };
+        await emailTransferenciaServico(dadosServicoTransferido);
       }
 
       res.status(200).json(servico);
