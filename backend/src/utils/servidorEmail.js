@@ -27,9 +27,9 @@ async function emailNovoFuncionario(funcionarioNovo) {
     const admin = { nome: "Administrador" };
     try {
     let info = await transporter.sendMail({
-      from: `Equipe de gerencia agroControl'<AgroControl@int.com>'`,
-      to: `${funcionarioNovo.email}'`,
-      subject: "Novo funcionário cadastrado",
+      from: `Equipe de Gerência AgroControl'<AgroControl@int.com>'`,
+      to: `${funcionarioNovo.email}`,
+      subject: "Bem-vindo(a) à Equipe AgroControl",
       html: FuncionarioCadastrado(funcionarioNovo),
     });
 
@@ -38,13 +38,13 @@ async function emailNovoFuncionario(funcionarioNovo) {
     await transporter.sendMail({
       from: `Equipe de Gerência AgroControl <AgroControl@int.com>`,
       to: admsEmails.join(","),
-      subject: "Novo funcionário cadastrado",
+      subject: "Novo Funcionário Cadastrado",
       html: AvisoCadastro(admin,funcionarioNovo),
     });
 
     console.log("Notificação de novo funcionário enviada aos administradores.");
   } catch (error) {
-    console.error("Erro ao enviar email de boas-vindas: ", error);
+    console.error("Erro ao enviar as noticações de email: ", error);
     throw error;
   }
 }
@@ -70,19 +70,17 @@ async function emailFuncionarioRemovido(funcionario) {
 
 async function emailTransferenciaServico(dadosServico) {
   try {
-    if (dadosServico.novoResponsavelEmail) {
-      let infoFuncionario = await transporter.sendMail({
-        from: `Equipe de Gerência AgroControl <AgroControl@int.com>`,
-        to: dadosServico.novoResponsavelEmail,
-        subject: `Você foi atribuído a um novo serviço: ${dadosServico.servico}`,
-        html: TransferenciaServico(dadosServico),
-      });
+    console.log('email do novo funcionario: ',dadosServico.novoResponsavelEmail)
+    
+    let infoFuncionario = await transporter.sendMail({
+      from: `Equipe de Gerência AgroControl <AgroControl@int.com>`,
+      to: `${dadosServico.novoResponsavelEmail}`,
+      subject: `Você foi atribuído a um novo serviço: ${dadosServico.servico}`,
+      html: TransferenciaServico(dadosServico),
+    });
 
-      console.log(
-        "Notificação de transferência de serviço enviada ao funcionário: %s",
-        infoFuncionario.messageId
-      );
-    }
+    console.log("Notificação de transferência de serviço enviada ao funcionário: %s", infoFuncionario.messageId);
+    
 
     let infoAdmins = await transporter.sendMail({
       from: `Equipe de Gerência AgroControl <AgroControl@int.com>`,
