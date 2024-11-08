@@ -5,13 +5,14 @@ module.exports = (dadosServico) => {
       <p>O serviço <strong>${dadosServico.servico}</strong> foi ${dadosServico.status}.</p>
 
       <h3 style="color: #0056b3;">Detalhes do Serviço:</h3>
-      <ul style="list-style-type: circle; margin-left: 20px;">
+      <ul style="list-style-type: circle; margin-left: 20px; line-height: 1.8;">
         <li><strong>Serviço:</strong> ${dadosServico.servico}</li>
         <li><strong>Status:</strong> ${dadosServico.status}</li>
         <li><strong>Data de Atividade:</strong> ${new Date(dadosServico.dataAtividade).toLocaleDateString()}</li>
         <li><strong>Tipo de Serviço:</strong> ${dadosServico.tipoServico}</li>
         <li><strong>Responsável:</strong> ${dadosServico.responsavel}</li>
         <li><strong>Valor Gasto:</strong> R$ ${dadosServico.valorGasto.toFixed(2)}</li>
+        <li><strong>Data da Finalização:</strong> ${new Date().toLocaleDateString()}</li>
       </ul>
 
       <p>Por favor, verifique o sistema para mais detalhes e confirme a atualização do status do serviço.</p>
