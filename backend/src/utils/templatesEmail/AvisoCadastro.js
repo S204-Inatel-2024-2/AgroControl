@@ -6,7 +6,7 @@ module.exports = (admin, novoFuncionario) => {
           <p>Temos o prazer de informar que um novo funcionário foi cadastrado na nossa equipe:</p>
 
           <h3 style="color: #0056b3;">Detalhes do Novo Funcionário</h3>
-          <ul style="list-style-type: circle; margin-left: 20px;">
+          <ul style="list-style-type: circle; margin-left: 20px; line-height: 1.8;">
               <li><strong>Nome:</strong> ${novoFuncionario.nome}</li>
               <li><strong>Email:</strong> ${novoFuncionario.email}</li>
               <li><strong>Data de Nascimento:</strong> ${new Date(novoFuncionario.dataNascimento).toLocaleDateString()}</li>
