@@ -16,6 +16,7 @@ import {
   StyledModal,
 } from "../Modal/styles";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -32,6 +33,7 @@ export function ConfirmationModal({
   const [novoResponsavelId, setNovoResponsavelId] = useState<number | null>(
     null
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen) {
@@ -64,6 +66,7 @@ export function ConfirmationModal({
       await excluirFuncionario(funcionarioId);
       alert("Funcionário excluído com sucesso!");
       onRequestClose();
+      navigate("/employees/");
     } catch (error) {
       handleError(error);
     }
@@ -122,6 +125,7 @@ export function ConfirmationModal({
         excluirFuncionario(funcionarioId);
         alert("Funcionário excluído com sucesso!");
         onRequestClose();
+        navigate("/employees/");
       } else {
         alert(`Erro ${error.response.status}: ${error.response.data.message}`);
       }
