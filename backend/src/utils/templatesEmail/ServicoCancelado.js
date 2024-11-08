@@ -5,13 +5,14 @@ module.exports = function ServicoCancelado(dadosServico) {
       <p>O serviço <strong>${dadosServico.servico}</strong> foi <strong>cancelado</strong>.</p>
 
       <h3 style="color: #0056b3;">Detalhes do Serviço:</h3>
-      <ul style="list-style-type: circle; margin-left: 20px;">
+      <ul style="list-style-type: circle; margin-left: 20px; line-height: 1.8;">
         <li><strong>Serviço:</strong> ${dadosServico.servico}</li>
         <li><strong>Status:</strong> Cancelado</li>
         <li><strong>Data de Atividade:</strong> ${new Date(dadosServico.dataAtividade).toLocaleDateString()}</li>
         <li><strong>Tipo de Serviço:</strong> ${dadosServico.tipoServico}</li>
         <li><strong>Responsável:</strong> ${dadosServico.responsavel}</li>
         <li><strong>Valor Gasto:</strong> R$ ${dadosServico.valorGasto.toFixed(2)}</li>
+        <li><strong>Data do Cancelamento:</strong> ${new Date().toLocaleDateString()}</li>
       </ul>
 
       <p>Por favor, verifique o sistema para mais detalhes e tome as ações necessárias.</p>
