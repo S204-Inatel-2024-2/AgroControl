@@ -5,7 +5,7 @@ module.exports = (funcionario) => {
             <p>Informamos que o funcionário <strong>${funcionario.nome}</strong> (${funcionario.email}) não faz mais parte da equipe AgroControl.</p>
 
             <h3 style="color: #b30000;">Detalhes do Funcionário Removido:</h3>
-            <ul style="list-style-type: circle; margin-left: 20px;">
+            <ul style="list-style-type: circle; margin-left: 20px; line-height: 1.8;">
                 <li><strong>Nome:</strong> ${funcionario.nome}</li>
                 <li><strong>Email:</strong> ${funcionario.email}</li>
                 <li><strong>Data de Remoção:</strong> ${new Date().toLocaleDateString()}</li>
