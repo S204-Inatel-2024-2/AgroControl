@@ -3,9 +3,10 @@ import { RxExit } from "react-icons/rx";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Container, LogOut, Menu, Title, UserText } from "./styles";
 import Sidebar from "../Sidebar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export function Header(): JSX.Element {
+  const navigate = useNavigate();
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const [userName, setUserName] = useState<string>("");
   const location = useLocation();
@@ -25,7 +26,7 @@ export function Header(): JSX.Element {
         </Menu>
         <LogOut>
           <UserText>Olá, {userName || "user"}</UserText>
-          <RxExit size={32} color="#333333" />
+          <RxExit size={32} color="#333333" onClick={() => navigate('/')} />
         </LogOut>
       </Container>
     </>
