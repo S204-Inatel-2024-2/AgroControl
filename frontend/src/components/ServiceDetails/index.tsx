@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getServicoById, deleteServico, getFuncionarioById, getTipoServicoById } from '../../service';
-import { useNavigate } from 'react-router-dom';
-import * as Styled from './styles';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import {
+  getServicoById,
+  deleteServico,
+  getFuncionarioById,
+  getTipoServicoById,
+} from "../../service";
+import { useNavigate } from "react-router-dom";
+import * as Styled from "./styles";
 
 interface Servico {
   IdServico: number;
@@ -35,7 +40,7 @@ export function ServiceDetails(): JSX.Element {
 
   useEffect(() => {
     if (!id) {
-      setError('ID do serviço não foi fornecido.');
+      setError("ID do serviço não foi fornecido.");
       return;
     }
 
@@ -44,13 +49,17 @@ export function ServiceDetails(): JSX.Element {
         const response = await getServicoById(Number(id));
         setServico(response.data);
 
-        const funcionarioResponse = await getFuncionarioById(response.data.responsavel);
+        const funcionarioResponse = await getFuncionarioById(
+          response.data.responsavel
+        );
         setFuncionario(funcionarioResponse.data.funcionario);
 
-        const tipoServicoResponse = await getTipoServicoById(response.data.tipoServico);
+        const tipoServicoResponse = await getTipoServicoById(
+          response.data.tipoServico
+        );
         setTipoServico(tipoServicoResponse.data);
       } catch (error) {
-        setError('Erro ao carregar os detalhes do serviço.');
+        setError("Erro ao carregar os detalhes do serviço.");
       } finally {
         setLoading(false);
       }
@@ -59,14 +68,16 @@ export function ServiceDetails(): JSX.Element {
   }, [id]);
 
   const handleDelete = async () => {
-    const confirmDelete = window.confirm("Tem certeza que deseja excluir o serviço?");
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja excluir o serviço?"
+    );
     if (confirmDelete && id) {
       try {
         await deleteServico(Number(id));
-        alert('Serviço excluído com sucesso!');
-        navigate('/home');
+        alert("Serviço excluído com sucesso!");
+        navigate("/services");
       } catch (error) {
-        alert('Erro ao excluir o serviço.');
+        alert("Erro ao excluir o serviço.");
       }
     }
   };
@@ -86,21 +97,28 @@ export function ServiceDetails(): JSX.Element {
   }
 
   if (!servico) {
-    return <Styled.Error>Serviço não encontrado.</Styled.Error>
+    return <Styled.Error>Serviço não encontrado.</Styled.Error>;
   }
 
-  const formattedDate = servico.dataAtividade ? new Date(servico.dataAtividade).toLocaleDateString() : 'Data inválida';
+  const formattedDate = servico.dataAtividade
+    ? new Date(servico.dataAtividade).toLocaleDateString()
+    : "Data inválida";
 
   return (
     <Styled.Container>
       <Styled.TitleDiv>
         <Styled.LeftButtons>
-          <Styled.Button onClick={() => navigate('/')}>Editar informações</Styled.Button> {/* Página de registro de serviço */}
+          <Styled.Button onClick={() => navigate("/")}>
+            Editar informações
+          </Styled.Button>{" "}
+          {/* Página de registro de serviço */}
           <Styled.Button onClick={handleDelete}>Excluir serviço</Styled.Button>
         </Styled.LeftButtons>
 
         <Styled.RightButton>
-          <Styled.Button onClick={() => navigate('/services')}>Voltar</Styled.Button>
+          <Styled.Button onClick={() => navigate("/home")}>
+            Voltar
+          </Styled.Button>
         </Styled.RightButton>
       </Styled.TitleDiv>
 
@@ -140,7 +158,9 @@ export function ServiceDetails(): JSX.Element {
 
         <Styled.Field>
           <Styled.Label>Observações:</Styled.Label>
-          <Styled.Text>{servico.observacoes || 'Nenhuma observação'}</Styled.Text>
+          <Styled.Text>
+            {servico.observacoes || "Nenhuma observação"}
+          </Styled.Text>
         </Styled.Field>
       </Styled.Card>
     </Styled.Container>

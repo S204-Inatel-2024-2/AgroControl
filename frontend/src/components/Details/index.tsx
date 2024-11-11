@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getFuncionarioById, deleteFuncionario } from '../../service';
-import { useNavigate } from 'react-router-dom';
-import * as Styled from './styles';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getFuncionarioById } from "../../service";
+import { useNavigate } from "react-router-dom";
+import * as Styled from "./styles";
 import { ConfirmationModal } from "../Modal/EmployeeModal";
 
 interface Funcionario {
@@ -78,9 +77,11 @@ export function EmployeeDetails(): JSX.Element {
         </Styled.LeftButtons>
 
         <Styled.RightButton>
-          <Styled.Button onClick={() => navigate('/employees')}>Voltar</Styled.Button>
-        </Styled.RightButton >
-      </Styled.TitleDiv >
+          <Styled.Button onClick={() => navigate("/employees")}>
+            Voltar
+          </Styled.Button>
+        </Styled.RightButton>
+      </Styled.TitleDiv>
 
       <ConfirmationModal
         isOpen={modalIsOpen}
@@ -132,6 +133,6 @@ export function EmployeeDetails(): JSX.Element {
           </Styled.Text>
         </Styled.Field>
       </Styled.Card>
-    </Styled.Container >
+    </Styled.Container>
   );
 }

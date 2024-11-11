@@ -31,7 +31,7 @@ const formatCurrency = (value: number | string) => {
 };
 
 interface Services {
-  idServico: number;
+  IdServico: number;
   status: string;
   dataAtividade: string;
   tipoServico: string;
@@ -44,7 +44,6 @@ interface Services {
 export function ServicesList(): JSX.Element {
   const [searchTerm, setSearchTerm] = useState("");
   const [listServices, setListServices] = useState<Services[]>([]);
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
@@ -100,9 +99,8 @@ export function ServicesList(): JSX.Element {
   };
 
   const navigate = useNavigate();
-
-  const handleClick = (objeto: any) => {
-    navigate(`/servicedetails/${objeto.IdServico}`);
+  const handleRowClick = (service: Services) => {
+    navigate(`/servicedetails/${service.IdServico}`);
   };
 
   return (
@@ -131,7 +129,11 @@ export function ServicesList(): JSX.Element {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Table columns={columns} data={currentData} handleClick={handleClick} />
+        <Table
+          columns={columns}
+          data={currentData}
+          handleClick={handleRowClick}
+        />
         <Pagination
           totalItems={totalItems}
           itemsPerPage={itemsPerPage}
