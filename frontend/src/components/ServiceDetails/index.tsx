@@ -100,7 +100,7 @@ export function ServiceDetails(): JSX.Element {
         </Styled.LeftButtons>
 
         <Styled.RightButton>
-          <Styled.Button onClick={() => navigate('/home')}>Voltar</Styled.Button>
+          <Styled.Button onClick={() => navigate('/services')}>Voltar</Styled.Button>
         </Styled.RightButton>
       </Styled.TitleDiv>
 
