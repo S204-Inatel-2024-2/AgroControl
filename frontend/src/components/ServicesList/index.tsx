@@ -101,6 +101,10 @@ export function ServicesList(): JSX.Element {
 
   const navigate = useNavigate();
 
+  const handleClick = (objeto: any) => {
+    navigate(`/servicedetails/${objeto.IdServico}`);
+  };
+
   return (
     <Styled.Container>
       <Styled.TitleDiv>
@@ -127,7 +131,7 @@ export function ServicesList(): JSX.Element {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Table columns={columns} data={currentData} />
+        <Table columns={columns} data={currentData} handleClick={handleClick} />
         <Pagination
           totalItems={totalItems}
           itemsPerPage={itemsPerPage}
