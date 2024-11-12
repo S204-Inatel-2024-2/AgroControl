@@ -18,15 +18,17 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<LoginPage />} />
-          <Route path="home" element={<ProtectedRoute element={<Home />} />} />
-          <Route path="employees" element={<ProtectedRoute element={<Employees />} />} />
-          <Route path="employeeregistration" element={<ProtectedRoute element={<EmployeeRegistration />} />} />
-          <Route path="registrarservico" element={<ProtectedRoute element={<RegisterFinances />} />} />
-          <Route path="employeedetails/:id" element={<ProtectedRoute element={<EmployeeDetails />} />} />
-          <Route path="RegistrarReceitas" element={<ProtectedRoute element={<RegisterReceitas />} />} />
-          <Route path="servicedetails/:id" element={<ProtectedRoute element={<ServiceDetails />} />} />
-          <Route path="services" element={<ProtectedRoute element={<Services />} />} />
-          <Route path="finances" element={<ProtectedRoute element={<Finances />} />} />
+          <Route path="home" element={<Home />} />
+          <Route path="employees" element={<Employees />} />
+          <Route
+            path="employeeregistration"
+            element={<EmployeeRegistration />}
+          />
+          <Route path="registerfinances" element={<RegisterFinances />} />
+          <Route path="servicedetails/:id" element={<ServiceDetails />} />
+          <Route path="registerReceitas" element={<RegisterReceitas />} />
+          <Route path="employeedetails/:id" element={<EmployeeDetails />} />
+          <Route path="servicedetails/:id" element={<ServiceDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>
