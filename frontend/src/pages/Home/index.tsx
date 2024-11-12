@@ -6,6 +6,7 @@ import { Header } from "../../components/Header";
 import { useNavigate } from "react-router-dom";
 import { FaMoneyBillWave, FaUsers } from "react-icons/fa";
 import { MdAnalytics, MdHomeRepairService } from "react-icons/md";
+
 //icons
 
 export function Home(): JSX.Element {
