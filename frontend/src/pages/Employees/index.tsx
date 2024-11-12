@@ -112,14 +112,13 @@ export function Employees(): JSX.Element {
             ) : (
               <Table columns={columns} data={currentData} handleClick={handleClick} />
             )}
-
+            <Pagination
+              totalItems={totalItems}
+              itemsPerPage={itemsPerPage}
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+            />
           </Styled.DivTable>
-          <Pagination
-            totalItems={totalItems}
-            itemsPerPage={itemsPerPage}
-            currentPage={currentPage}
-            onPageChange={setCurrentPage}
-          />
         </Styled.Content >
       </Styled.Container >
     </>

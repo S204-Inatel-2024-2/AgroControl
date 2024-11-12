@@ -13,6 +13,7 @@ export const Td = styled.td`
   width: 'auto';
   color: #333333;
   border: 5px solid #ffffff;
+  height: 20px;
   padding: 16px;
   background-color: ${({ theme }) => theme.colors.backgroundInput};
 `;
