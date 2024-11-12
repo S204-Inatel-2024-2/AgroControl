@@ -44,7 +44,7 @@ export function RegisterFinances(): JSX.Element {
       dataAtividade: form.elements.date.value,
       tipoServico: form.elements.serviceType.value,
       responsavel: form.elements.serviceResponsible.value,
-      valorGasto: valor,
+      valorGasto: !valor ? String(valor) : valor,
       status: form.elements.serviceStatus.value,
       observations: form.elements.observations.value,
     };

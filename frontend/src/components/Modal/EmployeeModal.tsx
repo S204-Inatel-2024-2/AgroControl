@@ -16,6 +16,7 @@ import {
   StyledModal,
 } from "../Modal/styles";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -32,14 +33,20 @@ export function ConfirmationModal({
   const [novoResponsavelId, setNovoResponsavelId] = useState<number | null>(
     null
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen) {
       listAllFuncionarios()
-        .then((response) => setFuncionarios(response.data))
+        .then((response) => {
+          const filteredFuncionarios = response.data.filter(
+            (funcionario: any) => funcionario.id !== funcionarioId
+          );
+          setFuncionarios(filteredFuncionarios);
+        })
         .catch((error) => console.error("Erro ao buscar funcionários:", error));
     }
-  }, [isOpen]);
+  }, [isOpen, funcionarioId]);
 
   const handleDelete = async () => {
     console.log("ID do Funcionário:", funcionarioId);
@@ -59,6 +66,7 @@ export function ConfirmationModal({
       await excluirFuncionario(funcionarioId);
       alert("Funcionário excluído com sucesso!");
       onRequestClose();
+      navigate("/employees/");
     } catch (error) {
       handleError(error);
     }
@@ -117,6 +125,7 @@ export function ConfirmationModal({
         excluirFuncionario(funcionarioId);
         alert("Funcionário excluído com sucesso!");
         onRequestClose();
+        navigate("/employees/");
       } else {
         alert(`Erro ${error.response.status}: ${error.response.data.message}`);
       }

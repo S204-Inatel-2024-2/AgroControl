@@ -33,6 +33,7 @@ export const Image = styled.div<ImageProps>`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  overflow-y: auto;
   width: 100vw;
   height: 100vh;
   background-image: linear-gradient(
@@ -62,9 +63,9 @@ export const Container = styled.div`
 
 export const DivText = styled.div`
     max-width: 600px;
-    height: 100%;
+    //height: 100%;
     width: 100vw;
-    overflow: auto;
+    overflow: hidden;
     display: flex;
     justify-content: flex-end;
     z-index: 2;
@@ -91,6 +92,12 @@ export const DivRoute = styled.div`
     justify-content: center;
     align-items: center;
     gap: 30px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  @media (max-width: 960px) {
+    display: flex;
+    flex-direction: column
+  }
 `;
 
 export const Divbutton = styled.div`
@@ -112,12 +119,24 @@ export const Divbutton = styled.div`
     opacity: 1;
     z-index: 1;
   }
+  @media (max-width: 1380px) {
+    width: 140px;
+    height: 140px;
+    font-size: 12px;
+  }
+  @media (max-width: 960px) {
+    width: 140px;
+    height: 70px;
+  }
 `;
 
 export const IconWrapper = styled.span`
   margin-right: 10px;
   svg{
     font-size: 70px;
+    @media (max-width: 1380px) {
+      font-size: 32px;
+    }
   }
 `;
 
@@ -126,12 +145,13 @@ export const Title = styled.div`
   margin: 0px 0px 30px 0px;
   font-weight: 600;
   color: #3a3a3a;
+  @media (max-width: 960px) {
+    display: none;
+  }
   @media (max-width: 800px) {
-    font-size: 30px;
     margin: 0px 0px 20px 0px;
   }
   @media (max-width: 500px) {
-    font-size: 28px;
     margin: 0px 0px 20px 0px;
   }
 `;
@@ -153,8 +173,11 @@ export const Text = styled.div`
   font-weight: 400;
   color: #333333 ;
   width: 100%;
+  @media (max-width: 900px) {
+   font-size: 17px;
+  }
   @media (max-width: 500px) {
-    font-size: 18px;
+    font-size: 14px;
     color: black;
     //padding: 0px 10px;
   }

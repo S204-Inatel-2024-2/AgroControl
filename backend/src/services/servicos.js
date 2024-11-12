@@ -1,5 +1,5 @@
 const { Servicos, Funcionarios, TiposServico } = require("../db/models");
-
+const { emailServicoFinalizado, emailServicoCancelado, emailTransferenciaServico} = require("../utils/servidorEmail");
 class ServicosService {
   async getAllServicos(req, res) {
     try {
@@ -111,6 +111,9 @@ class ServicosService {
           .json({ error: "Tipo de Serviço não encontrado." });
       }
 
+      const responsavelAntigo = await Funcionarios.findByPk(servico.responsavel);
+      const responsavelAlterado = servico.responsavel !== responsavel;
+
       await servico.update({
         status,
         dataAtividade,
@@ -118,6 +121,34 @@ class ServicosService {
         responsavel,
         valorGasto,
       });
+
+      if (status === 'concluido') {
+        const dadosServico = {
+          servicos: await Servicos.findAll({ where: { responsavel: responsavel } }),
+          servico: servico.IdServico, 
+          status: servico.status,
+          dataAtividade: servico.dataAtividade, 
+          tipoServico: servico.tipoServico, 
+          responsavel: funcionario.nome, 
+          valorGasto: servico.valorGasto, 
+        };
+        await emailServicoFinalizado(dadosServico);
+      }
+
+      if (responsavelAlterado) {
+        const dadosServicoTransferido = {
+          servico: servico.IdServico,
+          status: servico.status,
+          dataAtividade: servico.dataAtividade,
+          tipoServico: servico.tipoServico,
+          valorGasto: servico.valorGasto,
+          responsavelAntigo: responsavelAntigo.nome,
+          novoResponsavel: funcionario.nome, 
+          novoResponsavelEmail: funcionario.email, 
+        };
+        await emailTransferenciaServico(dadosServicoTransferido);
+      }
+
       res.status(200).json(servico);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -132,6 +163,22 @@ class ServicosService {
       if (!servico) {
         return res.status(404).json({ error: "Serviço não encontrado." });
       }
+
+      const funcionario = await Funcionarios.findByPk(servico.responsavel);
+      if (!funcionario) {
+        return res.status(404).json({ error: "Funcionário não encontrado." });
+      }
+
+      const dadosServicoCancelado = {
+        servico: servico.IdServico,
+        status: 'cancelado',
+        dataAtividade: servico.dataAtividade, 
+        tipoServico: servico.tipoServico, 
+        responsavel: funcionario.nome,
+        valorGasto: servico.valorGasto, 
+      };
+
+      await emailServicoCancelado(dadosServicoCancelado);
 
       await servico.destroy();
       res.status(204).send();
