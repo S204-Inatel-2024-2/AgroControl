@@ -11,6 +11,7 @@ import { Services } from "../pages/Services";
 import { RegisterReceitas } from "../pages/RegisterReceitas";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import { Finances } from "../pages/Finances";
+import { Dashboard } from "../pages/Dashboard";
 
 const AppRoutes = () => {
   return (
@@ -50,6 +51,10 @@ const AppRoutes = () => {
           <Route
             path="finances"
             element={<ProtectedRoute element={<Finances />} />}
+          />
+          <Route
+            path="dashboard"
+            element={<ProtectedRoute element={<Dashboard />} />}
           />
         </Route>
       </Routes>
