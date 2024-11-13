@@ -54,7 +54,26 @@ export function BarHorizontalChart(): JSX.Element {
         <BarChart
           margin={{ left: 100, right: 100 }}
           dataset={dataset}
-          yAxis={[{ scaleType: "band", dataKey: "nome" }]}
+          yAxis={[
+            {
+              scaleType: "band",
+              dataKey: "nome",
+              colorMap: {
+                type: "ordinal",
+                values: [
+                  "Funcionario 1",
+                  "Funcionario 2",
+                  "Funcionario 3",
+                  "Funcionario 4",
+                  "Funcionario 5",
+                  "Funcionario 6",
+                  "Funcionario 7",
+                ],
+                colors: ["green"],
+                unknownColor: "blue",
+              },
+            },
+          ]}
           series={[
             {
               dataKey: "salario",
