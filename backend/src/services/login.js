@@ -27,9 +27,9 @@ class LoginService {
 
             if (isMatch) {
                 const token = generateToken(adm);
-                
+
                 // Senha correta, autenticação bem-sucedida
-                return res.status(200).json({ token, message: 'Login bem-sucedido.' });
+                return res.status(200).json({ token, message: 'Login bem-sucedido.', "user": adm.firstName });
             } else {
                 // Senha incorreta
                 return res.status(401).json({ error: 'Senha incorreta.' });

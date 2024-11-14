@@ -60,7 +60,8 @@ export const Menu = styled.div`
   @media (max-width: 768px) {
     gap: 15px;
     width: 100%;
-    justify-content: space-between;
+    padding-left: 10px;
+    //justify-content: space-between;
   }
 `;
 
