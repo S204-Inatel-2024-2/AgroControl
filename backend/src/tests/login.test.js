@@ -3,7 +3,14 @@ const bcrypt = require('bcrypt');
 const { generateToken } = require('../services/auth');
 const LoginService = require('../services/login');
 
-jest.mock('../db/models');  // Mock do modelo do banco de dados
+jest.mock('../db/models', () => {
+    return {
+        Admin: {
+            findOne: jest.fn(),
+        },
+    };
+}); // Mock do models/db
+
 jest.mock('bcrypt');        // Mock do bcrypt
 jest.mock('../services/auth'); // Mock da geração de token
 
@@ -19,9 +26,7 @@ describe('LoginService', () => {
     });
 
     it('deve retornar erro 400 se email ou senha não forem fornecidos', async () => {
-        const req = {
-            body: {}
-        };
+        const req = { body: {} };
         const res = {
             status: jest.fn().mockReturnThis(),
             json: jest.fn()
@@ -46,8 +51,11 @@ describe('LoginService', () => {
 
         await loginService.login(req, res);
 
+        expect(Admin.findOne).toHaveBeenCalledWith({ where: { email: req.body.email } });
         expect(res.status).toHaveBeenCalledWith(404);
-        expect(res.json).toHaveBeenCalledWith({ error: 'Email não encontrado.' });
+        expect(res.json).toHaveBeenCalledWith({
+            error: 'Email não encontrado.',
+        });
     });
 
     it('deve retornar erro 401 se a senha estiver incorreta', async () => {
@@ -65,8 +73,11 @@ describe('LoginService', () => {
 
         await loginService.login(req, res);
 
+        expect(bcrypt.compare).toHaveBeenCalledWith(req.body.password, admMock.password);
         expect(res.status).toHaveBeenCalledWith(401);
-        expect(res.json).toHaveBeenCalledWith({ error: 'Senha incorreta.' });
+        expect(res.json).toHaveBeenCalledWith({
+            error: 'Senha incorreta.',
+        });
     });
 
     it('deve retornar token e sucesso se o login for bem-sucedido', async () => {
@@ -78,17 +89,26 @@ describe('LoginService', () => {
             json: jest.fn()
         };
 
-        const admMock = { id: 1, email: 'test@example.com', password: 'hashedpassword' };
+        const admMock = { 
+            id: 1, 
+            email: 'test@example.com', 
+            password: 'hashedpassword',
+            firstName: 'Admin', 
+        };
+
         Admin.findOne.mockResolvedValue(admMock);  // Simula que o email foi encontrado
         bcrypt.compare.mockResolvedValue(true);  // Simula senha correta
         generateToken.mockReturnValue('fake-token');  // Simula geração de token
 
         await loginService.login(req, res);
 
+        expect(bcrypt.compare).toHaveBeenCalledWith(req.body.password, admMock.password);
+        expect(generateToken).toHaveBeenCalledWith(admMock);
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
             token: 'fake-token',
-            message: 'Login bem-sucedido.'
+            message: 'Login bem-sucedido.',
+            user: admMock.firstName,
         });
     });
 
@@ -101,11 +121,14 @@ describe('LoginService', () => {
             json: jest.fn()
         };
 
-        Admin.findOne.mockRejectedValue(new Error('DB error'));  // Simula erro no banco
+        Admin.findOne.mockRejectedValue(new Error('Erro no banco de dados'));  // Simula erro no banco
 
         await loginService.login(req, res);
 
+        expect(Admin.findOne).toHaveBeenCalledWith({ where: { email: req.body.email } });
         expect(res.status).toHaveBeenCalledWith(500);
-        expect(res.json).toHaveBeenCalledWith({ error: 'Erro ao realizar login.' });
+        expect(res.json).toHaveBeenCalledWith({
+            error: 'Erro ao realizar login.',
+        });
     });
 });
