@@ -369,19 +369,19 @@ describe("ServicosService", () => {
         IdServico: 1,
         status: "concluido",
         dataAtividade: "2024-11-01",
-        tipoServico: {id: 1},
+        tipoServico: { id: 1 },
         responsavel: 1,
         valorGasto: 100,
         update: jest.fn(),
       };
 
       const funcionarioMock = { id: 1, nome: "João" };
-      const tipoServicoMock = { id: 1, descricao: "Limpeza"};
+      const tipoServicoMock = { id: 1, descricao: "Limpeza" };
 
       Servicos.findByPk.mockResolvedValueOnce(servicoMock);
       Funcionarios.findByPk.mockResolvedValueOnce(funcionarioMock);
       TiposServico.findByPk.mockResolvedValueOnce(tipoServicoMock);
-      Servicos.findAll.mockResolvedValueOnce([servicoMock]); 
+      Servicos.findAll.mockResolvedValueOnce([servicoMock]);
 
       await servicosService.updateServico(req, res);
 
@@ -389,7 +389,7 @@ describe("ServicosService", () => {
         servicos: [servicoMock],
         servico: 1,
         status: "concluido",
-        tipoServico: {id: 1},
+        tipoServico: { id: 1 },
         valorGasto: req.body.valorGasto,
         responsavel: funcionarioMock.nome,
         dataAtividade: req.body.dataAtividade,
@@ -412,7 +412,6 @@ describe("ServicosService", () => {
       };
       const mockTipoServico = { id: 1, descricao: "Limpeza" };
 
-      // Mockando a resposta das funções
       Servicos.findByPk.mockResolvedValue(mockServico);
       Funcionarios.findByPk.mockResolvedValue(mockFuncionario);
       TiposServico.findByPk.mockResolvedValue(mockTipoServico);
@@ -430,8 +429,40 @@ describe("ServicosService", () => {
       };
 
       await servicosService.updateServico(mockRequest, res);
-
       expect(emailServicoFinalizado).not.toHaveBeenCalled();
+    });
+
+    it("deve atualizar o serviço corretamente sem enviar e-mails quando status não for 'concluido'", async () => {
+      req.params.id = 1;
+      req.body = {
+        status: "pendente", 
+        dataAtividade: "2024-11-01",
+        tipoServico: 1,
+        responsavel: 1,
+        valorGasto: 100,
+      };
+
+      const servicoMock = {
+        IdServico: 1,
+        status: "pendente",
+        dataAtividade: "2024-11-01",
+        tipoServico: 1,
+        responsavel: 1,
+        valorGasto: 100,
+        update: jest.fn(), 
+      };
+
+      Servicos.findByPk.mockResolvedValueOnce(servicoMock);
+      Funcionarios.findByPk.mockResolvedValueOnce({ id: 1, nome: "João" });
+      TiposServico.findByPk.mockResolvedValueOnce({
+        id: 1,
+        descricao: "Limpeza",
+      });
+
+      await servicosService.updateServico(req, res);
+
+      expect(servicoMock.update).toHaveBeenCalledWith(req.body);
+      expect(emailServicoFinalizado).not.toHaveBeenCalled(); 
     });
   });
 
