@@ -1,107 +1,52 @@
-const { where } = require("sequelize");
-const { Funcionarios, Servicos, Receita } = require("../db/models");
+const {
+  Funcionarios,
+  Servicos,
 
-class DashboardService {
-  async TotalAPagarSalario(req, res) {
+} = require("../db/models")
+const {
+  Sequelize
+} = require('sequelize');
+class DashboardFinanceiroService {
+
+  async SalarioFuncionarios(req, res) {
     try {
       const funcionarios = await Funcionarios.findAll({
-        attributes: ["nome", "salario"],
-      });
-      res.status(200).json(funcionarios);
-    } catch (error) {
-      res.status(500);
-    }
-  }
-
-  async LucrosEGastos(req, res) {
-    try {
-      const receitas = await Receita.findAll({
-        attributes: [
-          "data",
-          [
-            Sequelize.fn("SUM", Sequelize.col("valorReceita")),
-            "totalValorReceita",
-          ],
-        ],
-        where: {
-          lucro: true,
+        attributes: ['id', 'nome', 'salario'],
+        include: [{
+          model: Servicos,
+          as: 'servicos', // Usando o alias configurado
+          attributes: [] // Não queremos detalhes dos serviços individuais, apenas a soma
+        }],
+        attributes: {
+          include: [
+            [
+              Sequelize.fn('SUM', Sequelize.col('servicos.valorGasto')),
+              'totalServicos'
+            ]
+          ]
         },
-        group: ["data"],
-      });
-      const salarios = await Funcionarios.findAll({
-        attributes: [
-          "data",
-          [
-            Sequelize.fn("SUM", Sequelize.col("valorReceita")),
-            "totalValorReceita",
-          ],
-        ],
-        group: ["data"],
-      });
-      const servicos = await Receita.findAll({
-        attributes: [
-          "data",
-          [
-            Sequelize.fn("SUM", Sequelize.col("valorReceita")),
-            "totalValorReceita",
-          ],
-        ],
-        group: ["data"],
-      });
-      const salariosPorData = {};
-      salarios.forEach((item) => {
-        salariosPorData[item.data] = item.get("totalValorReceita");
+        group: ['Funcionarios.id']
       });
 
-      const servicosPorData = {};
-      servicos.forEach((item) => {
-        servicosPorData[item.data] = item.get("totalValorReceita");
-      });
+      const resultado = funcionarios.map((funcionario) => ({
+        id: funcionario.id,
+        nome: funcionario.nome,
+        salario: funcionario.salario,
+        totalServicos: funcionario.dataValues.totalServicos || 0,
+      }));
 
-      // Unir os resultados em um único objeto
-      const resultadoFinal = [];
-      const datasUnicas = new Set([
-        ...Object.keys(salariosPorData),
-        ...Object.keys(servicosPorData),
-      ]);
 
-      datasUnicas.forEach((data) => {
-        resultadoFinal.push({
-          data,
-          totalSalario: salariosPorData[data] || 0,
-          totalServico: servicosPorData[data] || 0,
-        });
-      });
 
-      res.status(200).json({ receitas, gastos: resultadoFinal });
+      res.status(200).json(resultado);
+
     } catch (error) {
-      res.status(500);
+      res.status(500).json({
+        error: error.message
+      });
     }
+
   }
 
-  // async TotalAPagarSalarioServico(req, res) {
-  //   try {
-  //     const salarioTotal = await Funcionarios.sum("salario");
-  //     const valorGastoTotal = await Servicos.sum("valorGasto");
-  //     const total = salarioTotal + valorGastoTotal;
-  //     res.status(200).json({ total: total });
-  //   } catch (error) {
-  //     res.status(500);
-  //   }
-  // }
-
-  // async PrejuizoReceita(req, res) {
-  //   try {
-  //     const prejuizoTotal = await Receita.sum("valorReceita", {
-  //       where: {
-  //         lucro: false,
-  //       },
-  //     });
-  //     res.status(200).json({ total: prejuizoTotal });
-  //   } catch (error) {
-  //     res.status(500);
-  //   }
-  // }
 }
 
-module.exports = DashboardService;
+module.exports = DashboardFinanceiroService;

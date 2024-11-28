@@ -1,38 +1,15 @@
-const DashboardService = require("../services/dashboard");
-const dashboardService = new DashboardService();
+const DashBoardService = require('../services/dashboard')
+const dashboardService = new DashBoardService();
+class dashBoardController {
+    static async getSalarioFuncionarios(req, res) {
+        try {
+            await dashboardService.SalarioFuncionarios(req, res);
+        } catch (error) {
+            return res.status(400).json({
+                error: error
+            });
+        }
 
-class DashboardController {
-  static async getTotalAPagarSalario(req, res) {
-    try {
-      await dashboardService.TotalAPagarSalario(req, res);
-    } catch {
-      res.status(400).send({ message: error.message });
     }
-  }
-
-  static async getLucrosEGastos(req, res) {
-    try {
-      await dashboardService.LucrosEGastos(req, res);
-    } catch {
-      res.status(400).send({ message: error.message });
-    }
-  }
-
-  //   static async getTotalAPagarSalarioServico(req, res) {
-  //     try {
-  //       await dashboardService.TotalAPagarSalarioServico(req, res);
-  //     } catch {
-  //       res.status(400).send({ message: error.message });
-  //     }
-  //   }
-
-  //   static async getPrejuizoReceita(req, res) {
-  //     try {
-  //       await dashboardService.PrejuizoReceita(req, res);
-  //     } catch {
-  //       res.status(400).send({ message: error.message });
-  //     }
-  //   }
 }
-
-module.exports = DashboardController;
+module.exports = dashBoardController;
