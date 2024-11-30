@@ -1,6 +1,5 @@
-
-import CategoriaReceitaService from '../services/categoriaReceitaService';
-import { Categoria } from '../db/models'; 
+const CategoriaReceitaService = require("../services/categoriaReceitaService");
+const { Categoria } = require("../db/models");
 
 jest.mock('../db/models', () => {
   return {
