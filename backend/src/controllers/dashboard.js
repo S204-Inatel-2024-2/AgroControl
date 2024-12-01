@@ -11,5 +11,16 @@ class dashBoardController {
         }
 
     }
+
+    static async getAnaliseFinanceiraMensal(req, res) {
+        try {
+            await dashboardService.AnaliseFinanceiraMensal(req, res);
+        } catch (error) {
+            return res.status(400).json({
+                error: error
+            });
+        }
+
+    }
 }
 module.exports = dashBoardController;
