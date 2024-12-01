@@ -1,14 +1,5 @@
-const {
-  Funcionarios,
-  Servicos,
-  Receita,
-  sequelize
-
-} = require("../db/models")
-const {
-  Sequelize,
-
-} = require('sequelize');
+const { Funcionarios, Servicos, Receita } = require("../db/models")
+const { Sequelize } = require('sequelize');
 class DashboardFinanceiroService {
 
   async SalarioFuncionarios(req, res) {
@@ -38,8 +29,6 @@ class DashboardFinanceiroService {
         totalServicos: funcionario.dataValues.totalServicos || 0,
         totalSalario: parseFloat(funcionario.dataValues.totalServicos) + parseFloat(funcionario.salario)
       }));
-
-
 
       res.status(200).json(resultado);
 
@@ -107,7 +96,6 @@ class DashboardFinanceiroService {
           totalGasto: gastoMap[month]?.totalGasto || 0,
         };
       });
-
 
       return res.status(200).json(combinedResult)
 
