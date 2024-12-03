@@ -19,10 +19,10 @@ app.use(bodyParser.json());
 app.use("/login", loginRoutes);
 app.use("/servicos", SecurityRoutes, servicosRoutes);
 app.use("/receitas", SecurityRoutes, receitasRoutes);
+app.use("/dashboard", SecurityRoutes, dashboardRoutes);
 app.use("/categorias", SecurityRoutes, categoriasReceitas);
 app.use("/tiposervico", SecurityRoutes, tiposServicoRoutes);
 app.use("/funcionarios", SecurityRoutes, funcionariosRoutes);
-app.use("/dashboard", dashboardRoutes);
 const swaggerDocument = JSON.parse(
   fs.readFileSync(path.join(__dirname, "docs", "swagger.json"), "utf8")
 );

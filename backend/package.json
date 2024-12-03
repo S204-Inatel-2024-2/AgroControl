@@ -1,8 +1,8 @@
 {
   "type": "commonjs",
-  "name": "exemplobd",
+  "name": "agrocontrol",
   "version": "1.0.0",
-  "description": "Conexão com o NeonDataBase",
+  "description": "Aplicação de controle Rural",
   "main": "index.js",
   "scripts": {
     "test": "jest",
