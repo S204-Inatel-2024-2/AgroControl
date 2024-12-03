@@ -27,7 +27,7 @@ class DashboardFinanceiroService {
         nome: funcionario.nome,
         salario: funcionario.salario,
         totalServicos: funcionario.dataValues.totalServicos || 0,
-        totalSalario: parseFloat(funcionario.dataValues.totalServicos) + parseFloat(funcionario.salario)
+        totalSalario: parseFloat(funcionario.dataValues.totalServicos || 0) + parseFloat(funcionario.salario)
       }));
 
       res.status(200).json(resultado);
