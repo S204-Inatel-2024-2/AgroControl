@@ -12,9 +12,11 @@ export const Container = styled.div`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding: 140px 20px 0px 20px;
+  height: 100dvh;
+  margin-top: 140px;
+  padding: 0px 20px 10px 20px;
   gap: 20px;
+  overflow-y: auto;
 `;
 
 export const DivHeader = styled.div`
@@ -26,11 +28,14 @@ export const DivHeader = styled.div`
 export const DivButtonn = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 60px;
 `;
 
 export const DivTable = styled.div`
-  height: 540px;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Title = styled.div`

@@ -23,7 +23,9 @@ export const InputDiv = styled.div`
   flex-direction: column;
   width: 66vw;
   overflow: hidden;
-  
+   @media (max-width: 800px) {
+    width: 100dvw; 
+  }
 `
 export const Label = styled.label`
   display: flex;
@@ -37,6 +39,10 @@ export const Label = styled.label`
   transition: 0.5s;
   color:  ${({ theme }) => theme.colors.text};
   white-space: nowrap;
+  @media (max-width: 800px) {
+      white-space: wrap;
+      width: 90dvw;
+  }
 `;
 
 export const Input = styled.input`
@@ -70,7 +76,7 @@ export const Button = styled.button`
   font-weight: 700;
   color: #333333;
   border: none;
-  border-radius: 8px;
+  border-radius: 20px;
   font-size: 14px;
   cursor: pointer;
   background-color: ${({ theme }) => theme.colors.backgroundButton};
@@ -117,13 +123,20 @@ export const RowDiv = styled.div`
   justify-content: space-between;
   /* gap:;  */
   width: 66vw; 
-  padding-top: 10px; 
+  padding-top: 10px;
+  @media (max-width: 800px) {
+    flex-direction: column;
+    width: 100dvw; 
+  }
+
 `
 
 export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 48%;
-  
+  @media (max-width: 800px) {
+      width: 100%;
+  }
 `
 

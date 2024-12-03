@@ -33,7 +33,7 @@ export function LoginPage(): JSX.Element {
     login(user)
       .then((resp) => {
         console.log(resp);
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user", resp.data.user);
         localStorage.setItem("token", resp.data.token);
         toast.success('Operação realizada com sucesso!')
         navigate("/home");

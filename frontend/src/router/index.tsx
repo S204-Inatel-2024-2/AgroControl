@@ -9,6 +9,9 @@ import { ServiceDetails } from "../pages/ServiceDetails";
 import { Employees } from "../pages/Employees";
 import { Services } from "../pages/Services";
 import { RegisterReceitas } from "../pages/RegisterReceitas";
+import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
+import { Finances } from "../pages/Finances";
+import { Dashboard } from "../pages/Dashboard";
 
 const AppRoutes = () => {
   return (
@@ -16,14 +19,43 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<LoginPage />} />
-          <Route path="home" element={<Home />} />
-          <Route path="employees" element={<Employees />} />
-          <Route path="employeeregistration" element={<EmployeeRegistration />} />
-          <Route path="registerfinances" element={<RegisterFinances />} />
-          <Route path="employeedetails/:id" element={<EmployeeDetails />} />
-          <Route path="RegistrarReceitas" element={<RegisterReceitas />} />
-          <Route path="servicedetails/:id" element={<ServiceDetails />} />
-          <Route path="services" element={<Services />} />
+          <Route path="home" element={<ProtectedRoute element={<Home />} />} />
+          <Route
+            path="employees"
+            element={<ProtectedRoute element={<Employees />} />}
+          />
+          <Route
+            path="employeeregistration"
+            element={<ProtectedRoute element={<EmployeeRegistration />} />}
+          />
+          <Route
+            path="registrarservico"
+            element={<ProtectedRoute element={<RegisterFinances />} />}
+          />
+          <Route
+            path="employeedetails/:id"
+            element={<ProtectedRoute element={<EmployeeDetails />} />}
+          />
+          <Route
+            path="RegistrarReceitas"
+            element={<ProtectedRoute element={<RegisterReceitas />} />}
+          />
+          <Route
+            path="servicedetails/:id"
+            element={<ProtectedRoute element={<ServiceDetails />} />}
+          />
+          <Route
+            path="services"
+            element={<ProtectedRoute element={<Services />} />}
+          />
+          <Route
+            path="finances"
+            element={<ProtectedRoute element={<Finances />} />}
+          />
+          <Route
+            path="dashboard"
+            element={<ProtectedRoute element={<Dashboard />} />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getFuncionarioById, deleteFuncionario } from '../../service';
-import { useNavigate } from 'react-router-dom'; 
-import * as Styled from './styles';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getFuncionarioById } from "../../service";
+import { useNavigate } from "react-router-dom";
+import * as Styled from "./styles";
+import { ConfirmationModal } from "../Modal/EmployeeModal";
 
 interface Funcionario {
   id: number;
@@ -21,40 +22,30 @@ export function EmployeeDetails(): JSX.Element {
   const [funcionario, setFuncionario] = useState<Funcionario | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('ID do funcionário:', id);
-
-    if (!id) {
-      setError('ID do funcionário não foi fornecido.');
-      return;
-    }
-
     const fetchData = async () => {
       try {
         const response = await getFuncionarioById(Number(id));
-        setFuncionario(response.data.funcionario); 
+        setFuncionario(response.data.funcionario);
       } catch (error) {
-        setError('Erro ao carregar os detalhes do funcionário.');
+        setError("Erro ao carregar os detalhes do funcionário.");
       } finally {
         setLoading(false);
       }
     };
+
     fetchData();
   }, [id]);
 
-  const handleDelete = async () => {
-    const confirmDelete = window.confirm("Tem certeza que deseja excluir o funcionário?");
-    if (confirmDelete && id) {
-      try {
-        await deleteFuncionario(Number(id)); 
-        alert('Funcionário excluído com sucesso!');
-        navigate('/home'); 
-      } catch (error) {
-        alert('Erro ao excluir o funcionário.');
-      }
-    }
+  const handleDeleteClick = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
   };
 
   if (loading) {
@@ -66,23 +57,37 @@ export function EmployeeDetails(): JSX.Element {
   }
 
   if (!funcionario) {
-    return <Styled.Error>Funcionário não encontrado.</Styled.Error>
+    return <Styled.Error>Funcionário não encontrado.</Styled.Error>;
   }
 
- const formattedDate = funcionario.dataNascimento ? new Date(funcionario.dataNascimento).toLocaleDateString() : 'Data inválida';
+  const formattedDate = funcionario.dataNascimento
+    ? new Date(funcionario.dataNascimento).toLocaleDateString()
+    : "Data inválida";
 
   return (
-    <Styled.Container>   
+    <Styled.Container>
       <Styled.TitleDiv>
         <Styled.LeftButtons>
-          <Styled.Button onClick={() => navigate('/employeeregistration')}>Editar informações</Styled.Button>
-          <Styled.Button onClick={handleDelete}>Excluir funcionário</Styled.Button>
+          <Styled.Button onClick={() => navigate("/employeeregistration")}>
+            Editar informações
+          </Styled.Button>
+          <Styled.Button onClick={handleDeleteClick}>
+            Excluir funcionário
+          </Styled.Button>
         </Styled.LeftButtons>
 
         <Styled.RightButton>
-          <Styled.Button onClick={() => navigate('/home')}>Voltar</Styled.Button>
+          <Styled.Button onClick={() => navigate("/employees")}>
+            Voltar
+          </Styled.Button>
         </Styled.RightButton>
       </Styled.TitleDiv>
+
+      <ConfirmationModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        funcionarioId={funcionario.id}
+      />
 
       <Styled.Card>
         <Styled.Title>Detalhes do Funcionário</Styled.Title>
@@ -123,7 +128,9 @@ export function EmployeeDetails(): JSX.Element {
 
         <Styled.Field>
           <Styled.Label>Observações:</Styled.Label>
-          <Styled.Text>{funcionario.observacoes || 'Nenhuma observação'}</Styled.Text>
+          <Styled.Text>
+            {funcionario.observacoes || "Nenhuma observação"}
+          </Styled.Text>
         </Styled.Field>
       </Styled.Card>
     </Styled.Container>

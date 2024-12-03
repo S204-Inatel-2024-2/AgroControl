@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Project Rural",
-    "description": "Rotas do projeto ProductRural",
+    "title": "Agrocontrol",
+    "description": "Rotas do projeto Agrocontrol",
     "version": "0.1.0"
   },
   "servers": [
@@ -11,13 +11,113 @@
     }
   ],
   "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Login"],
+        "summary": "Realizar Login",
+        "description": "Login para acessar a aplicação",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email do usuário"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Senha do usuário"
+                  }
+                },
+                "required": ["name", "email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "Token de autenticação JWT gerado para o usuário"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem indicando que o login foi bem-sucedido",
+                      "example": "Login bem-sucedido."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o usuário não foi encontrado",
+                      "example": "Email não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Senha incorreta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que a senha fornecida está incorreta",
+                      "example": "Senha incorreta."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando uma falha ao tentar realizar o login",
+                      "example": "Erro ao realizar login."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/funcionarios": {
       "post": {
-        "tags": [
-          "Funcionarios"
-        ],
-        "summary": "Criar Funcionário",
-        "description": "Criar Funcionário",
+        "tags": ["Funcionarios"],
+        "summary": "Cadastra funcionário",
+        "description": "Cadastrar funcionário",
         "requestBody": {
           "required": true,
           "content": {
@@ -27,38 +127,40 @@
                 "properties": {
                   "nome": {
                     "type": "string",
-                    "description": "Nome do usuário"
+                    "description": "Nome do funcionário"
                   },
                   "cpf": {
                     "type": "string",
-                    "description": "cpf do usuário"
-                  },
-                  "email": {
-                    "type": "string",
-                    "description": "Email do usuário"
+                    "description": "CPF do funcionário"
                   },
                   "endereco": {
                     "type": "string",
-                    "description": "endereço do usuário"
+                    "description": "Endereço do funcionário"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "E-mail do funcionário"
                   },
                   "funcao": {
                     "type": "string",
-                    "description": "trabalho exercido"
+                    "description": "Função exercida pelo funcionário"
                   },
                   "salario": {
-                    "type": "float",
-                    "description": "salário do funcionario"
+                    "type": "number",
+                    "format": "float",
+                    "description": "Salário do funcionário"
                   },
                   "DataNascimento": {
                     "type": "string",
-                    "description": "nascimento"
+                    "format": "date",
+                    "description": "Data de nascimento do funcionário"
                   }
                 },
                 "required": [
                   "nome",
                   "cpf",
-                  "email",
                   "endereco",
+                  "email",
                   "funcao",
                   "salario",
                   "dataNascimento"
@@ -75,34 +177,92 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "funcionario": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "ID do funcionário"
+                        },
+                        "nome": {
+                          "type": "string",
+                          "description": "Nome do funcionário"
+                        },
+                        "cpf": {
+                          "type": "string",
+                          "description": "CPF do funcionário"
+                        },
+                        "endereco": {
+                          "type": "string",
+                          "description": "Endereço do funcionário"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "E-mail do funcionário"
+                        },
+                        "funcao": {
+                          "type": "string",
+                          "description": "Função exercida pelo funcionário"
+                        },
+                        "salario": {
+                          "type": "number",
+                          "format": "float",
+                          "description": "Salário do funcionário"
+                        },
+                        "dataNascimento": {
+                          "type": "string",
+                          "format": "date",
+                          "description": "Data de nascimento do funcionário"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data de criação do registro"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data da última atualização"
+                        }
+                      }
+                    },
                     "message": {
                       "type": "string",
-                      "description": "Mensagem indicando que o usuário foi criado com sucesso"
-                    },
-                    "id": {
-                      "type": "integer",
-                      "description": "ID do usuário criado"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "email": {
-                      "type": "string"
-                    },
-                    "funcao": {
-                      "type": "string"
-                    },
-                    "salario": {
-                      "type": "float"
-                    },
-                    "dataNascimento": {
-                      "type": "string"
-                    },
-                    "createAt": {
-                      "type": "date"
-                    },
-                    "updateAt": {
-                      "type": "date"
+                      "description": "Mensagem indicando que o funcionário foi cadastrado",
+                      "example": "Funcionário cadastrado com sucesso!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação ou duplicação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Descrição detalhada do erro"
+                    }
+                  }
+                },
+                "examples": {
+                  "Campos obrigatórios ausentes": {
+                    "value": {
+                      "error": "Os campos são obrigatórios."
+                    }
+                  },
+                  "CPF já cadastrado": {
+                    "value": {
+                      "error": "Este CPF pertence a outro funcionário."
+                    }
+                  },
+                  "Email já cadastrado": {
+                    "value": {
+                      "error": "Este email pertence a outro funcionário."
                     }
                   }
                 }
@@ -110,19 +270,31 @@
             }
           },
           "500": {
-            "description": "Solicitação inválida"
+            "description": "Erro ao cadastrar funcionário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando uma falha ao cadastrar funcionário",
+                      "example": "Erro ao cadastrar funcionário."
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
       "get": {
-        "tags": [
-          "Funcionarios"
-        ],
-        "summary": "Retorna uma lista de Funcionários",
-        "description": "Retorna uma lista de Funcionários",
+        "tags": ["Funcionarios"],
+        "summary": "Retorna uma lista de todos funcionários cadastrados",
+        "description": "Retorna uma lista de todos funcionários cadastrados",
         "responses": {
           "200": {
-            "description": "Retorna uma lista de Funcionários",
+            "description": "Retorna uma lista de funcionários cadastrados",
             "content": {
               "application/json": {
                 "schema": {
@@ -130,34 +302,50 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "ID do funcionário"
+                      },
                       "nome": {
-                    "type": "string",
-                    "description": "Nome do usuário"
-                  },
-                  "cpf": {
-                    "type": "string",
-                    "description": "cpf do usuário"
-                  },
-                  "email": {
-                    "type": "string",
-                    "description": "Email do usuário"
-                  },
-                  "endereco": {
-                    "type": "string",
-                    "description": "endereço do usuário"
-                  },
-                  "funcao": {
-                    "type": "string",
-                    "description": "trabalho exercido"
-                  },
-                  "salario": {
-                    "type": "float",
-                    "description": "salário do funcionario"
-                  },
-                  "DataNascimento": {
-                    "type": "string",
-                    "description": "nascimento"
-                  }
+                        "type": "string",
+                        "description": "Nome do funcionário"
+                      },
+                      "cpf": {
+                        "type": "string",
+                        "description": "CPF do funcionário"
+                      },
+                      "endereco": {
+                        "type": "string",
+                        "description": "Endereço do funcionário"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "E-mail do funcionário"
+                      },
+                      "funcao": {
+                        "type": "string",
+                        "description": "Função exercida pelo funcionário"
+                      },
+                      "salario": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Salário do funcionário"
+                      },
+                      "dataNascimento": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Data de nascimento do funcionário"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data de criação do registro"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data da última atualização"
+                      }
                     }
                   }
                 }
@@ -165,86 +353,146 @@
             }
           },
           "500": {
-            "description": "Erro interno do servidor"
-          }
-        }
-      }
-      
-    },
-    "/funcionarios/{id}": {
-  "get": {
-    "tags": [
-      "Funcionarios"
-    ],
-    "summary": "Retorna um funcionário pelo ID",
-    "description": "Busca um funcionário específico pelo ID",
-    "parameters": [
-      {
-        "name": "id",
-        "in": "path",
-        "required": true,
-        "description": "ID do funcionário a ser buscado",
-        "schema": {
-          "type": "integer"
-        }
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "Dados do funcionário",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "type": "string",
-                  "description": "Nome do usuário"
-                },
-                "cpf": {
-                  "type": "string",
-                  "description": "CPF do usuário"
-                },
-                "email": {
-                  "type": "string",
-                  "description": "Email do usuário"
-                },
-                "endereco": {
-                  "type": "string",
-                  "description": "Endereço do usuário"
-                },
-                "funcao": {
-                  "type": "string",
-                  "description": "Trabalho exercido"
-                },
-                "salario": {
-                  "type": "float",
-                  "description": "Salário do funcionário"
-                },
-                "dataNascimento": {
-                  "type": "string",
-                  "description": "Data de nascimento do funcionário"
+            "description": "Erro ao retornar lista de funcionários cadastrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando uma falha ao listar funcionários cadastrados",
+                      "example": "Não foi possivel listar funcionários!"
+                    }
+                  }
                 }
               }
             }
           }
         }
-      },
-      "404": {
-        "description": "Usuário não encontrado"
-      },
-      "500": {
-        "description": "Erro interno do servidor"
       }
-    }
-  },
-  "patch": {
-    "tags": [
-      "Funcionarios"
-    ],
-    "summary": "Edita um funcionário pelo ID",
-    "description": "Edita um funcionário específico pelo ID",
-    "requestBody": {
+    },
+    "/funcionarios/{id}": {
+      "get": {
+        "tags": ["Funcionarios"],
+        "summary": "Lista dados de funcionário pelo ID",
+        "description": "Retorna dados de funcionário pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do funcionário a ser procurado",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna dados de funcionário solicitado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "funcionario": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "ID do funcionário"
+                        },
+                        "nome": {
+                          "type": "string",
+                          "description": "Nome do funcionário"
+                        },
+                        "cpf": {
+                          "type": "string",
+                          "description": "CPF do funcionário"
+                        },
+                        "endereco": {
+                          "type": "string",
+                          "description": "Endereço do funcionário"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "E-mail do funcionário"
+                        },
+                        "funcao": {
+                          "type": "string",
+                          "description": "Função exercida pelo funcionário"
+                        },
+                        "salario": {
+                          "type": "number",
+                          "format": "float",
+                          "description": "Salário do funcionário"
+                        },
+                        "dataNascimento": {
+                          "type": "string",
+                          "format": "date",
+                          "description": "Data de nascimento do funcionário"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data de criação do registro"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data da última atualização"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem indicando que o funcionário foi encontrado",
+                      "example": "Funcionário encontrado com sucesso!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Funcionário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o funcionário não foi encontrado",
+                      "example": "Funcionário não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Funcionarios"],
+        "summary": "Atualiza dados de funcionário pelo ID",
+        "description": "Atualizar dados de funcionário pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do funcionário a ser atualizado",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
           "required": true,
           "content": {
             "application/json": {
@@ -253,38 +501,40 @@
                 "properties": {
                   "nome": {
                     "type": "string",
-                    "description": "Nome do usuário"
+                    "description": "Nome do funcionário"
                   },
                   "cpf": {
                     "type": "string",
-                    "description": "cpf do usuário"
-                  },
-                  "email": {
-                    "type": "string",
-                    "description": "Email do usuário"
+                    "description": "CPF do funcionário"
                   },
                   "endereco": {
                     "type": "string",
-                    "description": "endereço do usuário"
+                    "description": "Endereço do funcionário"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "E-mail do funcionário"
                   },
                   "funcao": {
                     "type": "string",
-                    "description": "trabalho exercido"
+                    "description": "Função exercida pelo funcionário"
                   },
                   "salario": {
-                    "type": "float",
-                    "description": "salário do funcionario"
+                    "type": "number",
+                    "format": "float",
+                    "description": "Salário do funcionário"
                   },
-                  "DataNascimento": {
+                  "dataNascimento": {
                     "type": "string",
-                    "description": "nascimento"
+                    "format": "date",
+                    "description": "Data de nascimento do funcionário"
                   }
                 },
                 "required": [
                   "nome",
                   "cpf",
-                  "email",
                   "endereco",
+                  "email",
                   "funcao",
                   "salario",
                   "dataNascimento"
@@ -293,110 +543,149 @@
             }
           }
         },
-    "parameters": [
-      {
-        "name": "id",
-        "in": "path",
-        "required": true,
-        "description": "ID do funcionário a ser Editado",
-        "schema": {
-          "type": "integer"
-        }
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "Dados do funcionário",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "type": "string",
-                  "description": "Nome do usuário"
-                },
-                "cpf": {
-                  "type": "string",
-                  "description": "CPF do usuário"
-                },
-                "email": {
-                  "type": "string",
-                  "description": "Email do usuário"
-                },
-                "endereco": {
-                  "type": "string",
-                  "description": "Endereço do usuário"
-                },
-                "funcao": {
-                  "type": "string",
-                  "description": "Trabalho exercido"
-                },
-                "salario": {
-                  "type": "float",
-                  "description": "Salário do funcionário"
-                },
-                "dataNascimento": {
-                  "type": "string",
-                  "description": "Data de nascimento do funcionário"
+        "responses": {
+          "200": {
+            "description": "Dados do funcionário atualizados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "funcionario": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "ID do funcionário"
+                        },
+                        "nome": {
+                          "type": "string",
+                          "description": "Nome do funcionário"
+                        },
+                        "cpf": {
+                          "type": "string",
+                          "description": "CPF do funcionário"
+                        },
+                        "endereco": {
+                          "type": "string",
+                          "description": "Endereço do funcionário"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "E-mail do funcionário"
+                        },
+                        "funcao": {
+                          "type": "string",
+                          "description": "Função exercida pelo funcionário"
+                        },
+                        "salario": {
+                          "type": "number",
+                          "format": "float",
+                          "description": "Salário do funcionário"
+                        },
+                        "dataNascimento": {
+                          "type": "string",
+                          "format": "date",
+                          "description": "Data de nascimento do funcionário"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data de criação do registro"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data da última atualização do registro"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem indicando que os dados do funcionário foram atualizados com sucesso",
+                      "example": "Dados atualizados do funcionário id={id} com sucesso!"
+                    }
+                  }
                 }
               }
             }
+          },
+          "404": {
+            "description": "Funcionário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o funcionário não foi encontrado",
+                      "example": "Funcionário não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
           }
         }
       },
-      "404": {
-        "description": "Usuário não encontrado"
-      },
-      "500": {
-        "description": "Erro interno do servidor"
-      }
-    }
-  },
-  "delete": {
-    "tags": [
-      "Funcionarios"
-    ],
-    "summary": "Deleta um funcionário pelo ID",
-    "description": "Deleta um funcionário específico pelo ID",
-    "parameters": [
-      {
-        "name": "id",
-        "in": "path",
-        "required": true,
-        "description": "ID do funcionário a ser Deletado",
-        "schema": {
-          "type": "integer"
-        }
-      }
-    ],
-    "responses": {
-      "204": {
-        "description": "Dados do funcionário",
-        "content": {
-          "application/json": {
+      "delete": {
+        "tags": ["Funcionarios"],
+        "summary": "Deleta um funcionário pelo ID",
+        "description": "Deleta um funcionário pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do funcionário a ser deletado",
             "schema": {
-              "type": "object"
+              "type": "integer"
             }
           }
-        }
-      },
-      "404": {
-        "description": "Funcionário não encontrado"
-      },
-      "500": {
-        "description": "Erro interno do servidor"
-      }
-    }
-  }
-},
-    "/login": {
-      "post": {
-        "tags": [
-          "Login"
         ],
-        "summary": "Login",
-        "description": "Login para acessar a aplicação",
+        "responses": {
+          "204": {
+            "description": "Dados do funcionário deletado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Funcionário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o funcionário não foi encontrado",
+                      "example": "Funcionário não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      }
+    },
+    "/servicos": {
+      "post": {
+        "tags": ["Servicos"],
+        "summary": "Cadastra serviço",
+        "description": "Cadastra serviço",
         "requestBody": {
           "required": true,
           "content": {
@@ -404,18 +693,337 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "email": {
+                  "status": {
                     "type": "string",
-                    "description": "Email do usuário"
+                    "description": "Status de andamento do serviço (pendente, em andamento ou concluído)"
                   },
-                  "password": {
+                  "dataAtividade": {
                     "type": "string",
-                    "description": "senha do usuário"
+                    "format": "date",
+                    "description": "Data de início do serviço"
+                  },
+                  "tipoServico": {
+                    "type": "integer",
+                    "description": "Identificador do tipo de serviço"
+                  },
+                  "responsavel": {
+                    "type": "integer",
+                    "description": "ID do responsável pelo serviço"
+                  },
+                  "valorGasto": {
+                    "type": "number",
+                    "description": "Valor total gasto na execução do serviço"
                   }
                 },
                 "required": [
-                  "name",
-                  "email"
+                  "status",
+                  "dataAtividade",
+                  "tipoServico",
+                  "responsavel",
+                  "valorGasto"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Serviço cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "IdServico": {
+                      "type": "integer",
+                      "description": "ID do serviço cadastrado"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Status de andamento do serviço (pendente, em andamento ou concluído)"
+                    },
+                    "dataAtividade": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Data de início do serviço"
+                    },
+                    "tipoServico": {
+                      "type": "integer",
+                      "description": "Identificador do tipo de serviço"
+                    },
+                    "responsavel": {
+                      "type": "integer",
+                      "description": "ID do responsável pelo serviço"
+                    },
+                    "valorGasto": {
+                      "type": "number",
+                      "description": "Valor total gasto na execução do serviço"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Data da última atualização"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Data de criação do registro"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o usuário não foi encontrado",
+                      "example": "Os campos são obrigatórios."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Descrição detalhada do erro"
+                    }
+                  }
+                },
+                "examples": {
+                  "Responsável pelo serviço não encontrado": {
+                    "value": {
+                      "error": "Funcionário não encontrado."
+                    }
+                  },
+                  "Tipo de serviço não encontrado": {
+                    "value": {
+                      "error": "Tipo de Serviço não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Servicos"],
+        "summary": "Retorna uma lista de todos os serviços cadastrados",
+        "description": "Retorna uma lista de todos serviços cadastrados",
+        "responses": {
+          "200": {
+            "description": "Retorna lista de serviços cadastrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "IdServico": {
+                        "type": "integer",
+                        "description": "ID do serviço cadastrado"
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Status de andamento do serviço (pendente, em andamento ou concluído)"
+                      },
+                      "dataAtividade": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Data de início do serviço"
+                      },
+                      "tipoServico": {
+                        "type": "integer",
+                        "description": "Identificador do tipo de serviço"
+                      },
+                      "responsavel": {
+                        "type": "integer",
+                        "description": "ID do responsável pelo serviço"
+                      },
+                      "valorGasto": {
+                        "type": "number",
+                        "description": "Valor total gasto na execução do serviço"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data de criação do registro"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data da última atualização"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      }
+    },
+    "/servicos/{id}": {
+      "get": {
+        "tags": ["Servicos"],
+        "summary": "Lista dados de serviço pelo ID",
+        "description": "Retorna dados de serviço pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do serviço a ser procurado"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna dados de serviço solicitado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "IdServico": {
+                        "type": "integer",
+                        "description": "ID do serviço cadastrado"
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Status de andamento do serviço (pendente, em andamento ou concluído)"
+                      },
+                      "dataAtividade": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Data de início do serviço"
+                      },
+                      "tipoServico": {
+                        "type": "integer",
+                        "description": "Identificador do tipo de serviço"
+                      },
+                      "responsavel": {
+                        "type": "integer",
+                        "description": "ID do responsável pelo serviço"
+                      },
+                      "valorGasto": {
+                        "type": "number",
+                        "description": "Valor total gasto na execução do serviço"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data de criação do registro"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data da última atualização"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Serviço não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o serviço não foi encontrado",
+                      "example": "Serviço não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Servicos"],
+        "summary": "Atualiza dados de serviço pelo ID",
+        "description": "Atualizar dados de serviço pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do serviço a ser atualizado"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "description": "Status de andamento do serviço (pendente, em andamento ou concluído)"
+                  },
+                  "dataAtividade": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Data de início do serviço"
+                  },
+                  "tipoServico": {
+                    "type": "integer",
+                    "description": "Identificador do tipo de serviço"
+                  },
+                  "responsavel": {
+                    "type": "integer",
+                    "description": "ID do responsável pelo serviço"
+                  },
+                  "valorGasto": {
+                    "type": "number",
+                    "description": "Valor total gasto na execução do serviço"
+                  }
+                },
+                "required": [
+                  "status",
+                  "dataAtividade",
+                  "tipoServico",
+                  "responsavel",
+                  "valorGasto"
                 ]
               }
             }
@@ -423,13 +1031,876 @@
         },
         "responses": {
           "200": {
-            "description": "Login bem-sucedido."
+            "description": "Dados do serviço atualizados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "IdServico": {
+                      "type": "integer",
+                      "description": "ID do serviço cadastrado"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Status de andamento do serviço (pendente, em andamento ou concluído)"
+                    },
+                    "dataAtividade": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Data de início do serviço"
+                    },
+                    "tipoServico": {
+                      "type": "integer",
+                      "description": "Identificador do tipo de serviço"
+                    },
+                    "responsavel": {
+                      "type": "integer",
+                      "description": "ID do responsável pelo serviço"
+                    },
+                    "valorGasto": {
+                      "type": "number",
+                      "description": "Valor total gasto na execução do serviço"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Data de criação do registro"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Data da última atualização"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Descrição detalhada do erro"
+                    }
+                  }
+                },
+                "examples": {
+                  "Serviço não encontrado": {
+                    "value": {
+                      "error": "Serviço não encontrado."
+                    }
+                  },
+                  "Responsável pelo serviço não encontrado": {
+                    "value": {
+                      "error": "Funcionário não encontrado."
+                    }
+                  },
+                  "Tipo de serviço não encontrado": {
+                    "value": {
+                      "error": "Tipo de Serviço não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Servicos"],
+        "summary": "Deleta um serviço pelo ID",
+        "description": "Deleta um serviço pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do serviço a ser deletado"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Dados do serviço deletado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Serviço não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o serviço não foi encontrado",
+                      "example": "Serviço não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      }
+    },
+    "/tiposervico": {
+      "post": {
+        "tags": ["TipoServico"],
+        "summary": "Cadastra tipo de serviço",
+        "description": "Cadastra tipo de serviço",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "descricao": {
+                    "type": "string",
+                    "description": "Descrição do tipo de serviço"
+                  }
+                },
+                "required": ["descricao"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Tipo de serviço cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID do tipo de serviço cadastrado"
+                    },
+                    "descricao": {
+                      "type": "string",
+                      "description": "Descrição do tipo de serviço"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Email e senha são obrigatórios."
+            "description": "Descrição obrigatória ausente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que a descrição do tipo de serviço é obrigatória",
+                      "example": "Descrição é obrigatória."
+                    }
+                  }
+                }
+              }
+            }
           },
-          "401": {
-            "description": "Senha incorreta."
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      },
+      "get": {
+        "tags": ["TipoServico"],
+        "summary": "Retorna uma lista de todos os tipos de serviço",
+        "description": "Retorna uma lista de todos os tipos de serviço",
+        "responses": {
+          "200": {
+            "description": "Lista de tipos de serviço",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "ID do tipo de serviço cadastrado"
+                      },
+                      "descricao": {
+                        "type": "string",
+                        "description": "Descrição do tipo de serviço"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      }
+    },
+    "/tiposervico/{id}": {
+      "get": {
+        "tags": ["TipoServico"],
+        "summary": "Lista dados do tipo de serviço pelo ID",
+        "description": "Retorna dados de tipo de serviço pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do tipo de serviço a ser procurado"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do tipo de serviço solicitado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID do tipo de serviço cadastrado"
+                    },
+                    "descricao": {
+                      "type": "string",
+                      "description": "Descrição do tipo de serviço"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Tipo de serviço não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o tipo de serviço não foi encontrado",
+                      "example": "Tipo de serviço não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": ["TipoServico"],
+        "summary": "Atualiza dados de tipo de serviço pelo ID",
+        "description": "Atualiza dados de tipo de serviço pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do tipo de serviço a ser atualizado"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "descricao": {
+                    "type": "string",
+                    "description": "Descrição do tipo de serviço"
+                  }
+                },
+                "required": ["descricao"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dados do tipo de serviço atualizados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID do tipo de serviço cadastrado"
+                    },
+                    "descricao": {
+                      "type": "string",
+                      "description": "Descrição do tipo de serviço"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Tipo de serviço não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o tipo de serviço não foi encontrado",
+                      "example": "Tipo de serviço não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["TipoServico"],
+        "summary": "Deleta um tipo de serviço pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do tipo de serviço a ser deletado"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Dados do tipo de serviço deletado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Tipo de serviço não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que o tipo de serviço não foi encontrado",
+                      "example": "Tipo de serviço não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      }
+    },
+    "/receitas": {
+      "post": {
+        "tags": ["Receitas"],
+        "summary": "Cadastra receita",
+        "description": "Cadastra receita",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "lucro": {
+                    "type": "boolean",
+                    "description": "Lucro obtido com a receita"
+                  },
+                  "valorReceita": {
+                    "type": "number",
+                    "description": "Valor total da receita"
+                  },
+                  "observacao": {
+                    "type": "string",
+                    "description": "Observação sobre a receita"
+                  },
+                  "idCategoria": {
+                    "type": "integer",
+                    "description": "ID da categoria à qual a receita pertence"
+                  }
+                },
+                "required": [
+                  "lucro",
+                  "valorReceita",
+                  "observacao",
+                  "idCategoria"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Receita cadastrada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "receita": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "ID da receita cadastrada"
+                        },
+                        "lucro": {
+                          "type": "boolean",
+                          "description": "Indica se houve lucro na receita"
+                        },
+                        "valorReceita": {
+                          "type": "number",
+                          "description": "Valor total da receita"
+                        },
+                        "observacao": {
+                          "type": "string",
+                          "description": "Observação detalhando a receita"
+                        },
+                        "idCategoria": {
+                          "type": "integer",
+                          "description": "ID da categoria associada à receita"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data e hora da criação da receita"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data e hora da última atualização da receita"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de confirmação",
+                      "example": "Receita cadastrada com sucesso!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Campos obrigatórios ausentes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que os campos são obrigatórios",
+                      "example": "Os campos são obrigatórios."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Categoria não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que a categoria no qual a receita perence não foi encontrada",
+                      "example": "Categoria não encontrada."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Receitas"],
+        "summary": "Retorna uma lista todas as receitas cadastradas",
+        "description": "Retorna uma lista todas as receitas cadastradas",
+        "responses": {
+          "200": {
+            "description": "Lista de receitas cadastradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "ID da receita cadastrada"
+                      },
+                      "lucro": {
+                        "type": "boolean",
+                        "description": "Indica se houve lucro na receita"
+                      },
+                      "valorReceita": {
+                        "type": "number",
+                        "description": "Valor total da receita"
+                      },
+                      "observacao": {
+                        "type": "string",
+                        "description": "Observação detalhando a receita"
+                      },
+                      "idCategoria": {
+                        "type": "integer",
+                        "description": "ID da categoria associada à receita"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data e hora da criação da receita"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data e hora da última atualização da receita"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao listar todas as receitas cadastradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando ao listar receitas cadastradas",
+                      "example": "Não foi possivel listar receitas!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/receitas/{id}": {
+      "get": {
+        "tags": ["Receitas"],
+        "summary": "Lista dados da receita pelo ID",
+        "description": "Lista dados da receita pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID da receita a ser procurada"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Receita encontrada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "receita": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "ID da receita cadastrada"
+                        },
+                        "lucro": {
+                          "type": "boolean",
+                          "description": "Indica se houve lucro na receita"
+                        },
+                        "valorReceita": {
+                          "type": "number",
+                          "description": "Valor total da receita"
+                        },
+                        "observacao": {
+                          "type": "string",
+                          "description": "Observação detalhando a receita"
+                        },
+                        "idCategoria": {
+                          "type": "integer",
+                          "description": "ID da categoria associada à receita"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data e hora da criação da receita"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data e hora da última atualização da receita"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de confirmação",
+                      "example": "Receita encontrada com sucesso!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Receita não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que a receita não foi encontrada",
+                      "example": "Receita não encontrada."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Receitas"],
+        "summary": "Atualiza dados da receita pelo ID",
+        "description": "Atualizar dados da receita pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID da receita a ser atualizada"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "lucro": {
+                    "type": "boolean",
+                    "description": "Indica se houve lucro na receita"
+                  },
+                  "valorReceita": {
+                    "type": "number",
+                    "description": "Valor total da receita"
+                  },
+                  "observacao": {
+                    "type": "string",
+                    "description": "Observação detalhando a receita"
+                  },
+                  "idCategoria": {
+                    "type": "integer",
+                    "description": "ID da categoria associada à receita"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dados de receita atualizados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "receita": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "ID da receita cadastrada"
+                        },
+                        "lucro": {
+                          "type": "boolean",
+                          "description": "Indica se houve lucro na receita"
+                        },
+                        "valorReceita": {
+                          "type": "number",
+                          "description": "Valor total da receita"
+                        },
+                        "observacao": {
+                          "type": "string",
+                          "description": "Observação detalhando a receita"
+                        },
+                        "idCategoria": {
+                          "type": "integer",
+                          "description": "ID da categoria associada à receita"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data e hora da criação da receita"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data e hora da última atualização da receita"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de confirmação",
+                      "example": "Dados atualizados da receita id={id} com sucesso!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Receita não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensagem de erro indicando que a receita não foi encontrada",
+                      "example": "Receita não encontrada."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
+          }
+        }
+      }
+    },
+    "/categorias": {
+      "get": {
+        "tags": ["Categorias"],
+        "summary": "Retorna uma lista todas as categorias de receitas",
+        "description": "Retorna uma lista todas as categorias de receitas",
+        "responses": {
+          "200": {
+            "description": "Lista de categorias de receitas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "ID da categoria de receita"
+                      },
+                      "nome": {
+                        "type": "string",
+                        "description": "Nome da categoria de receita"
+                      },
+                      "descricao": {
+                        "type": "string",
+                        "description": "Descrição da categoria de receita"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data de criação da categoria"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data da última atualização"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha de requisição do servidor"
           }
         }
       }

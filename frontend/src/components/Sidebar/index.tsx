@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
-import { FaHome, FaChartLine, FaMoneyBillWave, FaUsers, FaHeadset } from 'react-icons/fa'; // Ícones do React Icons
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+import {
+  FaHome,
+  FaChartLine,
+  FaMoneyBillWave,
+  FaUsers,
+  FaHeadset,
+} from "react-icons/fa"; // Ícones do React Icons
 import { MdHomeRepairService } from "react-icons/md";
 // Animação de abrir (deslizar da esquerda para a direita)
 const slideIn = keyframes`
@@ -24,19 +31,20 @@ const slideOut = keyframes`
 `;
 
 const SidebarContainer = styled.div<{ isOpen: boolean }>`
-  width: 250px;
+  width: 290px;
   height: 100vh;
   gap: 15px;
-  background-color: #FFD54F; /* Cor amarela */
+  background-color: #ffd54f; /* Cor amarela */
   position: fixed;
   top: 0;
   left: 0;
   padding: 20px;
   padding-top: 125px;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-direction: column;
-  animation: ${({ isOpen }) => (isOpen ? slideIn : slideOut)} 0.5s ease-out forwards;
+  animation: ${({ isOpen }) => (isOpen ? slideIn : slideOut)} 0.5s ease-out
+    forwards;
 `;
 
 const SidebarItem = styled(Link)`
@@ -50,12 +58,12 @@ const SidebarItem = styled(Link)`
   transition: 0.2s;
   &:hover {
     transition: 0.2s;
-    color: ${({ theme }) => theme.colors.textOnClick};;
+    color: ${({ theme }) => theme.colors.textOnClick};
   }
 `;
 
 const IconWrapper = styled.span`
-  margin-right: 10px; 
+  margin-right: 10px;
 `;
 
 const ToggleButton = styled.button`
@@ -69,13 +77,12 @@ const ToggleButton = styled.button`
   cursor: pointer;
   font-size: 16px;
   border-radius: 5px;
-transition: 0.2s;
+  transition: 0.2s;
   &:hover {
     transition: 0.2s;
-    background-color: ${({ theme }) => theme.colors.textOnClick};;
+    background-color: ${({ theme }) => theme.colors.textOnClick};
   }
 `;
-
 
 type Props<T> = {
   isOpen: boolean;
@@ -90,28 +97,35 @@ const Sidebar = <T,>({ isOpen }: Props<T>) => {
                     Dashboard Financeiro
                 </SidebarItem> */}
         <SidebarItem to="/home">
-          <IconWrapper><FaHome /></IconWrapper>
+          <IconWrapper>
+            <FaHome />
+          </IconWrapper>
           Home
         </SidebarItem>
-        <SidebarItem to="/registerfinances">
-          <IconWrapper><FaMoneyBillWave /></IconWrapper>
+        <SidebarItem to="/finances">
+          <IconWrapper>
+            <FaMoneyBillWave />
+          </IconWrapper>
           Controle Financeiro
         </SidebarItem>
+
         <SidebarItem to="/services">
-          <IconWrapper><MdHomeRepairService /></IconWrapper>
-          Serviços
-        </SidebarItem>
-        <SidebarItem to="/employeeregistration">
-          <IconWrapper><MdHomeRepairService /></IconWrapper>
-          Gerenciamento de Serviços
+          <IconWrapper>
+            <MdHomeRepairService />
+          </IconWrapper>
+          Controle de Serviços
         </SidebarItem>
         <SidebarItem to="/employees">
-          <IconWrapper><FaUsers /></IconWrapper>
+          <IconWrapper>
+            <FaUsers />
+          </IconWrapper>
           Gerenciamento de Funcionários
         </SidebarItem>
-        
+
         <SidebarItem to="/suporte">
-          <IconWrapper><FaHeadset /></IconWrapper>
+          <IconWrapper>
+            <FaHeadset />
+          </IconWrapper>
           Suporte
         </SidebarItem>
       </SidebarContainer>

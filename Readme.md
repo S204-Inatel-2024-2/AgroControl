@@ -19,24 +19,27 @@ Para o banco de dados, em src/db/config/example_Config.json deve ser preenchido 
 * 3° - Rode o comando "npm install"
 * 4° - Para iniciar o servidor, rode o comando "nodemon ./server.js " dentro do caminho ~/backend/src
 * 5° - Para iniciar a aplicação WEB, rode o comando "npm start" a partir do caminho ~/frontEnd/src
+* 6° - Para iniciar o servidor email, rode o comando "npx maildev" a partir do caminho ~/backend/src
 
 ## 🛠️ Construído com
 
 Mencione as ferramentas que você usou para criar seu projeto
 * [React](https://react.dev/) - Framework utilizado para o frontEnd 
-* [Express](https://expressjs.com/pt-br/) - O framework web usado
+* [Express](https://expressjs.com/pt-br/) - O framework utilizado para construção do backEnd
 * [NeonDatabase](https://neon.tech/) - Banco de dados utilizado
 * [Sequelize](https://sequelize.org/) - ORM utilizada para facilitar queries no banco de dados
+* [Swagger]([https://sequelize.org/](https://swagger.io/)) - Plataforma para documentar os endpoints criados da api
+* [MailDev](https://github.com/maildev/maildev) - Servidor de email
 
 ## 📌 Versão
 
-Nós usamos [Git](https://github.com/) para controle de versão. Para as versões disponíveis, observe as [tags neste repositório](https://github.com/S204-Inatel-2024-2/AgroControl/tree/Develop). 
+Nós usamos [Git](https://github.com/) para controle de versão. Para as versões disponíveis, observe as [tags neste repositório](https://github.com/S204-Inatel-2024-2/AgroControl/releases). 
 
 ## ✒️ Autores
 
 Mencione todos aqueles que ajudaram a levantar o projeto desde o seu início
 
-* **Matheus Henrique Lourenço Bernardo** - *Trabalho Inicial/LT/Estrutura* - [Matheus Bernardo](https://github.com/Matheus-Bernardo)
+* **Matheus Henrique Lourenço Bernardo** - *Trabalho Inicial/LT/Estrutura/Backend/FrontEnd* - [Matheus Bernardo](https://github.com/Matheus-Bernardo)
 * **Iza Lopes** - *Responsável pelo BackEnd/Design* - [Iza lopes](https://github.com/Izalp)
 * **Guilherme cotta** - *Responsável pelo BackEnd* - [Guilherme Cotta](https://github.com/guilhermecmr)
 * **João Ryan** - *Responsável pelo FrontEnd* - [João Ryan](https://github.com/joaoryan)
