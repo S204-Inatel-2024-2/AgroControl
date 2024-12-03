@@ -6,11 +6,13 @@ on:
       - main
       - Develop
       - Iza
+      - Guilherme
   pull_request:
     branches:
       - main
       - Develop
       - Iza
+      - Guilherme
 jobs:
   test:
     name: Running unit-tests
