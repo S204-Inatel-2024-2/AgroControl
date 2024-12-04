@@ -27,7 +27,7 @@ async function emailNovoFuncionario(funcionarioNovo) {
     const admin = { nome: "Administrador" };
     try {
     let info = await transporter.sendMail({
-      from: `Equipe de Gerência AgroControl'<AgroControl@int.com>'`,
+      from: `Equipe de Gerência AgroControl <AgroControl@int.com>`,
       to: `${funcionarioNovo.email}`,
       subject: "Bem-vindo(a) à Equipe AgroControl",
       html: FuncionarioCadastrado(funcionarioNovo),
