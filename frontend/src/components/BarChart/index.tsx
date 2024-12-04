@@ -3,6 +3,7 @@ import { Container } from "./styles";
 import { BarChart } from "@mui/x-charts/BarChart";
 import React, { useEffect, useState } from "react";
 import { analiseFinanceira } from "../../service/dashboard/dashboard";
+import { Typography } from "@mui/material";
 
 const chartSetting = {
   width: 750,
@@ -47,6 +48,9 @@ export function BarVerticalChart(): JSX.Element {
   return (
     <>
       <Container>
+        <Typography variant="h6" align="left" paddingLeft={5} color="black">
+          Análise financeira mensal
+        </Typography>
         <BarChart
           margin={{ left: 100, right: 150 }}
           dataset={dataset}
@@ -60,8 +64,8 @@ export function BarVerticalChart(): JSX.Element {
             {
               scaleType: "linear",
               min: 0,
-              max: 150000,
-              tickMinStep: 25000,
+              max: 90000,
+              tickMinStep: 1000,
             },
           ]}
           series={[

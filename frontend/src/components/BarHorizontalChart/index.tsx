@@ -2,6 +2,7 @@ import { Container } from "./styles";
 import { BarChart } from "@mui/x-charts/BarChart";
 import React, { useEffect, useState } from "react";
 import { listAllSalarios } from "../../service/dashboard/dashboard";
+import { Typography } from "@mui/material";
 
 const chartSetting = {
   xAxis: [
@@ -40,6 +41,9 @@ export function BarHorizontalChart(): JSX.Element {
   return (
     <>
       <Container>
+        <Typography variant="h6" align="left" marginBottom={-4} color="black">
+          Análise de funcionários: salário + bonificação
+        </Typography>
         <BarChart
           margin={{ left: 100, right: 100 }}
           dataset={dataset}
