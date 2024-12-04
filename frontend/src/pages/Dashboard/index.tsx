@@ -11,9 +11,7 @@ export function Dashboard(): JSX.Element {
       <Styled.Container>
         <Styled.ChartsContainer>
           <BarHorizontalChart />
-          <BarHorizontalChart />
-          <BarHorizontalChart />
-          <BarHorizontalChart />
+          <BarVerticalChart />
         </Styled.ChartsContainer>
       </Styled.Container>
     </>
