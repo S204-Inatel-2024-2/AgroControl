@@ -107,23 +107,23 @@ describe("DashboardFinanceiroService", () => {
 
             await dashboardService.AnaliseFinanceiraMensal(mockReq, mockRes);
 
-            expect(Receita.findAll).toHaveBeenCalledTimes(1);
+            expect(Receita.findAll).toHaveBeenCalledTimes(2);
             expect(Servicos.findAll).toHaveBeenCalledTimes(1);
 
             expect(mockRes.status).toHaveBeenCalledWith(200);
             expect(mockRes.json).toHaveBeenCalledWith([
-                { month: 1, totalLucro: 5000, totalGasto: 2000 },
-                { month: 2, totalLucro: 3000, totalGasto: 1000 },
-                { month: 3, totalLucro: 0, totalGasto: 0 },
-                { month: 4, totalLucro: 0, totalGasto: 0 },
-                { month: 5, totalLucro: 0, totalGasto: 0 },
-                { month: 6, totalLucro: 0, totalGasto: 0 },
-                { month: 7, totalLucro: 0, totalGasto: 0 },
-                { month: 8, totalLucro: 0, totalGasto: 0 },
-                { month: 9, totalLucro: 0, totalGasto: 0 },
-                { month: 10, totalLucro: 0, totalGasto: 0 },
-                { month: 11, totalLucro: 0, totalGasto: 0 },
-                { month: 12, totalLucro: 0, totalGasto: 0 }
+                { month: 1, totalLucroReceita: 5000, totalGasto: 2000 },
+                { month: 2, totalLucroReceita: 3000, totalGasto: 1000 },
+                { month: 3, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 4, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 5, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 6, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 7, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 8, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 9, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 10, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 11, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 12, totalLucroReceita: 0, totalGasto: 0 }
             ]);
         });
 
@@ -150,7 +150,7 @@ describe("DashboardFinanceiroService", () => {
 
             await dashboardService.AnaliseFinanceiraMensal(mockReq, mockRes);
 
-            expect(Receita.findAll).toHaveBeenCalledTimes(1);
+            expect(Receita.findAll).toHaveBeenCalledTimes(2);
             expect(Servicos.findAll).toHaveBeenCalledTimes(1);
             expect(mockRes.status).toHaveBeenCalledWith(500);
             expect(mockRes.json).toHaveBeenCalledWith({ error: "Erro ao buscar serviços" });
@@ -162,12 +162,12 @@ describe("DashboardFinanceiroService", () => {
 
             await dashboardService.AnaliseFinanceiraMensal(mockReq, mockRes);
 
-            expect(Receita.findAll).toHaveBeenCalledTimes(1);
+            expect(Receita.findAll).toHaveBeenCalledTimes(2);
             expect(Servicos.findAll).toHaveBeenCalledTimes(1);
             expect(mockRes.status).toHaveBeenCalledWith(200);
             expect(mockRes.json).toHaveBeenCalledWith(Array.from({ length: 12 }, (_, index) => ({ 
                 month: index + 1,
-                totalLucro: 0,
+                totalLucroReceita: 0,
                 totalGasto: 0
             })));
         });
@@ -183,18 +183,18 @@ describe("DashboardFinanceiroService", () => {
 
             expect(mockRes.status).toHaveBeenCalledWith(200);
             expect(mockRes.json).toHaveBeenCalledWith([
-                { month: 1, totalLucro: 5000, totalGasto: 0 },
-                { month: 2, totalLucro: 0, totalGasto: 1000 },
-                { month: 3, totalLucro: 0, totalGasto: 0 },
-                { month: 4, totalLucro: 0, totalGasto: 0 },
-                { month: 5, totalLucro: 0, totalGasto: 0 },
-                { month: 6, totalLucro: 0, totalGasto: 0 },
-                { month: 7, totalLucro: 0, totalGasto: 0 },
-                { month: 8, totalLucro: 0, totalGasto: 0 },
-                { month: 9, totalLucro: 0, totalGasto: 0 },
-                { month: 10, totalLucro: 0, totalGasto: 0 },
-                { month: 11, totalLucro: 0, totalGasto: 0 },
-                { month: 12, totalLucro: 0, totalGasto: 0 }
+                { month: 1, totalLucroReceita: 5000, totalGasto: 0 },
+                { month: 2, totalLucroReceita: 0, totalGasto: 1000 },
+                { month: 3, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 4, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 5, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 6, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 7, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 8, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 9, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 10, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 11, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 12, totalLucroReceita: 0, totalGasto: 0 }
             ]);
         });
 
@@ -206,18 +206,18 @@ describe("DashboardFinanceiroService", () => {
 
             expect(mockRes.status).toHaveBeenCalledWith(200);
             expect(mockRes.json).toHaveBeenCalledWith([
-                { month: 1, totalLucro: 0, totalGasto: 0 },
-                { month: 2, totalLucro: 0, totalGasto: 0 },
-                { month: 3, totalLucro: 0, totalGasto: 0 },
-                { month: 4, totalLucro: 0, totalGasto: 0 },
-                { month: 5, totalLucro: 0, totalGasto: 0 },
-                { month: 6, totalLucro: 0, totalGasto: 0 },
-                { month: 7, totalLucro: 0, totalGasto: 0 },
-                { month: 8, totalLucro: 0, totalGasto: 0 },
-                { month: 9, totalLucro: 0, totalGasto: 0 },
-                { month: 10, totalLucro: 0, totalGasto: 0 },
-                { month: 11, totalLucro: 0, totalGasto: 0 },
-                { month: 12, totalLucro: 0, totalGasto: 0 }
+                { month: 1, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 2, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 3, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 4, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 5, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 6, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 7, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 8, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 9, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 10, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 11, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 12, totalLucroReceita: 0, totalGasto: 0 }
             ]);
         });
 
@@ -238,18 +238,18 @@ describe("DashboardFinanceiroService", () => {
 
             expect(mockRes.status).toHaveBeenCalledWith(200);
             expect(mockRes.json).toHaveBeenCalledWith([
-                { month: 1, totalLucro: 0, totalGasto: 0 },
-                { month: 2, totalLucro: 0, totalGasto: 0 },
-                { month: 3, totalLucro: 0, totalGasto: 0 },
-                { month: 4, totalLucro: 0, totalGasto: 0 },
-                { month: 5, totalLucro: 0, totalGasto: 0 },
-                { month: 6, totalLucro: 0, totalGasto: 0 },
-                { month: 7, totalLucro: 0, totalGasto: 0 },
-                { month: 8, totalLucro: 0, totalGasto: 0 },
-                { month: 9, totalLucro: 0, totalGasto: 0 },
-                { month: 10, totalLucro: 0, totalGasto: 0 },
-                { month: 11, totalLucro: 0, totalGasto: 0 },
-                { month: 12, totalLucro: 0, totalGasto: 0 }
+                { month: 1, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 2, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 3, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 4, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 5, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 6, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 7, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 8, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 9, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 10, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 11, totalLucroReceita: 0, totalGasto: 0 },
+                { month: 12, totalLucroReceita: 0, totalGasto: 0 }
             ]);
         });
     });
