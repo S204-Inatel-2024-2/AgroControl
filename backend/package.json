@@ -35,7 +35,8 @@
     "coverageDirectory": "coverage",
     "coverageReporters": [
       "lcov",
-      "text"
+      "text",
+      "html"
     ]
   }
 }
