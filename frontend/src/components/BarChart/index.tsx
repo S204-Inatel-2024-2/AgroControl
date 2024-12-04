@@ -3,10 +3,11 @@ import { Container } from "./styles";
 import { BarChart } from "@mui/x-charts/BarChart";
 import React, { useEffect, useState } from "react";
 import { analiseFinanceira } from "../../service/dashboard/dashboard";
+import { Typography } from "@mui/material";
 
 const chartSetting = {
   width: 750,
-  height: 250,
+  height: 400,
 };
 
 const monthNames = [
@@ -25,7 +26,7 @@ const monthNames = [
 ];
 interface Dados {
   month: number;
-  totalLucro: number;
+  totalLucroReceita: number;
   totalGasto: number;
 }
 export function BarVerticalChart(): JSX.Element {
@@ -35,7 +36,7 @@ export function BarVerticalChart(): JSX.Element {
       .then((resp) => {
         const formattedData = resp.data.map((item: Dados) => ({
           mes: monthNames[item.month - 1],
-          lucro: item.totalLucro,
+          lucro: item.totalLucroReceita,
           gasto: item.totalGasto,
         }));
         setDataset(formattedData);
@@ -47,6 +48,9 @@ export function BarVerticalChart(): JSX.Element {
   return (
     <>
       <Container>
+        <Typography variant="h6" align="left" paddingLeft={5} color="black">
+          Análise financeira mensal
+        </Typography>
         <BarChart
           margin={{ left: 100, right: 150 }}
           dataset={dataset}
@@ -60,8 +64,8 @@ export function BarVerticalChart(): JSX.Element {
             {
               scaleType: "linear",
               min: 0,
-              max: 150000,
-              tickMinStep: 25000,
+              max: 250000,
+              tickMinStep: 10000,
             },
           ]}
           series={[
