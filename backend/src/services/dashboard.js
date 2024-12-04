@@ -43,12 +43,24 @@ class DashboardFinanceiroService {
   async AnaliseFinanceiraMensal(req, res) {
     try {
 
-      const totalLucro = await Receita.findAll({
+      const totalLucroReceita = await Receita.findAll({
         where: {
           lucro: true,
         },
         attributes: [
           [Sequelize.fn('SUM', Sequelize.col('valorReceita')), 'total_Lucro'], // Soma dos valores
+          [Sequelize.literal('EXTRACT(MONTH FROM "createdAt")'), 'month'], // Extrai o mês
+        ],
+        group: [Sequelize.literal('EXTRACT(MONTH FROM "createdAt")')], // Agrupa por mês
+        order: [Sequelize.literal('EXTRACT(MONTH FROM "createdAt")')], // Ordena por mês
+      });
+
+      const TotalDefictReceita = await Receita.findAll({
+        where: {
+          lucro: false,
+        },
+        attributes: [
+          [Sequelize.fn('SUM', Sequelize.col('valorReceita')), 'total_Gasto'], // Soma dos valores
           [Sequelize.literal('EXTRACT(MONTH FROM "createdAt")'), 'month'], // Extrai o mês
         ],
         group: [Sequelize.literal('EXTRACT(MONTH FROM "createdAt")')], // Agrupa por mês
@@ -67,14 +79,24 @@ class DashboardFinanceiroService {
       });
 
       // Mapear resultados de lucro e gastos por mês
-      const lucroMap = totalLucro.reduce((acc, item) => {
+      const lucroMap = totalLucroReceita.reduce((acc, item) => {
         const month = item.dataValues.month;
-        const totalLucro = parseFloat(item.dataValues.total_Lucro) || 0;
+        const totalLucroReceita = parseFloat(item.dataValues.total_Lucro) || 0;
         acc[month] = {
-          totalLucro
+          totalLucroReceita
         };
         return acc;
       }, {});
+
+      const defictMap = TotalDefictReceita.reduce((acc, item) => {
+        const month = item.dataValues.month;
+        const TotalDefictReceita = parseFloat(item.dataValues.total_Gasto) || 0;
+        acc[month] = {
+          TotalDefictReceita
+        };
+        return acc;
+      }, {});
+
 
       const gastoMap = TotalGastoServico.reduce((acc, item) => {
         const month = item.dataValues.month;
@@ -92,8 +114,8 @@ class DashboardFinanceiroService {
         const month = index + 1;
         return {
           month,
-          totalLucro: lucroMap[month]?.totalLucro || 0,
-          totalGasto: gastoMap[month]?.totalGasto || 0,
+          totalLucroReceita: lucroMap[month]?.totalLucroReceita || 0,
+          totalGasto: (gastoMap[month]?.totalGasto || 0) + (defictMap[month]?.TotalDefictReceita || 0),
         };
       });
 

@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 export const config: AxiosRequestConfig = {
-  baseURL: "http://localhost:3000",
+  baseURL: "http://ec2-54-175-42-180.compute-1.amazonaws.com:3000",
   responseType: "json",
   headers: {
     accept: "application/json",
