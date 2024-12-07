@@ -1,5 +1,5 @@
 const { Servicos, Funcionarios, TiposServico } = require("../db/models");
-const { emailServicoFinalizado, emailServicoCancelado, emailTransferenciaServico} = require("../utils/servidorEmail");
+const { emailServicoFinalizado, emailServicoCancelado, emailTransferenciaServico } = require("../utils/servidorEmail");
 class ServicosService {
   async getAllServicos(req, res) {
     try {
@@ -15,7 +15,7 @@ class ServicosService {
           },
         ],
       });
-      
+
       const formattedServicos = servicos.map((servico) => ({
         IdServico: servico.IdServico,
         status: servico.status,
@@ -91,8 +91,7 @@ class ServicosService {
   async updateServico(req, res) {
     try {
       const { id } = req.params;
-      const { status, dataAtividade, tipoServico, responsavel, valorGasto } =
-        req.body;
+      const { status, observacoes, dataAtividade, tipoServico, responsavel, valorGasto } = req.body;
 
       const servico = await Servicos.findByPk(id);
       if (!servico) {
@@ -106,34 +105,38 @@ class ServicosService {
 
       const tipo = await TiposServico.findByPk(tipoServico);
       if (!tipo) {
-        return res
-          .status(404)
-          .json({ error: "Tipo de Serviço não encontrado." });
+        return res.status(404).json({ error: "Tipo de Serviço não encontrado." });
       }
 
       const responsavelAntigo = await Funcionarios.findByPk(servico.responsavel);
       const responsavelAlterado = servico.responsavel !== responsavel;
 
+      // Atualizar apenas os campos enviados no `req.body`
       await servico.update({
-        status,
-        dataAtividade,
-        tipoServico,
-        responsavel,
-        valorGasto,
+        status: status ?? servico.status,
+        dataAtividade: dataAtividade ?? servico.dataAtividade,
+        tipoServico: tipoServico ?? servico.tipoServico,
+        responsavel: responsavel ?? servico.responsavel,
+        valorGasto: valorGasto ?? servico.valorGasto,
+        observacoes: observacoes ?? servico.observacoes, // Mantém o valor anterior caso `observacoes` não seja enviado
       });
 
-      if (status === 'concluido') {
+
+
+      if (status === "concluido") {
         const dadosServico = {
-          servicos: await Servicos.findAll({ where: { responsavel: responsavel } }),
-          servico: servico.IdServico, 
+          servicos: await Servicos.findAll({ where: { responsavel } }),
+          servico: servico.IdServico,
           status: servico.status,
-          dataAtividade: servico.dataAtividade, 
-          tipoServico: servico.tipoServico, 
-          responsavel: funcionario.nome, 
-          valorGasto: servico.valorGasto, 
+          dataAtividade: servico.dataAtividade,
+          tipoServico: servico.tipoServico,
+          responsavel: funcionario.nome,
+          valorGasto: servico.valorGasto
         };
+        console.log('Valor recebido para valorGasto:', dadosServico.valorGasto);
         await emailServicoFinalizado(dadosServico);
       }
+
 
       if (responsavelAlterado) {
         const dadosServicoTransferido = {
@@ -143,8 +146,8 @@ class ServicosService {
           tipoServico: servico.tipoServico,
           valorGasto: servico.valorGasto,
           responsavelAntigo: responsavelAntigo.nome,
-          novoResponsavel: funcionario.nome, 
-          novoResponsavelEmail: funcionario.email, 
+          novoResponsavel: funcionario.nome,
+          novoResponsavelEmail: funcionario.email,
         };
         await emailTransferenciaServico(dadosServicoTransferido);
       }
@@ -154,6 +157,7 @@ class ServicosService {
       res.status(500).json({ error: error.message });
     }
   }
+
 
   async deleteServico(req, res) {
     try {
@@ -172,10 +176,10 @@ class ServicosService {
       const dadosServicoCancelado = {
         servico: servico.IdServico,
         status: 'cancelado',
-        dataAtividade: servico.dataAtividade, 
-        tipoServico: servico.tipoServico, 
+        dataAtividade: servico.dataAtividade,
+        tipoServico: servico.tipoServico,
         responsavel: funcionario.nome,
-        valorGasto: servico.valorGasto, 
+        valorGasto: servico.valorGasto,
       };
 
       await emailServicoCancelado(dadosServicoCancelado);
