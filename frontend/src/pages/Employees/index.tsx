@@ -7,7 +7,7 @@ import Pagination from "../../components/Pagination";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { BiExport } from "react-icons/bi";
-import { listAllFuncionarios } from '../../service';
+import { listAllFuncionarios } from '../../service/funcionario/funcionarioService';
 import { useNavigate } from 'react-router-dom';
 import { Loader } from '../../components/Loader';
 import { toast } from 'react-toastify';

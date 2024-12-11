@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getFuncionarioById } from "../../service";
+import { getFuncionarioById } from "../../service/funcionario/funcionarioService";
 import { useNavigate } from "react-router-dom";
 import * as Styled from "./styles";
 import { ConfirmationModal } from "../Modal/EmployeeModal";

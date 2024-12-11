@@ -21,11 +21,11 @@ import { Header } from "../../components/Header";
 import {
   createServico,
   updateServico,
-  listAllFuncionarios,
   listAllTiposServico,
   getServicoById,
-} from "../../service";
+} from "../../service/servicos/servicos";
 import { toast } from "react-toastify";
+import { listAllFuncionarios } from "../../service/funcionario/funcionarioService";
 import { useNavigate, useParams } from "react-router-dom";
 
 export function ServiceEdit(): JSX.Element {
