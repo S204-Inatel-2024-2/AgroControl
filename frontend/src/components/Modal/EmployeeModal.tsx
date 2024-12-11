@@ -3,9 +3,11 @@ import ReactModal from "react-modal";
 import {
   listAllFuncionarios,
   deleteFuncionario,
+} from "../../service/funcionario/funcionarioService";
+import {
   updateServico,
   getServicosByFuncionario,
-} from "../../service";
+} from "../../service/servicos/servicos";
 import {
   ModalHeader,
   ModalTitle,

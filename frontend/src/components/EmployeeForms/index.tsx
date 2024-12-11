@@ -2,7 +2,7 @@ import React from 'react';
 import * as Styled from './styles';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { createFuncionario } from '../../service';
+import { createFuncionario } from '../../service/funcionario/funcionarioService';
 import { toast } from 'react-toastify';
 
 type FormValues = {

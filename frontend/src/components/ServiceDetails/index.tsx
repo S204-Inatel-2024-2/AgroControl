@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getServicoById, deleteServico, getFuncionarioById, getTipoServicoById, } from "../../service";
+import { getServicoById, deleteServico, getTipoServicoById, } from "../../service/servicos/servicos";
+import { getFuncionarioById } from "../../service/funcionario/funcionarioService";
 import { useNavigate } from "react-router-dom";
 import * as Styled from "./styles";
 
