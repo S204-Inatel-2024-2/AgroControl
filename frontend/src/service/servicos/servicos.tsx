@@ -1,9 +1,9 @@
-import { authConfig } from '../axios/configAxios'
+import { config } from '../axios/configAxios'
 import axios from "axios";
 
 export const listAllServices = async () => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: "servicos",
         method: "get"
     }
@@ -12,7 +12,7 @@ export const listAllServices = async () => {
 
 export const listAllTiposServico = async () => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: "tiposervico",
         method: "get",
     };
@@ -22,7 +22,7 @@ export const listAllTiposServico = async () => {
 
 export const createServico = async (servico: any) => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: "servicos",
         method: "post",
         data: servico,
@@ -33,7 +33,7 @@ export const createServico = async (servico: any) => {
 
 export const getServicoById = async (id: number) => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: `servicos/${id}`,
         method: "get",
     };
@@ -43,7 +43,7 @@ export const getServicoById = async (id: number) => {
 
 export const deleteServico = async (id: number) => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: `servicos/${id}`,
         method: "delete",
     };
@@ -53,7 +53,7 @@ export const deleteServico = async (id: number) => {
 
 export const getTipoServicoById = async (id: number) => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: `tiposervico/${id}`,
         method: "get",
     };
@@ -64,7 +64,7 @@ export const getTipoServicoById = async (id: number) => {
 
 export const updateServico = async (idServico: number, data: any) => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: `/servicos/${idServico}`,
         method: "put",
         data,
@@ -75,7 +75,7 @@ export const updateServico = async (idServico: number, data: any) => {
 
 export const getServicosByFuncionario = async (funcionarioId: number) => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: `/funcionarios/${funcionarioId}/servicos`,
     };
     return axios.request<any>(localConfig);

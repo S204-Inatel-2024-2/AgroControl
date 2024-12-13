@@ -25,20 +25,21 @@ export const config: AxiosRequestConfig = {
   },
 };
 
-export const authConfig: AxiosRequestConfig = {
-  ...config,
-  headers: {
+// Crie uma função para atualizar o token dinamicamente
+export const updateAuthConfig = (token: string) => {
+  config.headers = {
     ...config.headers,
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
+    Authorization: `Bearer ${token}`,
+  };
 };
 
+// Interceptor global para lidar com respostas
 axios.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
-    if (error.response && error.response.data && error.response.data.message === "Invalid token") {
+    if (error.response?.data?.message === "Invalid token") {
       window.location.href = "/";
     }
     return Promise.reject(error);

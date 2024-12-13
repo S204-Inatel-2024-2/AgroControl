@@ -1,9 +1,9 @@
-import { config, authConfig } from '../axios/configAxios'
+import { config } from '../axios/configAxios'
 import axios from "axios";
 
 export const listAllCategoriasReceita = async () => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: "categorias",
         method: "get"
     }
@@ -12,7 +12,7 @@ export const listAllCategoriasReceita = async () => {
 
 export const createReceita = async (receita: any) => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: "receitas",
         method: "post",
         data: receita,
@@ -28,7 +28,7 @@ export const createReceita = async (receita: any) => {
 
 export const listAllReceitas = async () => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: "receitas",
         method: "get"
     }

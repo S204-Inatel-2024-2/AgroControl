@@ -1,9 +1,9 @@
-import { authConfig } from "../axios/configAxios";
+import { config } from "../axios/configAxios";
 import axios from "axios";
 
 export const listAllSalarios = async () => {
   const localConfig = {
-    ...authConfig,
+    ...config,
     url: "dashboard/salarioFuncionarios",
     method: "get",
   };
@@ -12,7 +12,7 @@ export const listAllSalarios = async () => {
 
 export const analiseFinanceira = async () => {
   const localConfig = {
-    ...authConfig,
+    ...config,
     url: "dashboard/analiseFinanceiraMensal",
     method: "get",
   };
