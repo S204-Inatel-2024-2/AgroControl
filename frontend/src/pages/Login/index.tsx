@@ -32,16 +32,22 @@ export function LoginPage(): JSX.Element {
     login(user)
       .then((resp) => {
         console.log(resp);
-        localStorage.setItem("user", resp.data.user);
-        localStorage.setItem("token", resp.data.token);
-        toast.success('Operação realizada com sucesso!')
+        const { user: userData, token } = resp.data;
+
+        // Salve o token e o usuário no localStorage
+        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("token", token);
+
+        // Redirecione para a página inicial
+        toast.success("Operação realizada com sucesso!");
         navigate("/home");
-        setLoading(false)
       })
       .catch((error) => {
         console.error(error);
-        toast.error('Erro ao realizar a operação!')
-        setLoading(false)
+        toast.error("Erro ao realizar a operação!");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 

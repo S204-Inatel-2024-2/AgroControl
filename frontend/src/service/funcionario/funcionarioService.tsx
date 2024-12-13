@@ -1,9 +1,9 @@
-import { authConfig } from '../axios/configAxios'
+import { config } from '../axios/configAxios'
 import axios from "axios";
 
 export const createFuncionario = async (funcionario: any) => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: "funcionarios",
         method: "post",
         data: funcionario,
@@ -14,7 +14,7 @@ export const createFuncionario = async (funcionario: any) => {
 
 export const listAllFuncionarios = async () => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: "funcionarios",
         method: "get",
     };
@@ -24,7 +24,7 @@ export const listAllFuncionarios = async () => {
 
 export const getFuncionarioById = async (id: number) => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: `funcionarios/${id}`,
         method: "get",
     };
@@ -34,7 +34,7 @@ export const getFuncionarioById = async (id: number) => {
 
 export const deleteFuncionario = async (id: number) => {
     const localConfig = {
-        ...authConfig,
+        ...config,
         url: `funcionarios/${id}`,
         method: "delete",
     };
