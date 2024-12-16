@@ -1,17 +1,20 @@
-import { config, updateAuthConfig } from './axios/configAxios';
-import axios from "axios";
+import { config } from "../service/axios/configAxios"; // Importa a instância configurada do Axios
+import { AxiosRequestConfig } from "axios";
 
-export const login = async (user: any) => {
-  config.url = "login";
-  config.method = "post";
-  config.data = user;
-  const response = await axios.request<any>(config);
+// Tipo esperado da resposta do login
+interface LoginResponse {
+  user: any; // Substitua 'any' pelo tipo correto do usuário, se tiver.
+  token: string;
+}
 
-  // Após o login, atualize o token no config
-  const token = response.data?.token;
-  if (token) {
-    updateAuthConfig(token);
-  }
+export const login = async (user: any): Promise<{ data: LoginResponse }> => {
+  const axiosConfig: AxiosRequestConfig = {
+    url: "/login", // Caminho relativo, pois a baseURL já está configurada
+    method: "post",
+    data: user,
+  };
 
+  // Usa a instância configurada em vez do axios padrão
+  const response = await config.request<LoginResponse>(axiosConfig);
   return response;
 };

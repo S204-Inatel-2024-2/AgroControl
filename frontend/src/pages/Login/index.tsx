@@ -16,7 +16,6 @@ type FormValues = {
 };
 
 
-
 export function LoginPage(): JSX.Element {
   const { register, handleSubmit, formState } = useForm<FormValues>();
   const [showPassword, setShowPassword] = useState(false);
@@ -32,13 +31,12 @@ export function LoginPage(): JSX.Element {
     login(user)
       .then((resp) => {
         console.log(resp);
-        const { user: userData, token } = resp.data;
+        const { user: userData, token } = resp.data; // Agora o TypeScript sabe que resp.data tem user e token
 
         // Salve o token e o usuário no localStorage
         localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("token", token);
 
-        // Redirecione para a página inicial
         toast.success("Operação realizada com sucesso!");
         navigate("/home");
       })
@@ -49,6 +47,7 @@ export function LoginPage(): JSX.Element {
       .finally(() => {
         setLoading(false);
       });
+
   };
 
   return (

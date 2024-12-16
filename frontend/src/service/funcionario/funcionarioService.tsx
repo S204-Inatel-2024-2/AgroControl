@@ -1,43 +1,26 @@
-import { config } from '../axios/configAxios'
-import axios from "axios";
+import { config } from "../axios/configAxios";
 
+// Função para criar um funcionário
 export const createFuncionario = async (funcionario: any) => {
-    const localConfig = {
-        ...config,
-        url: "funcionarios",
-        method: "post",
-        data: funcionario,
-    };
-
-    return axios.request<any>(localConfig);
+    return config.post("funcionarios", funcionario);
 };
 
+// Função para listar todos os funcionários
 export const listAllFuncionarios = async () => {
-    const localConfig = {
-        ...config,
-        url: "funcionarios",
-        method: "get",
-    };
-
-    return axios.request<any>(localConfig);
+    return config.get("funcionarios");
 };
 
+// Função para buscar um funcionário pelo ID
 export const getFuncionarioById = async (id: number) => {
-    const localConfig = {
-        ...config,
-        url: `funcionarios/${id}`,
-        method: "get",
-    };
-
-    return axios.request<any>(localConfig);
+    return config.get(`funcionarios/${id}`);
 };
 
+// Função para excluir um funcionário
 export const deleteFuncionario = async (id: number) => {
-    const localConfig = {
-        ...config,
-        url: `funcionarios/${id}`,
-        method: "delete",
-    };
+    return config.delete(`funcionarios/${id}`);
+};
 
-    return axios.request<any>(localConfig);
+// Função para atualizar um funcionário
+export const updateFuncionario = async (id: number, funcionario: any) => {
+    return config.put(`funcionarios/${id}`, funcionario);
 };

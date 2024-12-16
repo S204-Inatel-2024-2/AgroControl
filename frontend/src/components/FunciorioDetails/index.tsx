@@ -28,17 +28,22 @@ export function EmployeeDetails(): JSX.Element {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("Buscando dados do funcionário com ID:", id);
         const response = await getFuncionarioById(Number(id));
+        console.log("Resposta recebida do serviço:", response);
         setFuncionario(response.data.funcionario);
       } catch (error) {
+        console.error("Erro ao carregar os detalhes do funcionário:", error);
         setError("Erro ao carregar os detalhes do funcionário.");
       } finally {
         setLoading(false);
+        console.log("Carregamento finalizado.");
       }
     };
 
     fetchData();
   }, [id]);
+
 
   const handleDeleteClick = () => {
     setModalIsOpen(true);
@@ -46,6 +51,11 @@ export function EmployeeDetails(): JSX.Element {
 
   const closeModal = () => {
     setModalIsOpen(false);
+  };
+  const handleFuncionarioClick = () => {
+    if (funcionario) {
+      navigate(`/employeedetails/${funcionario.id}`);
+    }
   };
 
   if (loading) {
@@ -68,7 +78,7 @@ export function EmployeeDetails(): JSX.Element {
     <Styled.Container>
       <Styled.TitleDiv>
         <Styled.LeftButtons>
-          <Styled.Button onClick={() => navigate("/employeeregistration")}>
+          <Styled.Button onClick={() => navigate(`/employeeEdit/${funcionario.id}`)}>
             Editar informações
           </Styled.Button>
           <Styled.Button onClick={handleDeleteClick}>
