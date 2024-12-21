@@ -1,82 +1,33 @@
-import { config } from '../axios/configAxios'
-import axios from "axios";
+import { config } from "../axios/configAxios";
 
 export const listAllServices = async () => {
-    const localConfig = {
-        ...config,
-        url: "servicos",
-        method: "get"
-    }
-    return axios.request<any>(localConfig);
-}
+    return config.get("servicos");
+};
 
 export const listAllTiposServico = async () => {
-    const localConfig = {
-        ...config,
-        url: "tiposervico",
-        method: "get",
-    };
-
-    return axios.request<any>(localConfig);
+    return config.get("tiposervico");
 };
 
 export const createServico = async (servico: any) => {
-    const localConfig = {
-        ...config,
-        url: "servicos",
-        method: "post",
-        data: servico,
-    };
-
-    return axios.request<any>(localConfig);
+    return config.post("servicos", servico);
 };
 
 export const getServicoById = async (id: number) => {
-    const localConfig = {
-        ...config,
-        url: `servicos/${id}`,
-        method: "get",
-    };
-
-    return axios.request<any>(localConfig);
+    return config.get(`servicos/${id}`);
 };
 
 export const deleteServico = async (id: number) => {
-    const localConfig = {
-        ...config,
-        url: `servicos/${id}`,
-        method: "delete",
-    };
-
-    return axios.request<any>(localConfig);
+    return config.delete(`servicos/${id}`);
 };
 
 export const getTipoServicoById = async (id: number) => {
-    const localConfig = {
-        ...config,
-        url: `tiposervico/${id}`,
-        method: "get",
-    };
-
-    return axios.request<any>(localConfig);
+    return config.get(`tiposervico/${id}`);
 };
-
 
 export const updateServico = async (idServico: number, data: any) => {
-    const localConfig = {
-        ...config,
-        url: `/servicos/${idServico}`,
-        method: "put",
-        data,
-    };
-    return axios.request<any>(localConfig);
+    return config.put(`/servicos/${idServico}`, data);
 };
 
-
 export const getServicosByFuncionario = async (funcionarioId: number) => {
-    const localConfig = {
-        ...config,
-        url: `/funcionarios/${funcionarioId}/servicos`,
-    };
-    return axios.request<any>(localConfig);
+    return config.get(`/funcionarios/${funcionarioId}/servicos`);
 };

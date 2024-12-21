@@ -17,8 +17,8 @@ import {
   ModalButton,
   StyledModal,
 } from "../Modal/styles";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -35,104 +35,76 @@ export function ConfirmationModal({
   const [novoResponsavelId, setNovoResponsavelId] = useState<number | null>(
     null
   );
+  const [temServicos, setTemServicos] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen) {
-      listAllFuncionarios()
-        .then((response) => {
-          const filteredFuncionarios = response.data.filter(
-            (funcionario: any) => funcionario.id !== funcionarioId
-          );
-          setFuncionarios(filteredFuncionarios);
-        })
-        .catch((error) => console.error("Erro ao buscar funcionários:", error));
+      verificarServicos(funcionarioId);
     }
   }, [isOpen, funcionarioId]);
 
-  const handleDelete = async () => {
-    console.log("ID do Funcionário:", funcionarioId);
+  // Função para verificar se o funcionário tem serviços vinculados
+  const verificarServicos = async (funcionarioId: number) => {
     try {
-      // Obtém os serviços vinculados ao funcionário
-      const servicos = await fetchServicos(funcionarioId);
+      const response = await getServicosByFuncionario(funcionarioId);
+      setTemServicos(response.data.length > 0);
 
-      // Verifica se um novo responsável foi selecionado
-      validateNovoResponsavel();
+      // Se houver serviços, buscar outros funcionários para transferência
+      if (response.data.length > 0) {
+        const funcionariosResponse = await listAllFuncionarios();
+        const filteredFuncionarios = funcionariosResponse.data.filter(
+          (funcionario: any) => funcionario.id !== funcionarioId
+        );
+        setFuncionarios(filteredFuncionarios);
+      }
+    } catch (error) {
+      console.error("Erro ao verificar serviços:", error);
 
-      // Se houver serviços, atualiza para o novo responsável
-      if (servicos.length > 0) {
-        await transferirServicos(servicos, novoResponsavelId);
+    }
+  };
+
+  // Função para excluir diretamente se não houver serviços
+  const handleDeleteSemServicos = async () => {
+    try {
+      await deleteFuncionario(funcionarioId);
+      toast.success("Funcionário excluído com sucesso!");
+      onRequestClose();
+      navigate("/employees/");
+    } catch (error: unknown) {
+      console.error("Erro ao excluir funcionário:", error);
+    }
+  };
+
+
+
+  // Função para excluir com transferência de serviços
+  const handleDeleteComServicos = async () => {
+    if (!novoResponsavelId) {
+      alert("Por favor, selecione um novo responsável.");
+      return;
+    }
+
+    try {
+      const response = await getServicosByFuncionario(funcionarioId);
+      const servicos = response.data;
+
+      // Transferir serviços para o novo responsável
+      for (const servico of servicos) {
+        await updateServico(servico.IdServico, {
+          ...servico,
+          responsavel: novoResponsavelId,
+        });
       }
 
-      // Exclui o funcionário após a transferência
-      await excluirFuncionario(funcionarioId);
-      alert("Funcionário excluído com sucesso!");
+      // Excluir funcionário
+      await deleteFuncionario(funcionarioId);
+      toast.success("Funcionário excluído e serviços transferidos com sucesso!");
       onRequestClose();
       navigate("/employees/");
     } catch (error) {
-      handleError(error);
-    }
-  };
-
-  // Função para buscar serviços
-  const fetchServicos = async (funcionarioId: number) => {
-    const response = await getServicosByFuncionario(funcionarioId);
-    return response.data; // Retorna os serviços
-  };
-
-  // Função para validar novo responsável
-  const validateNovoResponsavel = () => {
-    if (novoResponsavelId === null) {
-      alert("Por favor, selecione um novo responsável.");
-      throw new Error("Novo responsável não selecionado.");
-    }
-    console.log("Responsável Novo:", novoResponsavelId);
-  };
-
-  // Função para transferir serviços
-  const transferirServicos = async (
-    servicos: any,
-    novoResponsavelId: number | null
-  ) => {
-    for (const servico of servicos) {
-      console.log(`Atualizando serviço ID: ${servico.IdServico}`);
-      try {
-        await updateServico(servico.IdServico, {
-          status: servico.status,
-          dataAtividade: servico.dataAtividade,
-          tipoServico: servico.tipoServico,
-          responsavel: novoResponsavelId,
-          valorGasto: servico.valorGasto,
-        });
-      } catch (error) {
-        console.error(`Erro ao atualizar serviço ${servico.IdServico}:`, error);
-        alert(`Erro ao atualizar serviço ${servico.IdServico}}`);
-      }
-    }
-    alert("Todos os serviços foram transferidos para o novo responsável.");
-  };
-
-  // Função para excluir o funcionário
-  const excluirFuncionario = async (funcionarioId: number) => {
-    await deleteFuncionario(funcionarioId);
-  };
-
-  // Função para lidar com erros
-  const handleError = (error: unknown) => {
-    if (axios.isAxiosError(error) && error.response) {
-      if (error.response.status === 404) {
-        alert(
-          "Nenhum serviço encontrado para este funcionário. Excluindo funcionário."
-        );
-        excluirFuncionario(funcionarioId);
-        alert("Funcionário excluído com sucesso!");
-        onRequestClose();
-        navigate("/employees/");
-      } else {
-        alert(`Erro ${error.response.status}: ${error.response.data.message}`);
-      }
-    } else {
-      alert("Erro desconhecido ao excluir o funcionário.");
+      console.error("Erro ao excluir funcionário ou transferir serviços:", error);
+      toast.error("Erro ao excluir funcionário.");
     }
   };
 
@@ -149,27 +121,44 @@ export function ConfirmationModal({
           </button>
         </ModalHeader>
         <ModalBody>
-          <p>
-            Escolha um novo responsável para transferir os serviços do
-            funcionário que será excluído:
-          </p>
-          <ModalSelect
-            value={novoResponsavelId ?? ""}
-            onChange={(e) => setNovoResponsavelId(Number(e.target.value))}
-          >
-            <option value="">Selecione um funcionário</option>
-            {funcionarios.map((funcionario) => (
-              <option key={funcionario.id} value={funcionario.id}>
-                {funcionario.nome}
-              </option>
-            ))}
-          </ModalSelect>
-          <ModalButtonContainer>
-            <ModalButton primary onClick={handleDelete}>
-              Confirmar
-            </ModalButton>
-            <ModalButton onClick={onRequestClose}>Cancelar</ModalButton>
-          </ModalButtonContainer>
+          {temServicos ? (
+            <>
+              <p>
+                Este funcionário possui serviços vinculados. Escolha um novo responsável
+                para transferir os serviços antes de excluir:
+              </p>
+              <ModalSelect
+                value={novoResponsavelId ?? ""}
+                onChange={(e) => setNovoResponsavelId(Number(e.target.value))}
+              >
+                <option value="">Selecione um funcionário</option>
+                {funcionarios.map((funcionario) => (
+                  <option key={funcionario.id} value={funcionario.id}>
+                    {funcionario.nome}
+                  </option>
+                ))}
+              </ModalSelect>
+              <ModalButtonContainer>
+                <ModalButton primary onClick={handleDeleteComServicos}>
+                  Confirmar
+                </ModalButton>
+                <ModalButton onClick={onRequestClose}>Cancelar</ModalButton>
+              </ModalButtonContainer>
+            </>
+          ) : (
+            <>
+              <p>
+                Este funcionário não possui serviços vinculados. Deseja confirmar a
+                exclusão?
+              </p>
+              <ModalButtonContainer>
+                <ModalButton primary onClick={handleDeleteSemServicos}>
+                  Confirmar
+                </ModalButton>
+                <ModalButton onClick={onRequestClose}>Cancelar</ModalButton>
+              </ModalButtonContainer>
+            </>
+          )}
         </ModalBody>
       </StyledModal>
     </ReactModal>
