@@ -28,16 +28,13 @@ export function EmployeeDetails(): JSX.Element {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Buscando dados do funcionário com ID:", id);
         const response = await getFuncionarioById(Number(id));
-        console.log("Resposta recebida do serviço:", response);
+
         setFuncionario(response.data.funcionario);
       } catch (error) {
-        console.error("Erro ao carregar os detalhes do funcionário:", error);
         setError("Erro ao carregar os detalhes do funcionário.");
       } finally {
         setLoading(false);
-        console.log("Carregamento finalizado.");
       }
     };
 

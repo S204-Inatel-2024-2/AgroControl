@@ -14,7 +14,7 @@ import {
     SubTitle,
 } from "./styles";
 import { Header } from "../../components/Header";
-import { getFuncionarioById, updateFuncionario, listAllFuncionarios } from "../../service/funcionario/funcionarioService";
+import { getFuncionarioById, updateFuncionario } from "../../service/funcionario/funcionarioService";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -36,17 +36,11 @@ export function FuncionarioEdit(): JSX.Element {
         async function fetchData() {
             if (id) {
                 try {
-                    console.log("Buscando dados do funcionário para edição, ID:", id);
                     const response = await getFuncionarioById(Number(id));
-                    console.log("Dados recebidos:", response.data);
-
                     const funcionarioData = response.data.funcionario;
-                    console.log("Dados do funcionário:", funcionarioData);
-
                     const formattedDate = funcionarioData.dataNascimento
                         ? formatarDataParaISO(funcionarioData.dataNascimento)
                         : "";
-                    console.log("Data formatada:", formattedDate);
 
                     setFuncionario({
                         nome: funcionarioData.nome || "",
@@ -72,20 +66,16 @@ export function FuncionarioEdit(): JSX.Element {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        console.log(`Alterando o campo: ${name}, Novo valor: ${value}`);
         setFuncionario((prev) => ({ ...prev, [name]: value }));
     };
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log("Enviando os dados do formulário:", funcionario);
-
         try {
             if (id) {
                 await updateFuncionario(Number(id), funcionario);
                 toast.success("Funcionário atualizado com sucesso!");
-                console.log("Atualização concluída com sucesso.");
             }
             navigate("/employees");
         } catch (error) {

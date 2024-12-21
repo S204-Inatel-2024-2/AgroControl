@@ -151,6 +151,10 @@ class FuncionarioService {
       if (!funcionario) {
         return res.status(404).json({ error: "Funcionário não encontrado." });
       }
+      const servicos = await Servicos.findAll({ where: { responsavel: id } });
+      if (servicos.length > 0) {
+        return res.status(400).json({ error: "Este funcionário tem serviços vinculados. Não pode ser excluído sem antes transferir os serviços." });
+      }
 
       await emailFuncionarioRemovido(funcionario);
 
