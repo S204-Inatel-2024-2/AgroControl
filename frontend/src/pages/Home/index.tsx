@@ -38,7 +38,7 @@ export function Home(): JSX.Element {
             </Styled.Text>
           </Styled.DivText>
           <Styled.DivRoute>
-            <Styled.Divbutton>
+            <Styled.Divbutton onClick={() => navigate("/dashboard")}>
               Dashboard Financeiro
               <Styled.IconWrapper>
                 <MdAnalytics />

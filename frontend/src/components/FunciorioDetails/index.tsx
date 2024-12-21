@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getFuncionarioById } from "../../service";
+import { getFuncionarioById } from "../../service/funcionario/funcionarioService";
 import { useNavigate } from "react-router-dom";
 import * as Styled from "./styles";
 import { ConfirmationModal } from "../Modal/EmployeeModal";
@@ -29,6 +29,7 @@ export function EmployeeDetails(): JSX.Element {
     const fetchData = async () => {
       try {
         const response = await getFuncionarioById(Number(id));
+
         setFuncionario(response.data.funcionario);
       } catch (error) {
         setError("Erro ao carregar os detalhes do funcionário.");
@@ -40,12 +41,18 @@ export function EmployeeDetails(): JSX.Element {
     fetchData();
   }, [id]);
 
+
   const handleDeleteClick = () => {
     setModalIsOpen(true);
   };
 
   const closeModal = () => {
     setModalIsOpen(false);
+  };
+  const handleFuncionarioClick = () => {
+    if (funcionario) {
+      navigate(`/employeedetails/${funcionario.id}`);
+    }
   };
 
   if (loading) {
@@ -68,7 +75,7 @@ export function EmployeeDetails(): JSX.Element {
     <Styled.Container>
       <Styled.TitleDiv>
         <Styled.LeftButtons>
-          <Styled.Button onClick={() => navigate("/employeeregistration")}>
+          <Styled.Button onClick={() => navigate(`/employeeEdit/${funcionario.id}`)}>
             Editar informações
           </Styled.Button>
           <Styled.Button onClick={handleDeleteClick}>

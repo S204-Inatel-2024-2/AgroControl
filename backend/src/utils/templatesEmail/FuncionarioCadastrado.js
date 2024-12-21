@@ -16,7 +16,7 @@ module.exports = (funcionario) => {
 
             <p style="margin-top: 20px;">Estamos ansiosos para ver suas contribuições e desejamos que você tenha um ótimo começo conosco!</p>
 
-            <p style="color: #555; font-size: 12px;">Este é um email automático, por favor, não responda. Em caso de dúvidas, contate o suporte em <a href="mailto:suporte@agroControl.com">suporte@empresa.com</a>.</p>
+            <p style="color: #555; font-size: 12px;">Este é um email automático, por favor, não responda. Em caso de dúvidas, contate o suporte em <a href="mailto:suporte@agroControl.com">suporte@agroControl.com</a>.</p>
         </div>
     `;
 }

@@ -18,11 +18,8 @@ import {
   SubTitle,
 } from "./styled";
 import { Header } from "../../components/Header";
-import {
-  createServico,
-  listAllFuncionarios,
-  listAllTiposServico,
-} from "../../service";
+import { listAllFuncionarios } from "../../service/funcionario/funcionarioService";
+import { listAllTiposServico, createServico } from "../../service/servicos/servicos";
 import { serviceSchema } from "../../validations/ServiceValidation";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";

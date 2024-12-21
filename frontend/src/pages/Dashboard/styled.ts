@@ -11,6 +11,13 @@ export const Container = styled.div`
 export const ChartsContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.4rem;
+    
     padding: 0.2rem;
+
+`
+
+export const RightContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  
 `

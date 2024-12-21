@@ -1,36 +1,19 @@
-import { config, authConfig } from '../axios/configAxios'
-import axios from "axios";
+import { config } from "../axios/configAxios";
 
 export const listAllCategoriasReceita = async () => {
-    const localConfig = {
-        ...authConfig,
-        url: "categorias",
-        method: "get"
-    }
-    return axios.request<any>(localConfig);
-}
+    return config.get("categorias");
+};
 
 export const createReceita = async (receita: any) => {
-    const localConfig = {
-        ...authConfig,
-        url: "receitas",
-        method: "post",
-        data: receita,
-    };
     try {
-        const response = await axios(localConfig); // Fazendo a requisição com axios
-        return response; // Retorna a resposta para ser usada na função que chamou
+        const response = await config.post("receitas", receita);
+        return response;
     } catch (error) {
         console.error("Erro ao criar receita:", error);
         return { status: 500 }; // Retorna status 500 em caso de erro
     }
-}
+};
 
 export const listAllReceitas = async () => {
-    const localConfig = {
-        ...authConfig,
-        url: "receitas",
-        method: "get"
-    }
-    return axios.request<any>(localConfig);
-}
+    return config.get("receitas");
+};

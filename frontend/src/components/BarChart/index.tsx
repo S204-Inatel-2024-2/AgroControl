@@ -1,81 +1,86 @@
 import { axisClasses } from "@mui/x-charts";
 import { Container } from "./styles";
 import { BarChart } from "@mui/x-charts/BarChart";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { analiseFinanceira } from "../../service/dashboard/dashboard";
+import { Typography } from "@mui/material";
 
 const chartSetting = {
-  xAxis: [
-    {
-      tickMinStep: 400,
-    },
-  ],
-  width: 700,
-  height: 250,
-  sx: {
-    [`.${axisClasses.left} .${axisClasses.label}`]: {
-      transform: "translate(-20px, 0)",
-    },
-  },
+  width: 750,
+  height: 400,
 };
 
-const dataset = [
-  {
-    nome: "Funcionario 1",
-    salario: 1000.0,
-    bonificacao: 100,
-  },
-  {
-    nome: "Funcionario 2",
-    salario: 1200.0,
-    bonificacao: 150,
-  },
-  {
-    nome: "Funcionario 3",
-    salario: 1600.0,
-    bonificacao: 60,
-  },
-  {
-    nome: "Funcionario 4",
-    salario: 2000.0,
-    bonificacao: 85,
-  },
-  {
-    nome: "Funcionario 5",
-    salario: 2500.0,
-    bonificacao: 100,
-  },
-  {
-    nome: "Funcionario 6",
-    salario: 1900.0,
-    bonificacao: 100,
-  },
-  {
-    nome: "Funcionario 7",
-    salario: 1600.0,
-    bonificacao: 123.4,
-  },
+const monthNames = [
+  "jan",
+  "fev",
+  "mar",
+  "abr",
+  "mai",
+  "jun",
+  "jul",
+  "ago",
+  "set",
+  "out",
+  "nov",
+  "dez",
 ];
-
-// export function valueFormatter(value: number | null) {
-//   return `${value}`;
-// }
-
+interface Dados {
+  month: number;
+  totalLucroReceita: number;
+  totalGasto: number;
+}
 export function BarVerticalChart(): JSX.Element {
+  const [dataset, setDataset] = useState([]);
+  useEffect(() => {
+    analiseFinanceira()
+      .then((resp) => {
+        const formattedData = resp.data.map((item: Dados) => ({
+          mes: monthNames[item.month - 1],
+          lucro: item.totalLucroReceita,
+          gasto: item.totalGasto,
+        }));
+        setDataset(formattedData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
   return (
     <>
       <Container>
+        <Typography variant="h6" align="left" paddingLeft={5} color="black">
+          Análise financeira mensal
+        </Typography>
         <BarChart
-          margin={{ left: 100, right: 100 }}
+          margin={{ left: 100, right: 150 }}
           dataset={dataset}
-          yAxis={[{ scaleType: "band", dataKey: "nome" }]}
-          series={[
+          xAxis={[
             {
-              dataKey: "salario",
-            },
-            {
-              dataKey: "bonificacao",
+              scaleType: "band",
+              dataKey: "mes",
             },
           ]}
+          yAxis={[
+            {
+              scaleType: "linear",
+              min: 0,
+              max: 250000,
+              tickMinStep: 10000,
+            },
+          ]}
+          series={[
+            {
+              dataKey: "lucro",
+              label: "Lucro",
+              color: "green",
+            },
+            {
+              dataKey: "gasto",
+              label: "Gasto",
+              color: "red",
+            },
+          ]}
+          layout="vertical"
           grid={{ horizontal: true }}
           {...chartSetting}
         />

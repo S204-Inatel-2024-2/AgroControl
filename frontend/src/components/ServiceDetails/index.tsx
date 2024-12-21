@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  getServicoById,
-  deleteServico,
-  getFuncionarioById,
-  getTipoServicoById,
-} from "../../service";
+import { getServicoById, deleteServico, getTipoServicoById, } from "../../service/servicos/servicos";
+import { getFuncionarioById } from "../../service/funcionario/funcionarioService";
 import { useNavigate } from "react-router-dom";
 import * as Styled from "./styles";
 
@@ -108,15 +104,14 @@ export function ServiceDetails(): JSX.Element {
     <Styled.Container>
       <Styled.TitleDiv>
         <Styled.LeftButtons>
-          <Styled.Button onClick={() => navigate("/")}>
+          <Styled.Button onClick={() => navigate(`/serviceEdit/${servico.IdServico}`)}>
             Editar informações
-          </Styled.Button>{" "}
-          {/* Página de registro de serviço */}
+          </Styled.Button>
           <Styled.Button onClick={handleDelete}>Excluir serviço</Styled.Button>
         </Styled.LeftButtons>
 
         <Styled.RightButton>
-          <Styled.Button onClick={() => navigate("/home")}>
+          <Styled.Button onClick={() => navigate("/services")}>
             Voltar
           </Styled.Button>
         </Styled.RightButton>

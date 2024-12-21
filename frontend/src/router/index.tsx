@@ -12,6 +12,8 @@ import { RegisterReceitas } from "../pages/RegisterReceitas";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import { Finances } from "../pages/Finances";
 import { Dashboard } from "../pages/Dashboard";
+import { ServiceEdit } from "../pages/ServicesEdit";
+import { FuncionarioEdit } from "../components/FuncionarioEdit";
 
 const AppRoutes = () => {
   return (
@@ -37,12 +39,20 @@ const AppRoutes = () => {
             element={<ProtectedRoute element={<EmployeeDetails />} />}
           />
           <Route
+            path="employeeEdit/:id"
+            element={<ProtectedRoute element={<FuncionarioEdit />} />}
+          />
+          <Route
             path="RegistrarReceitas"
             element={<ProtectedRoute element={<RegisterReceitas />} />}
           />
           <Route
             path="servicedetails/:id"
             element={<ProtectedRoute element={<ServiceDetails />} />}
+          />
+          <Route
+            path="serviceEdit/:id"
+            element={<ProtectedRoute element={<ServiceEdit />} />}
           />
           <Route
             path="services"

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as Styled from "./styled";
 import { useNavigate } from "react-router";
-//import RotateBanner from '../../components/RotateBanner';
-import { login } from '../../service';
+import { login } from '../../service/login';
 import RotateBanner from '../../components/RotateBanner';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import logo from '../../images/agronomia.svg';
@@ -15,7 +14,6 @@ type FormValues = {
   email: string;
   password: string;
 };
-
 
 
 export function LoginPage(): JSX.Element {
@@ -33,17 +31,23 @@ export function LoginPage(): JSX.Element {
     login(user)
       .then((resp) => {
         console.log(resp);
-        localStorage.setItem("user", resp.data.user);
-        localStorage.setItem("token", resp.data.token);
-        toast.success('Operação realizada com sucesso!')
+        const { user: userData, token } = resp.data; // Agora o TypeScript sabe que resp.data tem user e token
+
+        // Salve o token e o usuário no localStorage
+        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("token", token);
+
+        toast.success("Operação realizada com sucesso!");
         navigate("/home");
-        setLoading(false)
       })
       .catch((error) => {
         console.error(error);
-        toast.error('Erro ao realizar a operação!')
-        setLoading(false)
+        toast.error("Erro ao realizar a operação!");
+      })
+      .finally(() => {
+        setLoading(false);
       });
+
   };
 
   return (
