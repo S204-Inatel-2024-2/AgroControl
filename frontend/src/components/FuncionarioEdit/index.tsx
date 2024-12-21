@@ -38,38 +38,36 @@ export function FuncionarioEdit(): JSX.Element {
                 try {
                     console.log("Buscando dados do funcionário para edição, ID:", id);
                     const response = await getFuncionarioById(Number(id));
-                    console.log("Dados do funcionário recebidos:", response.data);
+                    console.log("Dados recebidos:", response.data);
 
-                    const dataNascimentoFormatada = response.data.dataNascimento
-                        ? new Date(response.data.dataNascimento).toISOString().split("T")[0]
+                    const funcionarioData = response.data.funcionario;
+                    console.log("Dados do funcionário:", funcionarioData);
+
+                    const formattedDate = funcionarioData.dataNascimento
+                        ? formatarDataParaISO(funcionarioData.dataNascimento)
                         : "";
+                    console.log("Data formatada:", formattedDate);
 
                     setFuncionario({
-                        nome: response.data.nome || "",
-                        cpf: response.data.cpf,
-                        dataNascimento: dataNascimentoFormatada,
-                        email: response.data.email,
-                        funcao: response.data.funcao,
-                        salario: response.data.salario,
-                        observacoes: response.data.observacoes,
+                        nome: funcionarioData.nome || "",
+                        cpf: funcionarioData.cpf || "",
+                        dataNascimento: formattedDate,
+                        email: funcionarioData.email || "",
+                        funcao: funcionarioData.funcao || "",
+                        salario: funcionarioData.salario || "",
+                        observacoes: funcionarioData.observacoes || "",
                     });
                 } catch (error) {
                     console.error("Erro ao carregar os dados do funcionário:", error);
                     toast.error("Erro ao carregar os dados do funcionário.");
-                }
-                try {
-                    const funcionarios = await listAllFuncionarios();
-                    console.log("Lista de funcionários carregada:", funcionarios.data);
-                    //setListaFuncionarios(funcionarios.data || []);
-                } catch (error) {
-                    console.error("Erro ao carregar listas de apoio:", error);
-                    toast.error("Erro ao carregar listas de apoio.");
                 }
             }
         }
 
         fetchData();
     }, [id]);
+
+
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -95,6 +93,17 @@ export function FuncionarioEdit(): JSX.Element {
             toast.error("Erro ao salvar o funcionário.");
         }
     };
+
+    const formatarDataParaISO = (data: string): string => {
+        if (!data) return "";
+        const partes = data.split("/");
+        if (partes.length === 3) {
+            const [dia, mes, ano] = partes; // Desestruturação das partes
+            return `${ano}-${mes}-${dia}`; // Formato ISO 8601 (yyyy-MM-dd)
+        }
+        return "";
+    };
+
 
 
     return (

@@ -153,7 +153,7 @@ class FuncionarioService {
       }
 
       await emailFuncionarioRemovido(funcionario);
-      
+
       // deleta funcionario pelo id
       await funcionario.destroy();
       res.status(204).json();
