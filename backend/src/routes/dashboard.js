@@ -4,4 +4,5 @@ const router = express.Router();
 
 router.get("/salarioFuncionarios", dashboardController.getSalarioFuncionarios);
 router.get("/analiseFinanceiraMensal", dashboardController.getAnaliseFinanceiraMensal);
+router.get("/lucroByReceita", dashboardController.lucroByReceita);
 module.exports = router;

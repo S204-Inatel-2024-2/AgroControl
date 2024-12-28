@@ -22,5 +22,15 @@ class dashBoardController {
         }
 
     }
+
+    static async lucroByReceita(req, res) {
+        try {
+            await dashboardService.getLucroByReceita(req, res);
+        } catch (error) {
+            return res.status(400).json({
+                error: error
+            });
+        }
+    }
 }
 module.exports = dashBoardController;

@@ -1,4 +1,4 @@
-const { Funcionarios, Servicos, Receita } = require("../db/models")
+const { Funcionarios, Servicos, Receita, Categoria } = require("../db/models")
 const { Sequelize } = require('sequelize');
 class DashboardFinanceiroService {
 
@@ -127,6 +127,31 @@ class DashboardFinanceiroService {
       })
     }
   }
+
+  async getLucroByReceita(req, res) {
+    try {
+      const receitas = await Receita.findAll({
+        include: [{
+          model: Categoria,
+          as: "categoria",
+          attributes: ["descricao"]
+        }],
+        where: {
+          lucro: true
+        },
+        attributes: [
+          [Sequelize.fn('SUM', Sequelize.col('valorReceita')), 'totalValorReceita']
+        ],
+        group: ['categoria.descricao'],
+        raw: true,
+      });
+
+      res.status(200).json(receitas);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
 
 }
 
