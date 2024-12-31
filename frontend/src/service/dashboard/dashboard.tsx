@@ -7,3 +7,7 @@ export const listAllSalarios = async () => {
 export const analiseFinanceira = async () => {
   return config.get("dashboard/analiseFinanceiraMensal");
 };
+
+export const lucroByReceita = async () => {
+  return config.get("dashboard/lucroByReceita");
+}

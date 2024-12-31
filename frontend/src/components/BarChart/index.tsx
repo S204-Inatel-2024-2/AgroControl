@@ -1,59 +1,68 @@
-import { axisClasses } from "@mui/x-charts";
-import { Container } from "./styles";
-import { BarChart } from "@mui/x-charts/BarChart";
 import React, { useEffect, useState } from "react";
-import { analiseFinanceira } from "../../service/dashboard/dashboard";
+import { BarChart } from "@mui/x-charts/BarChart";
 import { Typography } from "@mui/material";
+import { analiseFinanceira, lucroByReceita } from "../../service/dashboard/dashboard";
+import { Container } from "./styles";
+
+interface DadosMensais {
+  mes: string;
+  lucro: number;
+  gasto: number;
+}
+
+interface ReceitaCategoria {
+  totalValorReceita: number;
+  "categoria.descricao": string;
+}
 
 const chartSetting = {
   width: 750,
   height: 400,
 };
 
-const monthNames = [
-  "jan",
-  "fev",
-  "mar",
-  "abr",
-  "mai",
-  "jun",
-  "jul",
-  "ago",
-  "set",
-  "out",
-  "nov",
-  "dez",
-];
-interface Dados {
-  month: number;
-  totalLucroReceita: number;
-  totalGasto: number;
-}
 export function BarVerticalChart(): JSX.Element {
-  const [dataset, setDataset] = useState([]);
+  const [dadosMensais, setDadosMensais] = useState<DadosMensais[]>([]);
+  const [lucroPorReceita, setLucroPorReceita] = useState<ReceitaCategoria[]>([]);
+
   useEffect(() => {
     analiseFinanceira()
       .then((resp) => {
-        const formattedData = resp.data.map((item: Dados) => ({
-          mes: monthNames[item.month - 1],
+        const formattedData = resp.data.map((item: any) => ({
+          mes: ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"][item.month - 1],
           lucro: item.totalLucroReceita,
           gasto: item.totalGasto,
         }));
-        setDataset(formattedData);
+        setDadosMensais(formattedData);
       })
-      .catch((error) => {
-        console.error(error);
-      });
+      .catch((error) => console.error(error));
+
+    lucroByReceita()
+      .then((resp) => {
+        setLucroPorReceita(resp.data);
+      })
+      .catch((error) => console.error(error));
   }, []);
+
+  const dadosMensaisDataset = dadosMensais.map((item) => ({
+    mes: item.mes,
+    lucro: item.lucro,
+    gasto: item.gasto,
+  }));
+
+  const lucroPorReceitaDataset = lucroPorReceita.map((item) => ({
+    receita: item["categoria.descricao"],
+    valor: item.totalValorReceita,
+  }));
+
   return (
     <>
       <Container>
         <Typography variant="h6" align="left" paddingLeft={5} color="black">
-          Análise financeira mensal
+          Análise Financeira Mensal
         </Typography>
         <BarChart
           margin={{ left: 100, right: 150 }}
-          dataset={dataset}
+          dataset={dadosMensaisDataset}
           xAxis={[
             {
               scaleType: "band",
@@ -64,7 +73,7 @@ export function BarVerticalChart(): JSX.Element {
             {
               scaleType: "linear",
               min: 0,
-              max: 250000,
+              max: Math.max(...dadosMensais.map((d) => d.lucro), 0) * 1.2,
               tickMinStep: 10000,
             },
           ]}
@@ -78,6 +87,40 @@ export function BarVerticalChart(): JSX.Element {
               dataKey: "gasto",
               label: "Gasto",
               color: "red",
+            },
+          ]}
+          layout="vertical"
+          grid={{ horizontal: true }}
+          {...chartSetting}
+        />
+      </Container>
+
+      <Container>
+        <Typography variant="h6" align="left" paddingLeft={5} color="black">
+          Lucro Por Receita
+        </Typography>
+        <BarChart
+          margin={{ left: 100, right: 150 }}
+          dataset={lucroPorReceitaDataset}
+          xAxis={[
+            {
+              scaleType: "band",
+              dataKey: "receita",
+            },
+          ]}
+          yAxis={[
+            {
+              scaleType: "linear",
+              min: 0,
+              max: Math.max(...lucroPorReceita.map((d) => d.totalValorReceita), 0) * 1.2,
+              tickMinStep: 10000,
+            },
+          ]}
+          series={[
+            {
+              dataKey: "valor",
+              label: "Valor",
+              color: "blue",
             },
           ]}
           layout="vertical"
